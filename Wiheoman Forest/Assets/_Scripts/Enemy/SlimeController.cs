@@ -28,18 +28,18 @@ public class SlimeController : EnemyBase
     protected override void DoDeathHandle()
     {
         // ===============================
-        // ½½¶óÀÓÀÌ »ç¸ÁÇßÀ¸¹Ç·Î ´õÀÌ»ó Á¡ÇÁ¸¦ ÇÏÁö ¾Ê½À´Ï´Ù.
+        // ìŠ¬ë¼ì„ì´ ì‚¬ë§í–ˆìœ¼ë¯€ë¡œ ë”ì´ìƒ ì í”„ë¥¼ í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
         // ===============================
         StopCoroutine(jumpCoroutine);
-        Debug.Log("½½¶óÀÓÀÌ »ç¸ÁÇß½À´Ï´Ù.");
+        Debug.Log("ìŠ¬ë¼ì„ì´ ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
     }
     // ===============================
-    // TODO : ÇØ´ç ½½¶óÀÓÀÌ Á¡ÇÁ¸¦ ÇØ¼­ Æ¢¾î¿À¸£´Â µ¿¾È¿£
-    // ½½¶óÀÓÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô ´ê°Ô µÈ °æ¿ì µ¥¹ÌÁö°¡ µé¾î°¡µµ·Ï ÇØ¾ß ÇÕ´Ï´Ù.
-    // ÇÏÁö¸¸ ÇÃ·¹ÀÌ¾î¿¡°Ô µ¥¹ÌÁö¸¦ ÁÖ´Â ÇÔ¼ö°¡ ¾ø°í ÇÃ·¹ÀÌ¾î Ã¼·Â¿¡ °ü¿©ÇÏ´Â ¾î¶² ÅëÀÏµÈ Ç¥ÁØÀÌ ¾ø¾î¿ä.
+    // TODO : í•´ë‹¹ ìŠ¬ë¼ì„ì´ ì í”„ë¥¼ í•´ì„œ íŠ€ì–´ì˜¤ë¥´ëŠ” ë™ì•ˆì—”
+    // ìŠ¬ë¼ì„ì´ í”Œë ˆì´ì–´ì—ê²Œ ë‹¿ê²Œ ëœ ê²½ìš° ë°ë¯¸ì§€ê°€ ë“¤ì–´ê°€ë„ë¡ í•´ì•¼ í•©ë‹ˆë‹¤.
+    // í•˜ì§€ë§Œ í”Œë ˆì´ì–´ì—ê²Œ ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” í•¨ìˆ˜ê°€ ì—†ê³  í”Œë ˆì´ì–´ ì²´ë ¥ì— ê´€ì—¬í•˜ëŠ” ì–´ë–¤ í†µì¼ëœ í‘œì¤€ì´ ì—†ì–´ìš”.
     // =============================== 
     /// <summary>
-    ///     ½½¶óÀÓÀÌ jumpInterval ¸¸Å­ÀÇ ÁÖ±â·Î ÅëÅë Æ¢¾î¿À¸£´Â ÇÔ¼öÀÔ´Ï´Ù.
+    ///     ìŠ¬ë¼ì„ì´ jumpInterval ë§Œí¼ì˜ ì£¼ê¸°ë¡œ í†µí†µ íŠ€ì–´ì˜¤ë¥´ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator Jump()
@@ -49,10 +49,10 @@ public class SlimeController : EnemyBase
             yield return new WaitForSeconds(jumpInterval);
             if (enemyRigidbody == null)
             {
-                Debug.LogError("SlimeController.AttackPlayer()¿¡¼­ ¸®Áöµå¹Ùµğ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogError("SlimeController.AttackPlayer()ì—ì„œ ë¦¬ì§€ë“œë°”ë””ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
             Debug.Log($"found player : {IsFoundPlayer()}");
-            // Á¡ÇÁ
+            // ì í”„
             enemyRigidbody.AddForce(
                 new Vector3(0, jumpForce, 0) + GetPseudoDirection() * moveForce, 
                 ForceMode.VelocityChange);

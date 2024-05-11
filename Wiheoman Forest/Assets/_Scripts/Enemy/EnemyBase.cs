@@ -5,7 +5,7 @@ using TMPro.EditorUtilities;
 using UnityEngine;
 
 /// <summary>
-///     ÇØ´ç Àû Ä³¸¯ÅÍÀÇ µî±ÞÀ» ³ªÅ¸³À´Ï´Ù.
+///     í•´ë‹¹ ì  ìºë¦­í„°ì˜ ë“±ê¸‰ì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
 /// </summary>
 public enum ERank
 {
@@ -16,7 +16,7 @@ public enum ERank
 }
 
 /// <summary>
-///     ÇØ´ç ¿¡³Ê¹ÌÀÇ »óÅÂ¸¦ ³ªÅ¸³À´Ï´Ù.
+///     í•´ë‹¹ ì—ë„ˆë¯¸ì˜ ìƒíƒœë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
 /// </summary>
 [Serializable]
 public struct EnemyStatus
@@ -37,7 +37,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected bool isDead = false;
     
     /// <summary>
-    ///     ÇØ´ç ¾À¿¡ À¯ÀÏÇÏ°Ô Á¸ÀçÇÏ´Â ÇÃ·¹ÀÌ¾îÀÇ Á¤º¸¸¦ ¿¡³Ê¹Ì¿¡°Ô ¾Ë·ÁÁÝ´Ï´Ù.
+    ///     í•´ë‹¹ ì”¬ì— ìœ ì¼í•˜ê²Œ ì¡´ìž¬í•˜ëŠ” í”Œë ˆì´ì–´ì˜ ì •ë³´ë¥¼ ì—ë„ˆë¯¸ì—ê²Œ ì•Œë ¤ì¤ë‹ˆë‹¤.
     /// </summary>
     /// <param name="player"></param>
     static public void SetPlayer(GameObject player)
@@ -45,7 +45,7 @@ public abstract class EnemyBase : MonoBehaviour
         playerGameObject = player;
     }
     /// <summary>
-    ///     ÇØ´ç Àû Ä³¸¯ÅÍ°¡ ÇÃ·¹ÀÌ¾î¸¦ ¹ß°ßÇß´ÂÁö ¿©ºÎ¸¦ ÆÄ¾ÇÇÕ´Ï´Ù.
+    ///     í•´ë‹¹ ì  ìºë¦­í„°ê°€ í”Œë ˆì´ì–´ë¥¼ ë°œê²¬í–ˆëŠ”ì§€ ì—¬ë¶€ë¥¼ íŒŒì•…í•©ë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     public bool IsFoundPlayer()
@@ -54,7 +54,7 @@ public abstract class EnemyBase : MonoBehaviour
         return (range * range) > (transform.position - playerGameObject.transform.position).sqrMagnitude;
     }
     /// <summary>
-    ///     ¿¡³Ê¹Ì À§Ä¡¿¡¼­ Ãâ¹ßÇÏ¿© ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâÀ¸·Î ¹Ù¶óº¸´Â º¤ÅÍ¸¦ °£·«ÇÏ°Ô ¸®ÅÏÇØÁÝ´Ï´Ù.
+    ///     ì—ë„ˆë¯¸ ìœ„ì¹˜ì—ì„œ ì¶œë°œí•˜ì—¬ í”Œë ˆì´ì–´ê°€ ìžˆëŠ” ë°©í–¥ìœ¼ë¡œ ë°”ë¼ë³´ëŠ” ë²¡í„°ë¥¼ ê°„ëžµí•˜ê²Œ ë¦¬í„´í•´ì¤ë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     public Vector3 GetPseudoDirection()
@@ -64,16 +64,16 @@ public abstract class EnemyBase : MonoBehaviour
         return (dx < 0) ? new Vector3(-1, 0, 0) : new Vector3(1, 0, 0);
     }
     /// <summary>
-    ///     °ø°ÝÀ» ¹ÞÀº °æ¿ì¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+    ///     ê³µê²©ì„ ë°›ì€ ê²½ìš°ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
     {
         // ===============================
-        // °ø°ÝÀ» ¹ÞÀº °æ¿ì ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÕ´Ï´Ù.
-        // ¸¸¾à¿¡ Ãß°¡ÀûÀÎ ÇÕÀÇ·Î ÀÎÇØ, ¹æ¾î·ÂÀÌ³ª ¹«Àû »óÅÂ µî ÇÇÇØ ¸ÅÄ¿´ÏÁòÀÌ º¹Á¢ÇØÁö´Â °æ¿ì, ÇØ´ç ÇÔ¼ö¸¦ ¼öÁ¤ÇÏ¼¼¿ä.
-        // °ø°Ý ¹ÞÀ½ ÆÇÁ¤À» ÄÝ¶óÀÌ´õ¸¦ È°¿ëÇÏ¿© OnTriggerEnter / OnCollisionEnter µîÀ¸·Î È°¿ëÇÒ°ÍÀÎµ¥ ÀÌµéÁß ¾î¶²°ÍÀ» ¾µ°ÇÁöµµ È®½ÇÇÏÁö ¾ÊÀ» »Ó´õ·¯
-        // ½ÉÁö¾î ÇÃ·¹ÀÌ¾îÀÇ ¹«±âÀÇ ÄÝ¶óÀÌ´õ°¡ ¾î¶² ÅÂ±×¸¦ °¡Áö°í ÀÖ´ÂÁöµµ ¸ô¶ó¼­ ±×³É ÇÔ¼ö¸¦ ¸¸µé¾ú½À´Ï´Ù.
-        // °á·ÐÀûÀ¸·Î ³ªÁß¿¡ ÇØ´ç ³»¿ëÀÌ ÇÕÀÇµÈ´Ù¸é ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÏ¼¼¿ä.
+        // ê³µê²©ì„ ë°›ì€ ê²½ìš° í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+        // ë§Œì•½ì— ì¶”ê°€ì ì¸ í•©ì˜ë¡œ ì¸í•´, ë°©ì–´ë ¥ì´ë‚˜ ë¬´ì  ìƒíƒœ ë“± í”¼í•´ ë§¤ì»¤ë‹ˆì¦˜ì´ ë³µì ‘í•´ì§€ëŠ” ê²½ìš°, í•´ë‹¹ í•¨ìˆ˜ë¥¼ ìˆ˜ì •í•˜ì„¸ìš”.
+        // ê³µê²© ë°›ìŒ íŒì •ì„ ì½œë¼ì´ë”ë¥¼ í™œìš©í•˜ì—¬ OnTriggerEnter / OnCollisionEnter ë“±ìœ¼ë¡œ í™œìš©í• ê²ƒì¸ë° ì´ë“¤ì¤‘ ì–´ë–¤ê²ƒì„ ì“¸ê±´ì§€ë„ í™•ì‹¤í•˜ì§€ ì•Šì„ ë¿ë”ëŸ¬
+        // ì‹¬ì§€ì–´ í”Œë ˆì´ì–´ì˜ ë¬´ê¸°ì˜ ì½œë¼ì´ë”ê°€ ì–´ë–¤ íƒœê·¸ë¥¼ ê°€ì§€ê³  ìžˆëŠ”ì§€ë„ ëª°ë¼ì„œ ê·¸ëƒ¥ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì—ˆìŠµë‹ˆë‹¤.
+        // ê²°ë¡ ì ìœ¼ë¡œ ë‚˜ì¤‘ì— í•´ë‹¹ ë‚´ìš©ì´ í•©ì˜ëœë‹¤ë©´ í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì„¸ìš”.
         // ===============================
 
         stat.health -= damage;
@@ -88,7 +88,7 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    ///     ÇØ´ç Àû Ä³¸¯ÅÍÀÇ »ç¸ÁÀ» Ã³¸®ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù. ¹Ýµå½Ã ±¸ÇöÇØÁÖ¼¼¿ä. »ç¸Á½Ã ÄÚ·çÆ¾ »èÁ¦ ¹× »èÁ¦ ¸ð¼Ç Àç»ý µîÀÌ ÀÖ½À´Ï´Ù.
+    ///     í•´ë‹¹ ì  ìºë¦­í„°ì˜ ì‚¬ë§ì„ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ìž…ë‹ˆë‹¤. ë°˜ë“œì‹œ êµ¬í˜„í•´ì£¼ì„¸ìš”. ì‚¬ë§ì‹œ ì½”ë£¨í‹´ ì‚­ì œ ë° ì‚­ì œ ëª¨ì…˜ ìž¬ìƒ ë“±ì´ ìžˆìŠµë‹ˆë‹¤.
     /// </summary>
     protected abstract void DoDeathHandle();
 }
