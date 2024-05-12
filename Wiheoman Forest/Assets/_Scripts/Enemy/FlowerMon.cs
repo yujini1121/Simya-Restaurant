@@ -10,34 +10,43 @@ using UnityEditor;
 public class FlowerMon : MonoBehaviour
 {
     enum FlowerMonState { Idle, Charging, Attack, Cooldown }
-
-    [SerializeField]
     FlowerMonState curState = FlowerMonState.Idle;
 
+    int playerLayer;
+
     [Header("Attack")]
-    public float pollenAttackRadius;
+    public float searchRadius;
+    public float attackRadius;
     public float attackchargingTime;
     public float attackDuration;
     public float attackCooldown;
-    public bool playerInAttackRange;
 
     GameObject player;
 
     void Start()
     {
         player = GameObject.Find("Player");
-        GetComponent<SphereCollider>().radius = pollenAttackRadius;
+        playerLayer = LayerMask.GetMask("Player");
     }
 
     private void Update()
     {
-        if (curState == FlowerMonState.Attack && playerInAttackRange)
+        player.GetComponent<Test_PlayerMove>().dameged = false;
+
+        switch (curState)
         {
-            player.GetComponent<Test_PlayerMove>().dameged = true;
-        }
-        else
-        {
-            player.GetComponent<Test_PlayerMove>().dameged = false;
+            case FlowerMonState.Idle:
+                if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
+                {
+                    StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                }
+                break;
+            case FlowerMonState.Attack:
+                if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
+                {
+                    player.GetComponent<Test_PlayerMove>().dameged = true;
+                }
+                break;
         }
 
         #region Debug
@@ -57,27 +66,6 @@ public class FlowerMon : MonoBehaviour
                 break;
         }
         #endregion
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            if (curState == FlowerMonState.Idle)
-            {
-                StartCoroutine(ChangeNextState(FlowerMonState.Charging));
-            }
-
-            playerInAttackRange = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInAttackRange = false;
-        }
     }
 
     IEnumerator ChangeNextState(FlowerMonState nextState, float waitTime = 0f)
@@ -105,19 +93,19 @@ public class FlowerMon : MonoBehaviour
         {
             case FlowerMonState.Idle:
                 Handles.color = Color.green;
-                Handles.DrawWireDisc(transform.position, Vector3.forward, pollenAttackRadius);
+                Handles.DrawWireDisc(transform.position, Vector3.forward, searchRadius);
                 break;
             case FlowerMonState.Charging:
                 Handles.color = Color.red;
-                Handles.DrawWireDisc(transform.position, Vector3.forward, pollenAttackRadius);
+                Handles.DrawWireDisc(transform.position, Vector3.forward, searchRadius);
                 break;
             case FlowerMonState.Attack:
                 Handles.color = new Color(1f, 0f, 0f, 0.2f);
-                Handles.DrawSolidDisc(transform.position, Vector3.forward, pollenAttackRadius);
+                Handles.DrawSolidDisc(transform.position, Vector3.forward, attackRadius);
                 break;
             case FlowerMonState.Cooldown:
                 Handles.color = new Color(0.5f, 0.5f, 0.5f, 0.2f);
-                Handles.DrawSolidDisc(transform.position, Vector3.forward, pollenAttackRadius);
+                Handles.DrawSolidDisc(transform.position, Vector3.forward, searchRadius);
                 break;
         }
     }
