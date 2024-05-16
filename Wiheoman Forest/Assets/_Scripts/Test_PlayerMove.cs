@@ -36,6 +36,9 @@ public class Test_PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 일정 시간동안 무적판정임을 알려주기 위해 색 변경하는 코루틴
+    /// </summary>
     IEnumerator Invincible()
     {
         invincible = true;

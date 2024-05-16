@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 1833811364}
   - component: {fileID: 1833811363}
   - component: {fileID: 1833811368}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -847,7 +847,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!136 &1833811364
 CapsuleCollider:
@@ -1240,14 +1240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf58e91074771409b54fd77e6c4549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState: 0
-  pollenAttackRadius: 3
+  searchRadius: 5
+  attackRadius: 3
   attackchargingTime: 3
   attackDuration: 5
   attackCooldown: 5
-  playerInAttackRange: 0
-  searchRangeObj: {fileID: 1065239708}
-  attackRangeObj: {fileID: 1662378033}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
