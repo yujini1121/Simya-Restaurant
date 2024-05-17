@@ -9,10 +9,28 @@ using UnityEditor;
 
 public class FlowerMon : MonoBehaviour
 {
-    enum FlowerMonState { Idle, Charging, Attack, Cooldown }
+    /// <summary>
+    /// FlowerMon 상태 관리 
+    /// </summary>
+    private enum FlowerMonState 
+    { 
+        Idle, 
+        Charging, 
+        Attack, 
+        Cooldown 
+    }
     FlowerMonState curState = FlowerMonState.Idle;
 
-    int playerLayer;
+    /// <summary>
+    /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
+    /// </summary>
+    [System.Serializable] 
+    public enum FlowerMonType 
+    { 
+        Melee, 
+        Ranged 
+    }
+    public FlowerMonType type;
 
     [Header("Attack")]
     public float searchRadius;
@@ -21,33 +39,83 @@ public class FlowerMon : MonoBehaviour
     public float attackDuration;
     public float attackCooldown;
 
+
+    int playerLayer;
     GameObject player;
+
+    Transform thorn;
 
     void Start()
     {
         player = GameObject.Find("Player");
         playerLayer = LayerMask.GetMask("Player");
+
+        thorn = transform.GetChild(0);
     }
 
     private void Update()
     {
         player.GetComponent<Test_PlayerMove>().dameged = false;
 
-        switch (curState)
+        switch (type)
         {
-            case FlowerMonState.Idle:
-                if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
+            /// <summary>
+            /// 근거리 꽃몬  
+            /// </summary>
+            case FlowerMonType.Melee:
+                switch (curState)
                 {
-                    StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                    case FlowerMonState.Idle:
+                        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
+                        {
+                            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                        }
+                        break;
+                    case FlowerMonState.Attack:
+                        if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
+                        {
+                            player.GetComponent<Test_PlayerMove>().dameged = true;
+                        }
+                        break;
                 }
                 break;
-            case FlowerMonState.Attack:
-                if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
+
+            /// <summary>
+            /// 원거리 꽃몬   
+            /// </summary>
+            case FlowerMonType.Ranged:
+                switch (curState)
                 {
-                    player.GetComponent<Test_PlayerMove>().dameged = true;
+                    case FlowerMonState.Idle:
+                        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
+                        {
+                            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                        }
+                        break;
+                    case FlowerMonState.Attack:
+                        Debug.Log("Attack");
+                        break;
                 }
                 break;
         }
+        
+
+        //switch (curState)
+        //{
+        //    case FlowerMonState.Idle:
+        //        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
+        //        {
+        //            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+        //        }
+        //        break;
+        //    case FlowerMonState.Attack:
+        //        if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
+        //        {
+        //            player.GetComponent<Test_PlayerMove>().dameged = true;
+        //        }
+        //        break;
+        //}
+
 
         #region Debug
         switch (curState)
