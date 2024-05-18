@@ -31,16 +31,16 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && isGround) 
         {
             playerRb.velocity = Vector3.zero;
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
             isGround = false;
         }
     }
     
     void Move()
     {
-        playerInput = Input.GetAxis("Horizontal");
+        playerInput = Input.GetAxisRaw("Horizontal");
         playerVec = new Vector3(playerInput, 0, 0).normalized;
-        transform.position += playerVec * moveSpeed * Time.deltaTime;
+        playerRb.position += playerVec * moveSpeed * Time.deltaTime; // addforce, velocity, Rigidbody.position 둘 중 하나로 수정
     }
 
     void OnCollisionEnter(Collision collision)
