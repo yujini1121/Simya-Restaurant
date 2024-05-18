@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static System.Net.WebRequestMethods;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,117 +11,88 @@ using UnityEditor;
 public class FlowerMon : MonoBehaviour
 {
     /// <summary>
+    /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
+    /// </summary>
+    [System.Serializable]
+    public enum FlowerMonType
+    {
+        Melee,
+        Ranged
+    }
+    public FlowerMonType type;
+
+
+    /// <summary>
     /// FlowerMon 상태 관리 
     /// </summary>
     private enum FlowerMonState 
-    { 
-        Idle, 
+    {
+        Roaming,
+        Following,
         Charging, 
         Attack, 
         Cooldown 
     }
-    FlowerMonState curState = FlowerMonState.Idle;
+    FlowerMonState curState = FlowerMonState.Roaming;
 
-    /// <summary>
-    /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
-    /// </summary>
-    [System.Serializable] 
-    public enum FlowerMonType 
-    { 
-        Melee, 
-        Ranged 
-    }
-    public FlowerMonType type;
 
     [Header("Attack")]
-    public float searchRadius;
-    public float attackRadius;
-    public float attackchargingTime;
-    public float attackDuration;
-    public float attackCooldown;
+    [SerializeField] private float searchRadius;
+    [SerializeField] private float attackRadius;
+    [SerializeField] private float attackchargingTime;        // 공격을 하기 위해 충전하는 시간
+    [SerializeField] private float attackDuration;            // 근거리 꽃몬 공격 지속 시간
+    [SerializeField] private float attackCooldown;            // 다음 공격까지의 쿨타임
 
+    [Header("Value Set")]
+    [SerializeField] private float moveRange;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private Transform thorn;
 
-    int playerLayer;
-    GameObject player;
+    private int playerLayer;
+    private GameObject player;
 
-    Transform thorn;
+    private Rigidbody rb;
+    private Vector3 startPos;
+
 
     void Start()
     {
         player = GameObject.Find("Player");
         playerLayer = LayerMask.GetMask("Player");
 
-        thorn = transform.GetChild(0);
+        rb = player.GetComponent<Rigidbody>();
+        startPos = transform.position;
     }
 
-    private void Update()
+    void Update()
     {
         player.GetComponent<Test_PlayerMove>().dameged = false;
 
-        switch (type)
+        //float pingPongValue = moveRange * Mathf.Sin(Time.time * moveSpeed);
+        //transform.position = new Vector3(pingPongValue, transform.position.y, transform.position.z);
+
+        switch (curState)
         {
-            /// <summary>
-            /// 근거리 꽃몬  
-            /// </summary>
-            case FlowerMonType.Melee:
-                switch (curState)
+            case FlowerMonState.Roaming:
+
+
+                if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
                 {
-                    case FlowerMonState.Idle:
-                        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
-                        {
-                            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
-                        }
-                        break;
-                    case FlowerMonState.Attack:
-                        if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
-                        {
-                            player.GetComponent<Test_PlayerMove>().dameged = true;
-                        }
-                        break;
+                    StartCoroutine(ChangeNextState(FlowerMonState.Charging));
                 }
                 break;
-
-            /// <summary>
-            /// 원거리 꽃몬   
-            /// </summary>
-            case FlowerMonType.Ranged:
-                switch (curState)
+            case FlowerMonState.Attack:
+                if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
                 {
-                    case FlowerMonState.Idle:
-                        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
-                        {
-                            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
-                        }
-                        break;
-                    case FlowerMonState.Attack:
-                        Debug.Log("Attack");
-                        break;
+                    player.GetComponent<Test_PlayerMove>().dameged = true;
                 }
                 break;
         }
-        
-
-        //switch (curState)
-        //{
-        //    case FlowerMonState.Idle:
-        //        if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
-        //        {
-        //            StartCoroutine(ChangeNextState(FlowerMonState.Charging));
-        //        }
-        //        break;
-        //    case FlowerMonState.Attack:
-        //        if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
-        //        {
-        //            player.GetComponent<Test_PlayerMove>().dameged = true;
-        //        }
-        //        break;
-        //}
-
 
         #region Debug
         switch (curState)
         {
-            case FlowerMonState.Idle:
+            case FlowerMonState.Roaming:
                 Debug.Log($"{name} : 기본 상태");
                 break;
             case FlowerMonState.Charging:
@@ -149,7 +121,7 @@ public class FlowerMon : MonoBehaviour
                 StartCoroutine(ChangeNextState(FlowerMonState.Cooldown, attackDuration));
                 break;
             case FlowerMonState.Cooldown:
-                StartCoroutine(ChangeNextState(FlowerMonState.Idle, attackCooldown));
+                StartCoroutine(ChangeNextState(FlowerMonState.Roaming, attackCooldown));
                 break;
         }
         curState = nextState;
@@ -159,7 +131,7 @@ public class FlowerMon : MonoBehaviour
     {
         switch (curState)
         {
-            case FlowerMonState.Idle:
+            case FlowerMonState.Roaming:
                 Handles.color = Color.green;
                 Handles.DrawWireDisc(transform.position, Vector3.forward, searchRadius);
                 break;
