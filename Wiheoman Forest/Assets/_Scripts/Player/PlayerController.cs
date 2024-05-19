@@ -3,30 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class StatMachine
-{
-    private class Layer
-    {
-        
-    }
-
-    
-
-
-    // 초기화 영역
-
-
-    // 수정 영역
-
-}
-
-public enum EPlayerStatAction
+// 플레이어의 현재 상태를 저장하는 열거자입니다.
+public enum EPlayerStatus
 {
     none,
-    alive,
+    idle,
     dead,
-    interaction
+    moving,
+    interaction,
+}
+
+public enum EPlayerAction
+{
+    empty,
+    lightAttack,
+    heavyAttack,
 }
 
 /// <summary>
@@ -47,7 +38,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private bool isGround = true;
     // 플레이어 상태 변수
-    private EPlayerStatAction playerActionStatus;
+    private EPlayerStatus currentPlayerStatus;
+    private EPlayerAction currentPlayerAction;
+    private EPlayerAction nextPlayerAction;
     // 플레이어 방향
     private Vector3 playerVec;
     private int playerLookingDirection = 1; // 안타깝게도 playerVec만으로 플레이어가 현재 바라보는 방향을 저장할 수 없습니다. 해봤어요.
@@ -83,6 +76,8 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
 
+        //HandleButton();
+
         DoAttackLight();
         DoAttackHeavy();
     }
@@ -108,6 +103,43 @@ public class PlayerController : MonoBehaviour
             playerLookingDirection
                 = (playerInput > 0.0f) ? LOOK_RIGHT : LOOK_LEFT;
         }
+    }
+
+    /// <summary>
+    ///     플레이어가 여러 버튼을 누르는것에 대응합니다. 즉 버튼들의 신호등 역할을 합니다.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         플레이어가 현재 행동하고 있는지 여부를 판단하고, 
+    ///         만약 비어있다면 즉시 실행, 진행 중이라면 예약을 하고, 
+    ///         만약 예약마저 꽉찼다면 무시합니다. 현재 행동이 완료되는 즉시 예약된 행동을 실행합니다.
+    ///     </para>
+    ///     <para>
+    ///         플레이어가 아무것도 하고 있지 않는다면 이동 버튼이 먹힙니다
+    ///         이동중 공격 버튼이 눌린다면 이동 버튼은 무시됩니다.
+    ///     </para>
+    /// </remarks>
+    void HandleButton()
+    {
+        if (nextPlayerAction != EPlayerAction.empty)
+        {
+            return;
+        }
+
+        // 가만히 있을때 할수 있는 것들
+        if (currentPlayerAction == EPlayerAction.empty)
+        {
+            Move();
+            Jump();
+        }
+
+
+        // 행동중 홀드 키가 눌린 경우
+        // 행동이 끝난 뒤에도 홀드 키가 눌리는지 체크하기
+        // 버튼 눌림 감지 -> 플레이어 현재 행동 종료 후에도 홀드 키가 눌리는지 감지 -> 행동
+
+
+
     }
 
     /// <summary>
@@ -143,11 +175,23 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    IEnumerator ResetComboAttack()
+    {
+        yield return new WaitForSeconds(comboAttackResetTime);
+        lightAttackCombo = 0;
+    }
+
+    IEnumerator LightAttackLastCombo()
+    {
+        yield return new WaitForSeconds(comboAttackFinalDelay);
+        DoAttack(HitboxAttackLight[2]);
+    }
+
     void DoAttackHeavy()
     {
         // 민혁씨 인용) 상호작용 시에는 강공격 차징 풀리게 할 것 같네욘
-        if (playerActionStatus == EPlayerStatAction.interaction ||
-            playerActionStatus == EPlayerStatAction.dead
+        if (currentPlayerStatus == EPlayerStatus.interaction ||
+            currentPlayerStatus == EPlayerStatus.dead
             // 그 외 각종 상태는 허용
             )
         {
@@ -179,18 +223,6 @@ public class PlayerController : MonoBehaviour
         {
             isGround = true;
         }
-    }
-
-    IEnumerator ResetComboAttack()
-    {
-        yield return new WaitForSeconds(comboAttackResetTime);
-        lightAttackCombo = 0;
-    }
-
-    IEnumerator LightAttackLastCombo()
-    {
-        yield return new WaitForSeconds(comboAttackFinalDelay);
-        DoAttack(HitboxAttackLight[2]);
     }
 
     IEnumerator ChargeHeavyAttack()
