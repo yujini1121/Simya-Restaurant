@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 6747833637870130987}
   - component: {fileID: 2161167535970472524}
   - component: {fileID: 290367963562676411}
-  - component: {fileID: 4021157000964412027}
   - component: {fileID: 9002886514108342776}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,18 +136,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &4021157000964412027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6793086673745623931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32c7d149d29d3ac4bb9fb6c42238ab66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9002886514108342776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,5 +161,5 @@ MonoBehaviour:
   comboAttackFinalDelay: 0
   HitboxAttackHeavy:
     hitBox: {fileID: 3948917004308933490, guid: 735315677a1d284498c85bcb21583373, type: 3}
-    attackPos: {x: 1, y: 0, z: 0}
+    attackPos: {x: 1.5, y: 0, z: 0}
   heavyAttackChargeTime: 2

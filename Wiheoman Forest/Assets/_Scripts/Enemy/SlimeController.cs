@@ -51,7 +51,7 @@ public class SlimeController : EnemyBase
             {
                 Debug.LogError("SlimeController.AttackPlayer()에서 리지드바디를 찾을 수 없습니다.");
             }
-            Debug.Log($"found player : {IsFoundPlayer()}");
+            //Debug.Log($"found player : {IsFoundPlayer()}");
             // 점프
             enemyRigidbody.AddForce(
                 new Vector3(0, jumpForce, 0) + GetPseudoDirection() * moveForce, 

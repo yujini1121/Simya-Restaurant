@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///     약공격 실행
     /// </summary>
     /// <remarks>
     ///     SRP 원칙을 지켜주세요 : 이 함수는 너무 무책임해서 약공격 실행만 책임집니다.
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("DoAttackLight() : 실행됨");
+        //Debug.Log("DoAttackLight() : 실행됨");
         if (lightAttackResetCoroutine != null)
         {
             StopCoroutine(lightAttackResetCoroutine);
@@ -237,7 +237,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="attack"></param>
     void DoAttack(AttackTupule attack)
     {
-        Debug.Log("DoAttack(AttackTupule attack) : 실행됨");
+        //Debug.Log("DoAttack(AttackTupule attack) : 실행됨");
         Quaternion rotation = attack.hitBox.transform.rotation;
         if (playerLookingDirection == LOOK_RIGHT)
         {

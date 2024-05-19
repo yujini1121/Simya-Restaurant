@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 854201517}
   - component: {fileID: 854201516}
   - component: {fileID: 854201515}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6406532681123536739, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -662,17 +662,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6793086673745623931, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 9002886514108342776, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
       propertyPath: heavtAttackChargeTime
       value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9002886514108342776, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
-      propertyPath: HitboxAttackHeavy.attackPos.x
-      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
