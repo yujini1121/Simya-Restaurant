@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static System.Net.WebRequestMethods;
+using TMPro;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -68,19 +69,17 @@ public class FlowerMon : MonoBehaviour
     {
         player.GetComponent<Test_PlayerMove>().dameged = false;
 
-        //float pingPongValue = moveRange * Mathf.Sin(Time.time * moveSpeed);
-        //transform.position = new Vector3(pingPongValue, transform.position.y, transform.position.z);
-
         switch (curState)
         {
             case FlowerMonState.Roaming:
-
+                StartCoroutine("Roaming");
 
                 if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
                 {
                     StartCoroutine(ChangeNextState(FlowerMonState.Charging));
                 }
                 break;
+
             case FlowerMonState.Attack:
                 if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
                 {
@@ -127,6 +126,24 @@ public class FlowerMon : MonoBehaviour
         curState = nextState;
     }
 
+    IEnumerator Roaming()
+    {
+        int romDir = Random.Range(-1, 2);
+        float romDistance = Random.Range(1, 5);
+
+        Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
+
+        while (Vector3.Distance(startPos, targetPos) > 0f)
+        {
+            transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed * Time.deltaTime);
+        }
+
+        yield return null;
+    }
+
+
+
+    #region Draw Scene View Only 
     private void OnDrawGizmos()
     {
         switch (curState)
@@ -149,4 +166,5 @@ public class FlowerMon : MonoBehaviour
                 break;
         }
     }
+    #endregion
 }
