@@ -128,17 +128,25 @@ public class FlowerMon : MonoBehaviour
 
     IEnumerator Roaming()
     {
-        int romDir = Random.Range(-1, 2);
-        float romDistance = Random.Range(1, 5);
-
-        Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
-
-        while (Vector3.Distance(startPos, targetPos) > 0f)
+        while (true)
         {
-            transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed * Time.deltaTime);
-        }
+            Debug.Log(0);
 
-        yield return null;
+            int romDir = Random.Range(-1, 2);
+            float romDistance = Random.Range(1, 5);
+
+            Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
+
+            while (Vector3.Distance(startPos, targetPos) > 0f)
+            {
+                Debug.Log(1);
+
+                transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed);
+                yield return null;
+            }
+
+            Debug.Log(2);
+        }
     }
 
 
