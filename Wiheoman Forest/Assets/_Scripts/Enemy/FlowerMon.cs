@@ -135,7 +135,7 @@ public class FlowerMon : MonoBehaviour
         canRoaming = false;
 
         int romDir = Random.Range(-1, 2);
-        float romDistance = Random.Range(1.0f, 5.0f);
+        float romDistance = Random.Range(2.0f, 7.0f);
         float waitTime = Random.Range(2.0f, 5.0f);
 
         startPos = transform.position;
@@ -148,6 +148,7 @@ public class FlowerMon : MonoBehaviour
 
             Vector3 direction = (targetPos - transform.position).normalized;
             transform.Translate(direction * moveSpeed * Time.deltaTime);
+            yield return null;
         }
 
         yield return new WaitForSeconds(waitTime);
