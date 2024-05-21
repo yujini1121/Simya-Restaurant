@@ -56,6 +56,7 @@ public class FlowerMon : MonoBehaviour
     private Rigidbody rb;
     private Vector3 startPos;
 
+    private bool canRoaming = true;
 
     void Start()
     {
@@ -73,8 +74,10 @@ public class FlowerMon : MonoBehaviour
         switch (curState)
         {
             case FlowerMonState.Roaming:
-                StartCoroutine("Roaming");
-
+                if (canRoaming)
+                {
+                    StartCoroutine("Roaming");
+                }
                 if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
                 {
                     StartCoroutine(ChangeNextState(FlowerMonState.Charging));
@@ -129,9 +132,11 @@ public class FlowerMon : MonoBehaviour
 
     IEnumerator Roaming()
     {
+        canRoaming = false;
+
         int romDir = Random.Range(-1, 2);
         float romDistance = Random.Range(1.0f, 5.0f);
-        float waitTime = Random.Range(1.0f, 5.0f);
+        float waitTime = Random.Range(2.0f, 5.0f);
 
         startPos = transform.position;
         Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
@@ -145,9 +150,9 @@ public class FlowerMon : MonoBehaviour
             transform.Translate(direction * moveSpeed * Time.deltaTime);
         }
 
-        //yield return null;
-        //yield return new WaitForSeconds(waitTime);
-        yield break;
+        yield return new WaitForSeconds(waitTime);
+
+        canRoaming = true;
     }
 
 
