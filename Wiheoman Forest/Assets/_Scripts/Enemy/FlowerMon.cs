@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static System.Net.WebRequestMethods;
-using TMPro;
-using Unity.VisualScripting;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -41,14 +37,26 @@ public class FlowerMon : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private float searchRadius;
     [SerializeField] private float attackRadius;
-    [SerializeField] private float attackchargingTime;        // 공격을 하기 위해 충전하는 시간
-    [SerializeField] private float attackDuration;            // 근거리 꽃몬 공격 지속 시간
-    [SerializeField] private float attackCooldown;            // 다음 공격까지의 쿨타임
+    
+    [SerializeField] [Tooltip("공격을 하기 위해 충전하는 시간")]
+    private float attackchargingTime;
 
-    [Header("Value Set")]
+    [SerializeField, Tooltip("근거리 꽃몬 공격 지속 시간")] 
+    private float attackDuration;
+
+    [SerializeField, Tooltip("다음 공격까지의 쿨타임")] 
+    private float attackCooldown;
+
+
+    [Header("Options")]
     [SerializeField] private float moveRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Transform thorn;
+
+    [Header("Ground")]
+    [SerializeField] private GameObject ground;
+    [SerializeField] private Vector3 groundCenterPos;
+    [SerializeField] private float groundOffset = 3f;
 
     private int playerLayer;
     private GameObject player;
@@ -57,6 +65,9 @@ public class FlowerMon : MonoBehaviour
     private Vector3 startPos;
 
     private bool canRoaming = true;
+
+    private Coroutine roamingCor;
+
 
     void Start()
     {
@@ -74,12 +85,14 @@ public class FlowerMon : MonoBehaviour
         switch (curState)
         {
             case FlowerMonState.Roaming:
-                if (canRoaming)
+                if (roamingCor == null)
                 {
-                    StartCoroutine("Roaming");
+                    roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
                 }
                 if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
                 {
+                    StopCoroutine(roamingCor);
+                    roamingCor = null;
                     StartCoroutine(ChangeNextState(FlowerMonState.Charging));
                 }
                 break;
@@ -130,31 +143,40 @@ public class FlowerMon : MonoBehaviour
         curState = nextState;
     }
 
-    IEnumerator Roaming()
+
+    IEnumerator Roaming(int action, float moveT, float waitT = 0.0f)
     {
-        canRoaming = false;
+        float curTime = 0.0f;
 
-        int romDir = Random.Range(-1, 2);
-        float romDistance = Random.Range(2.0f, 7.0f);
-        float waitTime = Random.Range(2.0f, 5.0f);
-
-        startPos = transform.position;
-        Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
-
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        if (action == 0)
         {
-            //Debug.Log(Vector3.Distance(transform.position, targetPos));
-            //transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed);         // 이건 왜 이상하게 움직이는지 이해 X
-
-            Vector3 direction = (targetPos - transform.position).normalized;
-            transform.Translate(direction * moveSpeed * Time.deltaTime);
-            yield return null;
+            yield return new WaitForSeconds(waitT);
         }
-
-        yield return new WaitForSeconds(waitTime);
-
-        canRoaming = true;
+        else
+        {
+            Vector3 dir = transform.right * action;
+            while (curTime < moveT)
+            {
+                if (Physics.Raycast(transform.position, transform.right, 1f, LayerMask.GetMask("Wall")))
+                {
+                    dir = dir * -1;
+                    TurnObject();
+                }
+                transform.Translate(dir * moveSpeed * Time.deltaTime);
+                curTime += Time.deltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(waitT);
+            roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
+        }
     }
+
+    void TurnObject()
+    {
+        // 애니메이션 바꾸자는 거
+        // 및 오브젝트 방향 회전
+    }
+
 
 
 
