@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static System.Net.WebRequestMethods;
 using TMPro;
+using Unity.VisualScripting;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -128,25 +129,25 @@ public class FlowerMon : MonoBehaviour
 
     IEnumerator Roaming()
     {
-        while (true)
+        int romDir = Random.Range(-1, 2);
+        float romDistance = Random.Range(1.0f, 5.0f);
+        float waitTime = Random.Range(1.0f, 5.0f);
+
+        startPos = transform.position;
+        Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
+
+        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
-            Debug.Log(0);
+            //Debug.Log(Vector3.Distance(transform.position, targetPos));
+            //transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed);         // 이건 왜 이상하게 움직이는지 이해 X
 
-            int romDir = Random.Range(-1, 2);
-            float romDistance = Random.Range(1, 5);
-
-            Vector3 targetPos = startPos + new Vector3(romDir * romDistance, 0, 0);
-
-            while (Vector3.Distance(startPos, targetPos) > 0f)
-            {
-                Debug.Log(1);
-
-                transform.position = Vector3.MoveTowards(startPos, targetPos, moveSpeed);
-                yield return null;
-            }
-
-            Debug.Log(2);
+            Vector3 direction = (targetPos - transform.position).normalized;
+            transform.Translate(direction * moveSpeed * Time.deltaTime);
         }
+
+        //yield return null;
+        //yield return new WaitForSeconds(waitTime);
+        yield break;
     }
 
 
