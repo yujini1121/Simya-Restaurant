@@ -64,8 +64,6 @@ public class FlowerMon : MonoBehaviour
     private Rigidbody rb;
     private Vector3 startPos;
 
-    private bool canRoaming = true;
-
     private Coroutine roamingCor;
 
 
@@ -85,15 +83,18 @@ public class FlowerMon : MonoBehaviour
         switch (curState)
         {
             case FlowerMonState.Roaming:
-                if (roamingCor == null)
-                {
-                    roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
-                }
                 if (Physics.CheckSphere(transform.position, searchRadius, playerLayer))
                 {
-                    StopCoroutine(roamingCor);
-                    roamingCor = null;
+                    if (roamingCor != null)
+                    {
+                        StopCoroutine(roamingCor);
+                        roamingCor = null;
+                    }
                     StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                }
+                else if (roamingCor == null)
+                {
+                    roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
                 }
                 break;
 
@@ -155,26 +156,52 @@ public class FlowerMon : MonoBehaviour
         else
         {
             Vector3 dir = transform.right * action;
+
             while (curTime < moveT)
             {
-                if (Physics.Raycast(transform.position, transform.right, 1f, LayerMask.GetMask("Wall")))
-                {
-                    dir = dir * -1;
-                    TurnObject();
-                }
+                //if (Physics.Raycast(transform.position, transform.right, 1f, LayerMask.GetMask("Wall")))
+                //{
+                //    dir = dir * -1;
+                //    TurnObject();
+                //}
+
                 transform.Translate(dir * moveSpeed * Time.deltaTime);
+                Debug.Log("Move");
                 curTime += Time.deltaTime;
                 yield return null;
             }
-            yield return new WaitForSeconds(waitT);
-            roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
+            //yield return new WaitForSeconds(waitT);
         }
+
+        roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f), Random.Range(1.0f, 3.0f)));
     }
+
+    //IEnumerator Roaming(int action, float t)
+    //{
+    //    float startTime = Time.time;
+
+    //    if (action == 0)
+    //    {
+    //        yield return new WaitForSeconds(t);
+    //    }
+    //    else
+    //    {
+    //        Vector3 dir = transform.right * action;
+
+    //        while (Time.time - startTime < t)
+    //        {
+    //            transform.Translate(dir * moveSpeed * Time.deltaTime);
+    //            yield return null;
+    //        }
+    //        yield return new WaitForSeconds(t);
+    //    }
+
+    //    roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
+    //}
 
     void TurnObject()
     {
-        // 애니메이션 바꾸자는 거
-        // 및 오브젝트 방향 회전
+        //TODO: Object 회전 기능 구현 (모델링 나오면)
     }
 
 
