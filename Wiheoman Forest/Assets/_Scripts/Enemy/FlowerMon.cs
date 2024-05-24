@@ -54,7 +54,7 @@ public class FlowerMon : MonoBehaviour
     [Header("Options")]
     [SerializeField] private float moveRange;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private Transform thorn;
+    [SerializeField] private GameObject thorn;
 
     //[Header("Ground")]
     //[SerializeField] private GameObject ground;
@@ -105,7 +105,6 @@ public class FlowerMon : MonoBehaviour
                 break;
 
             case FlowerMonState.Following:
-                Debug.Log("오잉");
                 Vector3 awayFromPlayerDir = (player.transform.position - transform.position).normalized;
                 transform.Translate(awayFromPlayerDir * moveSpeed * Time.deltaTime);
                 break;
@@ -113,8 +112,16 @@ public class FlowerMon : MonoBehaviour
             case FlowerMonState.Attack:
                 if (Physics.CheckSphere(transform.position, attackRadius, playerLayer))
                 {
-                    player.GetComponent<Test_PlayerMove>().dameged = true;
+                    if (type == FlowerMonType.Melee)
+                    {
+                        player.GetComponent<Test_PlayerMove>().dameged = true;
+                    }
+                    else
+                    {
+                        RangedAttack();
+                    }
                 }
+
                 break;
         }
 
@@ -196,7 +203,15 @@ public class FlowerMon : MonoBehaviour
         roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f), Random.Range(1.0f, 3.0f)));
     }
 
+    /// <summary>
+    /// 원거리(Ranged) 타입의 공격 코루틴
+    /// </summary>
+    IEnumerator RangedAttack()
+    {
+        Instantiate(thorn, Vector3.zero, Quaternion.identity);
 
+        yield break;
+    }
 
 
 
