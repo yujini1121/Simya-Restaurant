@@ -11,6 +11,8 @@ public class PlayerAttackRange : MonoBehaviour
     [SerializeField] protected float remainSecond;
     [SerializeField] protected float damage;
     [SerializeField] protected float knockback;
+    [SerializeField] protected bool isStunEnemy;
+    [SerializeField] protected float stunTime;
     /// <summary>
     ///     해당 옵션이 켜져 있는 경우, 해당 공격은 적 캐릭터의 방어 행위를 무시하고 공격을 적용합니다.
     /// </summary>
@@ -36,6 +38,10 @@ public class PlayerAttackRange : MonoBehaviour
         direction.y = 0;
 
         enemy.BeAttacked(damage, direction, knockback);
+        if (isStunEnemy)
+        {
+            enemy.ApplyStun(stunTime);
+        }
     }
 
     private void OnDrawGizmos()

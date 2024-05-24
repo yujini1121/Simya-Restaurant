@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: damage
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
+      propertyPath: isBypassBlock
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7343584547564145652, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
       propertyPath: m_LocalScale.x
       value: 4

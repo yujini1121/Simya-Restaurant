@@ -35,7 +35,10 @@ public abstract class EnemyBase : MonoBehaviour
     protected EnemyStatus stat;
     protected Rigidbody enemyRigidbody;
     protected bool isDead = false;
-    
+    // 경직 / 스턴용 값
+    protected bool isStuned = false;
+    protected float endStunTime;
+    protected Coroutine stunReleaseCoroutine;
     /// <summary>
     ///     해당 씬에 유일하게 존재하는 플레이어의 정보를 에너미에게 알려줍니다.
     /// </summary>
@@ -86,6 +89,42 @@ public abstract class EnemyBase : MonoBehaviour
             enemyRigidbody.AddForce(knockBackDirection.normalized * force, ForceMode.Impulse);
         }
     }
+
+    /// <summary>
+    ///     에너미에게 경직(스턴)을 stunTime 만큼 적용시킵니다. 이때, 이미 스턴을 가지고 있다면, 남은 스턴시간과 새 적용 스턴시간 중 최댓값을 적용합니다.
+    /// </summary>
+    /// <param name="stunTime"></param>
+    public void ApplyStun(float stunTime)
+    {
+        float newEndStunTime = Time.time + stunTime;
+        if (isStuned == false)
+        {
+            isStuned = true;
+            endStunTime = newEndStunTime;
+            stunReleaseCoroutine = StartCoroutine(ReleaseStunAfterTime(stunTime));
+            return;
+        }
+
+        isStuned = true;
+
+        if (endStunTime >= newEndStunTime)
+        {
+            return;
+        }
+
+        endStunTime = newEndStunTime;
+        StopCoroutine(stunReleaseCoroutine);
+        stunReleaseCoroutine = StartCoroutine(ReleaseStunAfterTime(stunTime));
+    }
+
+    protected IEnumerator ReleaseStunAfterTime(float time)
+    {
+        Debug.Log("스턴 적용됨");
+        yield return new WaitForSeconds(time);
+        isStuned = false;
+        Debug.Log("스턴 해제됨");
+    }
+
 
     /// <summary>
     ///     해당 적 캐릭터의 사망을 처리하는 함수입니다. 반드시 구현해주세요. 사망시 코루틴 삭제 및 삭제 모션 재생 등이 있습니다.
