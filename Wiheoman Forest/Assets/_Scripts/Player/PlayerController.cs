@@ -78,8 +78,8 @@ public class PlayerController : MonoBehaviour
 
         //HandleButton();
 
-        DoAttackLight();
-        DoAttackHeavy();
+        // DoAttackLight();
+        // DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제 
     }
 
     void Jump()
@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    #region important!!!!!
+    /*
     /// <summary>
     ///     플레이어가 여러 버튼을 누르는것에 대응합니다. 즉 버튼들의 신호등 역할을 합니다.
     /// </summary>
@@ -251,4 +254,6 @@ public class PlayerController : MonoBehaviour
                 transform.position.z + attack.attackPos.z),
             rotation);
     }
+    */ // 올릴때 주석 해제하던지 스크립트 빼고 올리던지 
+    #endregion
 }

@@ -19,12 +19,12 @@ public class MandalaController : MonoBehaviour
     [SerializeField] private float mandalaMovSpeed;
 
     private bool isPerceive;
-    private bool isGround = false;
+    private bool isOnGround = false;
     private Rigidbody mandalaRb;
     private GameObject player;
     private Rigidbody playerRb;
     private Collider col;
-    private Vector3 herbMandalaVec;
+    private Vector3 mandalaDir;
 
     private float groundPos = 1.0f;
     private float mandalaJumpMax = 1.5f;
@@ -38,7 +38,6 @@ public class MandalaController : MonoBehaviour
         mandalaRb.useGravity = false;
         col = GetComponent<Collider>();
 
-        //
         player = GameObject.Find("Player");
         playerRb = player.GetComponent<Rigidbody>();
     }
@@ -51,25 +50,19 @@ public class MandalaController : MonoBehaviour
             StartCoroutine(upGround());
         }
 
-        if (isGround && isPerceive)
+        if (isOnGround && isPerceive)
         {
             switch (type)
             {
                 case MandalaType.Herb:
-                    herbMandalaVec = (transform.position - playerRb.position).normalized;
+                    mandalaDir = (transform.position - playerRb.position).normalized;
                     break;
                 case MandalaType.Explosion:
-                    herbMandalaVec = (playerRb.position - transform.position).normalized;
+                    mandalaDir = (playerRb.position - transform.position).normalized;
                     break;
             }
         }
-        transform.position += herbMandalaVec * mandalaMovSpeed * Time.deltaTime;
-
-        /*if ((transform.position - player.transform.position).magnitude < 1.0f)
-        {
-            //폭발 코드
-            gameObject.SetActive(false);
-        }*/
+        transform.position += mandalaDir * mandalaMovSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -86,10 +79,9 @@ public class MandalaController : MonoBehaviour
         mandalaRb.useGravity = true;
 
         col.isTrigger = false;
-        isGround = true;
+        isOnGround = true;
     }
 
-    // 안됨..
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
