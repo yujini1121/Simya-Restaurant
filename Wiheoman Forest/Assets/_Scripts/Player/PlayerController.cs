@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 // 플레이어의 현재 상태를 저장하는 열거자입니다.
@@ -28,6 +29,7 @@ public struct AttackTupule
 {
     public GameObject hitBox;
     public Vector3 attackPos;
+    public float actionTime;
 }
 
 public class PlayerController : MonoBehaviour
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private EPlayerStatus currentPlayerStatus;
     private EPlayerAction currentPlayerAction;
     private EPlayerAction nextPlayerAction;
+    private bool isAttacking = false;
     // 플레이어 방향
     private Vector3 playerVec;
     private int playerLookingDirection = 1; // 안타깝게도 playerVec만으로 플레이어가 현재 바라보는 방향을 저장할 수 없습니다. 해봤어요.
@@ -52,12 +55,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float comboAttackFinalDelay;
     private Coroutine lightAttackResetCoroutine;
     private int lightAttackCombo = 0;
+
     // 플레이어 강공격 파트
     [SerializeField] private AttackTupule HitboxAttackHeavy;
     private Coroutine heavyAttackCoroutine;
     [SerializeField] private float heavyAttackChargeTime;
     private bool isHeavyAttackReady = false;
-    
+    // 플레이어 애니메이션
+    private Animator animatorController;
+    private string parameterLightAttackCombo = "lightAttackCombo";
+    // 플레이어 체력 정보
+    [SerializeField] public float health;
+
     void Start()
     {
         if(playerRb == null)
@@ -66,9 +75,11 @@ public class PlayerController : MonoBehaviour
         }
 
         EnemyBase.SetPlayer(gameObject);
+        animatorController = transform.Find("Armature").GetComponent<Animator>();
         
         // 함수 정상 진행 조건
         Debug.Assert(playerRb != null);
+        Debug.Assert(animatorController != null);
     }
 
     void Update()
@@ -157,16 +168,27 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        if (isAttacking == true)
+        {
+            return;
+        }
         //Debug.Log("DoAttackLight() : 실행됨");
         if (lightAttackResetCoroutine != null)
         {
             StopCoroutine(lightAttackResetCoroutine);
         }
         lightAttackCombo++;
+        switch (lightAttackCombo)
+        {
+            case 1: animatorController.SetTrigger("ReadyLightAttackCombo1"); break;
+            case 2: animatorController.SetTrigger("ReadyLightAttackCombo2"); break;
+            case 3: animatorController.SetTrigger("ReadyLightAttackCombo3"); break;
+            default: break;
+        }
 
         if (lightAttackCombo < 3)
         {
-            lightAttackResetCoroutine = StartCoroutine(ResetComboAttack());
+            lightAttackResetCoroutine = StartCoroutine(ResetComboAttack(HitboxAttackLight[lightAttackCombo - 1].actionTime));
             DoAttack(HitboxAttackLight[lightAttackCombo - 1]);
         }
         else
@@ -174,14 +196,20 @@ public class PlayerController : MonoBehaviour
             lightAttackCombo = 0;
             StartCoroutine(LightAttackLastCombo());
         }
-
-        
     }
 
-    IEnumerator ResetComboAttack()
+    IEnumerator SetAttacking(float time)
     {
-        yield return new WaitForSeconds(comboAttackResetTime);
+        isAttacking = true;
+        yield return new WaitForSeconds(time);
+        isAttacking = false;
+    }
+
+    IEnumerator ResetComboAttack(float time)
+    {
+        yield return new WaitForSeconds(comboAttackResetTime + time);
         lightAttackCombo = 0;
+        animatorController.SetInteger(parameterLightAttackCombo, lightAttackCombo);
     }
 
     IEnumerator LightAttackLastCombo()
@@ -200,6 +228,10 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        if (isAttacking)
+        {
+            return;
+        }
 
         if (Input.GetButtonDown("AttackHeavy"))
         {
@@ -212,6 +244,7 @@ public class PlayerController : MonoBehaviour
 
         if (isHeavyAttackReady)
         {
+            animatorController.SetTrigger("StartHeavyAttack");
             DoAttack(HitboxAttackHeavy);
         }
         else
@@ -253,6 +286,7 @@ public class PlayerController : MonoBehaviour
                 transform.position.y + attack.attackPos.y,
                 transform.position.z + attack.attackPos.z),
             rotation);
+        StartCoroutine(SetAttacking(attack.actionTime));
     }
     */ // 올릴때 주석 해제하던지 스크립트 빼고 올리던지 
     #endregion

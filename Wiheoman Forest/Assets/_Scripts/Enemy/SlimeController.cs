@@ -5,13 +5,12 @@ using UnityEngine.Rendering;
 
 public class SlimeController : EnemyBase
 {
-    [SerializeField]
-    private float jumpInterval;
+    [SerializeField] private float jumpInterval;
     private Coroutine jumpCoroutine;
     [SerializeField]
     private float jumpForce;
-    [SerializeField]
-    private float moveForce;
+    [SerializeField] private float moveForce;
+    private bool isAttackMode = true;
 
     // Start is called before the first frame update
     void Start()
@@ -51,11 +50,33 @@ public class SlimeController : EnemyBase
             {
                 Debug.LogError("SlimeController.AttackPlayer()에서 리지드바디를 찾을 수 없습니다.");
             }
+
+            // 스턴인 경우, 점프를 스킵합니다
+            if (isStuned)
+            {
+                continue;
+            }
+
             //Debug.Log($"found player : {IsFoundPlayer()}");
             // 점프
             enemyRigidbody.AddForce(
                 new Vector3(0, jumpForce, 0) + GetPseudoDirection() * moveForce, 
                 ForceMode.VelocityChange);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isStuned)
+        {
+            return;
+        }
+
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            
+            //playerGameObject.GetComponent<PlayerController>()
         }
     }
 }
