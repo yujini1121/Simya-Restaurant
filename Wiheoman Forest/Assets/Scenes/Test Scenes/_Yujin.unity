@@ -1165,15 +1165,12 @@ MonoBehaviour:
   type: 1
   searchRadius: 15
   attackRadius: 15
-  attackchargingTime: 0
-  attackDuration: 1
+  attackchargingTime: 3
+  attackDuration: 3
   attackCooldown: 3
   moveRange: 3
   moveSpeed: 3
   thorn: {fileID: 1334906095}
-  ground: {fileID: 0}
-  groundCenterPos: {x: 0, y: 0, z: 0}
-  groundOffset: 0
 --- !u!54 &1908763821
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1406,9 +1403,6 @@ MonoBehaviour:
   moveRange: 5
   moveSpeed: 3
   thorn: {fileID: 0}
-  ground: {fileID: 0}
-  groundCenterPos: {x: 0, y: 0, z: 0}
-  groundOffset: 0
 --- !u!54 &2144262254
 Rigidbody:
   m_ObjectHideFlags: 0

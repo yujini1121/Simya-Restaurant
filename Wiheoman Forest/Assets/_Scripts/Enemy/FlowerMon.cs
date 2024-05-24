@@ -38,13 +38,16 @@ public class FlowerMon : MonoBehaviour
     [SerializeField] private float searchRadius;
     [SerializeField] private float attackRadius;
     
-    [SerializeField] [Tooltip("공격을 하기 위해 충전하는 시간")]
+    [SerializeField] 
+    [Tooltip("공격을 하기 위해 충전하는 시간")]
     private float attackchargingTime;
 
-    [SerializeField, Tooltip("근거리 꽃몬 공격 지속 시간")] 
+    [SerializeField]
+    [Tooltip("근거리 꽃몬 공격 지속 시간")] 
     private float attackDuration;
 
-    [SerializeField, Tooltip("다음 공격까지의 쿨타임")] 
+    [SerializeField]
+    [Tooltip("다음 공격까지의 쿨타임")] 
     private float attackCooldown;
 
 
@@ -53,15 +56,16 @@ public class FlowerMon : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private Transform thorn;
 
-    [Header("Ground")]
-    [SerializeField] private GameObject ground;
-    [SerializeField] private Vector3 groundCenterPos;
-    [SerializeField] private float groundOffset = 3f;
+    //[Header("Ground")]
+    //[SerializeField] private GameObject ground;
+    //[SerializeField] private Vector3 groundCenterPos;
+    //[SerializeField] private float groundOffset = 3f;
 
     private int playerLayer;
     private GameObject player;
+    private Rigidbody playerRb;
+    private Rigidbody flowermonRb;
 
-    private Rigidbody rb;
     private Vector3 startPos;
 
     private Coroutine roamingCor;
@@ -72,7 +76,9 @@ public class FlowerMon : MonoBehaviour
         player = GameObject.Find("Player");
         playerLayer = LayerMask.GetMask("Player");
 
-        rb = player.GetComponent<Rigidbody>();
+        playerRb = player.GetComponent<Rigidbody>();
+        flowermonRb = gameObject.GetComponent<Rigidbody>();
+
         startPos = transform.position;
     }
 
@@ -90,12 +96,18 @@ public class FlowerMon : MonoBehaviour
                         StopCoroutine(roamingCor);
                         roamingCor = null;
                     }
-                    StartCoroutine(ChangeNextState(FlowerMonState.Charging));
+                    StartCoroutine(ChangeNextState(FlowerMonState.Following));
                 }
                 else if (roamingCor == null)
                 {
                     roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
                 }
+                break;
+
+            case FlowerMonState.Following:
+                Debug.Log("오잉");
+                Vector3 awayFromPlayerDir = (player.transform.position - transform.position).normalized;
+                transform.Translate(awayFromPlayerDir * moveSpeed * Time.deltaTime);
                 break;
 
             case FlowerMonState.Attack:
@@ -110,16 +122,19 @@ public class FlowerMon : MonoBehaviour
         switch (curState)
         {
             case FlowerMonState.Roaming:
-                Debug.Log($"{name} : 기본 상태");
+                Debug.Log($"{name} : Roaming");
+                break;
+            case FlowerMonState.Following:
+                Debug.Log($"{name} : Following");
                 break;
             case FlowerMonState.Charging:
-                Debug.Log($"{name} : 공격 준비 상태");
+                Debug.Log($"{name} : Charging");
                 break;
             case FlowerMonState.Attack:
-                Debug.Log($"{name} : 공격 상태");
+                Debug.Log($"{name} : Attack");
                 break;
             case FlowerMonState.Cooldown:
-                Debug.Log($"{name} : 쿨타임 상태");
+                Debug.Log($"{name} : Cooldown");
                 break;
         }
         #endregion
@@ -131,6 +146,9 @@ public class FlowerMon : MonoBehaviour
 
         switch (nextState)
         {
+            case FlowerMonState.Following:
+                StartCoroutine(ChangeNextState(FlowerMonState.Charging, 3f));
+                break;
             case FlowerMonState.Charging:
                 StartCoroutine(ChangeNextState(FlowerMonState.Attack, attackchargingTime));
                 break;
@@ -142,6 +160,14 @@ public class FlowerMon : MonoBehaviour
                 break;
         }
         curState = nextState;
+    }
+
+
+    void TurnObject()
+    {
+        Vector3 reverse = transform.localScale;
+        reverse.x = -transform.localScale.x;
+        transform.localScale = reverse;
     }
 
 
@@ -159,15 +185,9 @@ public class FlowerMon : MonoBehaviour
 
             while (curTime < moveT)
             {
-                //if (Physics.Raycast(transform.position, transform.right, 1f, LayerMask.GetMask("Wall")))
-                //{
-                //    dir = dir * -1;
-                //    TurnObject();
-                //}
-
-                transform.Translate(dir * moveSpeed * Time.deltaTime);
-                Debug.Log("Move");
                 curTime += Time.deltaTime;
+                transform.Translate(dir * moveSpeed * Time.deltaTime);
+
                 yield return null;
             }
             //yield return new WaitForSeconds(waitT);
@@ -176,33 +196,7 @@ public class FlowerMon : MonoBehaviour
         roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f), Random.Range(1.0f, 3.0f)));
     }
 
-    //IEnumerator Roaming(int action, float t)
-    //{
-    //    float startTime = Time.time;
 
-    //    if (action == 0)
-    //    {
-    //        yield return new WaitForSeconds(t);
-    //    }
-    //    else
-    //    {
-    //        Vector3 dir = transform.right * action;
-
-    //        while (Time.time - startTime < t)
-    //        {
-    //            transform.Translate(dir * moveSpeed * Time.deltaTime);
-    //            yield return null;
-    //        }
-    //        yield return new WaitForSeconds(t);
-    //    }
-
-    //    roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f)));
-    //}
-
-    void TurnObject()
-    {
-        //TODO: Object 회전 기능 구현 (모델링 나오면)
-    }
 
 
 
@@ -214,6 +208,10 @@ public class FlowerMon : MonoBehaviour
         {
             case FlowerMonState.Roaming:
                 Handles.color = Color.green;
+                Handles.DrawWireDisc(transform.position, Vector3.forward, searchRadius);
+                break;
+            case FlowerMonState.Following:
+                Handles.color = Color.blue;
                 Handles.DrawWireDisc(transform.position, Vector3.forward, searchRadius);
                 break;
             case FlowerMonState.Charging:
