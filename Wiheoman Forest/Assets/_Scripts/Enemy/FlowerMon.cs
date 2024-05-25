@@ -69,6 +69,7 @@ public class FlowerMon : MonoBehaviour
     private Vector3 startPos;
 
     private Coroutine roamingCor;
+    private Coroutine rangedAttackCor;
 
 
     void Start()
@@ -118,7 +119,7 @@ public class FlowerMon : MonoBehaviour
                     }
                     else
                     {
-                        RangedAttack();
+                        StartCoroutine(RangedAttack());
                     }
                 }
 
@@ -197,7 +198,7 @@ public class FlowerMon : MonoBehaviour
 
                 yield return null;
             }
-            //yield return new WaitForSeconds(waitT);
+            yield return new WaitForSeconds(waitT);
         }
 
         roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f), Random.Range(1.0f, 3.0f)));
@@ -209,6 +210,7 @@ public class FlowerMon : MonoBehaviour
     IEnumerator RangedAttack()
     {
         Instantiate(thorn, Vector3.zero, Quaternion.identity);
+        yield return null;
 
         yield break;
     }
