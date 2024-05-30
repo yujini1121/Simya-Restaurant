@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 /// <summary>
@@ -18,13 +16,14 @@ public enum ERank
 /// <summary>
 ///     해당 에너미의 상태를 나타냅니다.
 /// </summary>
-[Serializable]
+[System.Serializable]
 public struct EnemyStatus
 {
     public float health;
     public int guardGauge;
     public ERank rank;
 }
+
 
 public abstract class EnemyBase : MonoBehaviour
 {
@@ -68,6 +67,7 @@ public abstract class EnemyBase : MonoBehaviour
         if (IsFoundPlayer() == false) return Vector3.zero;
         float dx = playerGameObject.transform.position.x - transform.position.x;
         return (dx < 0) ? new Vector3(-1, 0, 0) : new Vector3(1, 0, 0);
+        // ↑ 다음으로 수정 가능 -> return (dx < 0) ? Vector3.left : Vector3.right;
     }
 
     /// <summary>
@@ -109,7 +109,6 @@ public abstract class EnemyBase : MonoBehaviour
             stunReleaseCoroutine = StartCoroutine(ReleaseStunAfterTime(stunTime));
             return;
         }
-
         isStuned = true;
 
         if (endStunTime >= newEndStunTime)
@@ -124,10 +123,10 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected IEnumerator ReleaseStunAfterTime(float time)
     {
-        Debug.Log("스턴 적용됨");
+        Debug.Log("스턴 적용");
         yield return new WaitForSeconds(time);
         isStuned = false;
-        Debug.Log("스턴 해제됨");
+        Debug.Log("스턴 해제");
     }
 
     /// <summary>

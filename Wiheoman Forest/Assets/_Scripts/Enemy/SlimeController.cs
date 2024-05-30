@@ -1,29 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class SlimeController : EnemyBase
 {
     [SerializeField] private float jumpInterval;
-    private Coroutine jumpCoroutine;
-    [SerializeField]
-    private float jumpForce;
+    [SerializeField] private float jumpForce;
     [SerializeField] private float moveForce;
+
+    private Coroutine jumpCoroutine;
+
     private bool isAttackMode = true;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         enemyRigidbody = GetComponent<Rigidbody>();
         jumpCoroutine = StartCoroutine(Jump());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
     }
+
     protected override void DoDeathHandle()
     {
         // ===============================
@@ -75,7 +74,6 @@ public class SlimeController : EnemyBase
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            
             //playerGameObject.GetComponent<PlayerController>()
         }
     }
