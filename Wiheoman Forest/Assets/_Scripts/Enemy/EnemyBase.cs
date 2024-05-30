@@ -28,17 +28,18 @@ public struct EnemyStatus
 
 public abstract class EnemyBase : MonoBehaviour
 {
+    [SerializeField] protected float range = 0;
+    [SerializeField] protected EnemyStatus stat;
+
     static protected GameObject playerGameObject = null;
-    [SerializeField]
-    protected float range = 0;
-    [SerializeField]
-    protected EnemyStatus stat;
     protected Rigidbody enemyRigidbody;
+
     protected bool isDead = false;
-    // 경직 / 스턴용 값
-    protected bool isStuned = false;
+    protected bool isStuned = false;            // 경직 or 스턴용 값
     protected float endStunTime;
     protected Coroutine stunReleaseCoroutine;
+
+
     /// <summary>
     ///     해당 씬에 유일하게 존재하는 플레이어의 정보를 에너미에게 알려줍니다.
     /// </summary>
@@ -47,6 +48,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         playerGameObject = player;
     }
+
     /// <summary>
     ///     해당 적 캐릭터가 플레이어를 발견했는지 여부를 파악합니다.
     /// </summary>
@@ -56,6 +58,7 @@ public abstract class EnemyBase : MonoBehaviour
         if (playerGameObject == null) return false;
         return (range * range) > (transform.position - playerGameObject.transform.position).sqrMagnitude;
     }
+
     /// <summary>
     ///     에너미 위치에서 출발하여 플레이어가 있는 방향으로 바라보는 벡터를 간략하게 리턴해줍니다.
     /// </summary>
@@ -66,6 +69,7 @@ public abstract class EnemyBase : MonoBehaviour
         float dx = playerGameObject.transform.position.x - transform.position.x;
         return (dx < 0) ? new Vector3(-1, 0, 0) : new Vector3(1, 0, 0);
     }
+
     /// <summary>
     ///     공격을 받은 경우를 설정합니다.
     /// </summary>
@@ -80,6 +84,7 @@ public abstract class EnemyBase : MonoBehaviour
         // ===============================
 
         stat.health -= damage;
+
         if (stat.health <= 0.0f && (isDead == false))
         {
             DoDeathHandle();
@@ -124,7 +129,6 @@ public abstract class EnemyBase : MonoBehaviour
         isStuned = false;
         Debug.Log("스턴 해제됨");
     }
-
 
     /// <summary>
     ///     해당 적 캐릭터의 사망을 처리하는 함수입니다. 반드시 구현해주세요. 사망시 코루틴 삭제 및 삭제 모션 재생 등이 있습니다.
