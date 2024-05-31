@@ -31,6 +31,7 @@ public class SlimeController : EnemyBase
         StopCoroutine(jumpCoroutine);
         Debug.Log("슬라임이 사망했습니다.");
     }
+
     // ===============================
     // TODO : 해당 슬라임이 점프를 해서 튀어오르는 동안엔
     // 슬라임이 플레이어에게 닿게 된 경우 데미지가 들어가도록 해야 합니다.

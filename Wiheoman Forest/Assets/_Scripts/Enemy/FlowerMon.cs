@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 
-public class FlowerMon : MonoBehaviour
+public class FlowerMon : EnemyBase
 {
     /// <summary>
     /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
@@ -81,6 +81,8 @@ public class FlowerMon : MonoBehaviour
         flowermonRb = gameObject.GetComponent<Rigidbody>();
 
         startPos = transform.position;
+
+        DropItems();
     }
 
     void Update()
@@ -215,7 +217,10 @@ public class FlowerMon : MonoBehaviour
         yield break;
     }
 
+    protected override void DoDeathHandle()
+    {
 
+    }
 
 
     #region Draw Scene View Only 

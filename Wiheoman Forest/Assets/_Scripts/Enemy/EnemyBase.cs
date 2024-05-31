@@ -27,6 +27,10 @@ public struct EnemyStatus
 
 public abstract class EnemyBase : MonoBehaviour
 {
+    [Header("Items")]
+    [SerializeField] protected GameObject[] items;
+
+    [Header("Set Value")]
     [SerializeField] protected float range = 0;
     [SerializeField] protected EnemyStatus stat;
 
@@ -66,8 +70,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (IsFoundPlayer() == false) return Vector3.zero;
         float dx = playerGameObject.transform.position.x - transform.position.x;
-        return (dx < 0) ? new Vector3(-1, 0, 0) : new Vector3(1, 0, 0);
-        // ↑ 다음으로 수정 가능 -> return (dx < 0) ? Vector3.left : Vector3.right;
+        return (dx < 0) ? Vector3.left : Vector3.right;
     }
 
     /// <summary>
@@ -133,4 +136,40 @@ public abstract class EnemyBase : MonoBehaviour
     ///     해당 적 캐릭터의 사망을 처리하는 함수입니다. 반드시 구현해주세요. 사망시 코루틴 삭제 및 삭제 모션 재생 등이 있습니다.
     /// </summary>
     protected abstract void DoDeathHandle();
+
+
+
+    protected void DropItems()
+    {
+        gameObject.SetActive(false);            // 임의로 비활성화 해둔 것, Die()를 구현하면 삭제해도 상관 없음
+        int itemsToDrop = DetermineItemsCount();
+
+        for (int i = 0; i < itemsToDrop; i++)
+        {
+            int itemIndex = Random.Range(0, items.Length);
+            Instantiate(items[itemIndex], transform.position, Quaternion.identity);
+        }
+    }
+
+    /// <summary>
+    /// 떨어트릴 아이템 개수 랜덤으로 지정하는 메서드 
+    /// </summary>
+    /// <returns></returns>
+    protected int DetermineItemsCount()
+    {
+        float probability = Random.value;   // 0.0 ~ 1.0 사이의 임의의 랜덤 숫자 생성
+
+        if (probability <= 0.5f)
+        {
+            return 1;
+        }
+        else if (probability <= 0.8f)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
 }
