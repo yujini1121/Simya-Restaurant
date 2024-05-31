@@ -64,8 +64,11 @@ public class PlayerController : MonoBehaviour
     // 플레이어 애니메이션
     private Animator animatorController;
     private string parameterLightAttackCombo = "lightAttackCombo";
+
     // 플레이어 체력 정보
     [SerializeField] public float health;
+    // 임시 변수
+    private string BaseLayer = "Base Layer.";
 
     void Start()
     {
@@ -90,7 +93,9 @@ public class PlayerController : MonoBehaviour
         //HandleButton();
 
         DoAttackLight();
-        DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제 
+        DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
+
+        TEMP_PlayAnimate();
     }
 
     void Jump()
@@ -177,9 +182,9 @@ public class PlayerController : MonoBehaviour
         lightAttackCombo++;
         switch (lightAttackCombo)
         {
-            case 1: animatorController.SetTrigger("ReadyLightAttackCombo1"); break;
-            case 2: animatorController.SetTrigger("ReadyLightAttackCombo2"); break;
-            case 3: animatorController.SetTrigger("ReadyLightAttackCombo3"); break;
+            case 1: animatorController.CrossFade("LightAttackCombo1", 0.15f); break;
+            case 2: animatorController.CrossFade("LightAttackCombo2", 0.15f); break;
+            case 3: animatorController.CrossFade("LightAttackCombo3", 0.15f); break;
             default: break;
         }
 
@@ -241,12 +246,15 @@ public class PlayerController : MonoBehaviour
 
         if (isHeavyAttackReady)
         {
-            animatorController.SetTrigger("StartHeavyAttack");
+            animatorController.CrossFade("HeavyAttack", 0.15f);
             DoAttack(HitboxAttackHeavy);
         }
         else
         {
-            StopCoroutine(heavyAttackCoroutine);
+            if (heavyAttackCoroutine != null)
+            {
+                StopCoroutine(heavyAttackCoroutine);
+            }
         }
     }
 
@@ -285,5 +293,27 @@ public class PlayerController : MonoBehaviour
             rotation);
         StartCoroutine(SetAttacking(attack.actionTime));
     }
+
+    void TEMP_PlayAnimate()
+    {
+#warning 디 바튼은 상호작용 버튼이랩니다.
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animatorController.Play($"{BaseLayer}LightAttackCombo1");
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            animatorController.Play($"{BaseLayer}LightAttackCombo2");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            animatorController.Play($"{BaseLayer}LightAttackCombo3");
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            animatorController.Play($"{BaseLayer}HeavyAttack");
+        }
+    }
+
 
 }

@@ -751,6 +751,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 937341454362933466, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 937341454362933466, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 937341454362933466, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 937341454362933466, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 5383748730027284678, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
@@ -817,11 +833,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9002886514108342776, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
       propertyPath: HitboxAttackLight.Array.data[0].actionTime
-      value: 0.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002886514108342776, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+      propertyPath: HitboxAttackLight.Array.data[1].actionTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9002886514108342776, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
       propertyPath: HitboxAttackLight.Array.data[2].actionTime
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
