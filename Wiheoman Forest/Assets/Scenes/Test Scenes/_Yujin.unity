@@ -825,7 +825,7 @@ Transform:
   m_GameObject: {fileID: 1833811362}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.85, y: 1.5, z: 0}
+  m_LocalPosition: {x: 25.74, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1056,15 +1056,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf58e91074771409b54fd77e6c4549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 6406532681123536739, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+  - {fileID: 4349989081463535407, guid: 5c96896e52d41f048af865c1d952567f, type: 3}
+  - {fileID: 6793086673745623931, guid: f8cae048031896149af18e5c4bb93c9c, type: 3}
+  range: 0
+  stat:
+    health: 100
+    guardGauge: 0
+    rank: 1
   type: 1
   searchRadius: 15
-  attackRadius: 15
+  attackRadius: 5
   attackchargingTime: 3
   attackDuration: 3
   attackCooldown: 3
   moveRange: 3
   moveSpeed: 3
-  thorn: {fileID: 0}
+  thorn: {fileID: 4349989081463535407, guid: 5c96896e52d41f048af865c1d952567f, type: 3}
 --- !u!54 &1908763821
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1288,6 +1297,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf58e91074771409b54fd77e6c4549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items: []
+  range: 0
+  stat:
+    health: 0
+    guardGauge: 0
+    rank: 0
   type: 0
   searchRadius: 5
   attackRadius: 3

@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 // 플레이어의 현재 상태를 저장하는 열거자입니다.
@@ -24,7 +22,7 @@ public enum EPlayerAction
 /// <summary>
 ///     플레이어 공격 액션(강공격/약공격/ 화살공격)을 실행할때 필요한 매개변수 목록입니다.
 /// </summary>
-[Serializable]
+[System.Serializable]
 public struct AttackTupule
 {
     public GameObject hitBox;
@@ -98,6 +96,19 @@ public class PlayerController : MonoBehaviour
         TEMP_PlayAnimate();
     }
 
+    void Move()
+    {
+        playerInput = Input.GetAxis("Horizontal");
+        playerVec = new Vector3(playerInput, 0, 0).normalized;
+        transform.position += playerVec * moveSpeed * Time.deltaTime;
+
+        if (Mathf.Abs(playerInput) > 0.1) // playerInput != 0.0f보다 안전
+        {
+            playerLookingDirection
+                = (playerInput > 0.0f) ? LOOK_RIGHT : LOOK_LEFT;
+        }
+    }
+
     void Jump()
     {
         if(Input.GetKeyDown(KeyCode.Space) && isGround) 
@@ -105,19 +116,6 @@ public class PlayerController : MonoBehaviour
             playerRb.velocity = Vector3.zero;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGround = false;
-        }
-    }
-    
-    void Move()
-    {
-        playerInput = Input.GetAxis("Horizontal");
-        playerVec = new Vector3(playerInput, 0, 0).normalized;
-        transform.position += playerVec * moveSpeed * Time.deltaTime;
-
-        if (Math.Abs(playerInput) > 0.1) // playerInput != 0.0f보다 안전
-        {
-            playerLookingDirection
-                = (playerInput > 0.0f) ? LOOK_RIGHT : LOOK_LEFT;
         }
     }
 
@@ -191,12 +189,36 @@ public class PlayerController : MonoBehaviour
         if (lightAttackCombo < 3)
         {
             lightAttackResetCoroutine = StartCoroutine(ResetComboAttack(HitboxAttackLight[lightAttackCombo - 1].actionTime));
+
+            Debug.LogWarning("주석 내용 확인해주세요");
+            /*
+                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
+                위 코드는 아래와 같이 작성 가능
+
+                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(HitboxAttackLight[lightAttackCombo - 1].actionTime + comboAttackResetTime,
+                                                                    () => {
+                                                                        lightAttackCombo = 0;
+                                                                        animatorController.SetInteger(parameterLightAttackCombo, lightAttackCombo);
+                                                                    }));
+            */
+
+
+
+
             DoAttack(HitboxAttackLight[lightAttackCombo - 1]);
         }
         else
         {
             lightAttackCombo = 0;
             StartCoroutine(LightAttackLastCombo());
+            Debug.LogWarning("주석 내용 확인해주세요");
+            /*
+                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
+                위 코드는 아래와 같이 작성 가능
+
+                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(comboAttackFinalDelay,
+                                                                    () => { DoAttack(HitboxAttackLight[2]); }));
+            */
         }
     }
 
@@ -238,6 +260,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("AttackHeavy"))
         {
             heavyAttackCoroutine = StartCoroutine(ChargeHeavyAttack());
+
+            Debug.LogWarning("주석 내용 확인해주세요");
+            /*
+                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
+                위 코드는 아래와 같이 작성 가능
+
+                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(heavyAttackChargeTime,
+                                                                    () => {isHeavyAttackReady = true;}));
+            */
         }
         if (Input.GetButtonUp("AttackHeavy") == false)
         {
@@ -272,6 +303,12 @@ public class PlayerController : MonoBehaviour
         isHeavyAttackReady = true;
     }
 
+    IEnumerator OverloadingCoroutine(float t, System.Action nextAction = null)
+    {
+        yield return new WaitForSeconds(t);
+        nextAction.Invoke();
+    }
+
     /// <summary>
     ///     공격 내용을 담은 튜플을 이용해 히트박스 객체를 생성합니다. 1초당 20회 이상 호출되는것을 권장하지 않습니다.
     /// </summary>
@@ -296,7 +333,6 @@ public class PlayerController : MonoBehaviour
 
     void TEMP_PlayAnimate()
     {
-#warning 디 바튼은 상호작용 버튼이랩니다.
         if (Input.GetKeyDown(KeyCode.Q))
         {
             animatorController.Play($"{BaseLayer}LightAttackCombo1");

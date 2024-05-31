@@ -1,29 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class SlimeController : EnemyBase
 {
     [SerializeField] private float jumpInterval;
-    private Coroutine jumpCoroutine;
-    [SerializeField]
-    private float jumpForce;
+    [SerializeField] private float jumpForce;
     [SerializeField] private float moveForce;
+
+    private Coroutine jumpCoroutine;
+
     private bool isAttackMode = true;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         enemyRigidbody = GetComponent<Rigidbody>();
         jumpCoroutine = StartCoroutine(Jump());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
     }
+
     protected override void DoDeathHandle()
     {
         // ===============================
@@ -32,6 +31,7 @@ public class SlimeController : EnemyBase
         StopCoroutine(jumpCoroutine);
         Debug.Log("슬라임이 사망했습니다.");
     }
+
     // ===============================
     // TODO : 해당 슬라임이 점프를 해서 튀어오르는 동안엔
     // 슬라임이 플레이어에게 닿게 된 경우 데미지가 들어가도록 해야 합니다.
@@ -75,7 +75,6 @@ public class SlimeController : EnemyBase
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            
             //playerGameObject.GetComponent<PlayerController>()
         }
     }

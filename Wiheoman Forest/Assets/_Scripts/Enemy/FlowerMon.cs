@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 
-public class FlowerMon : MonoBehaviour
+public class FlowerMon : EnemyBase
 {
     /// <summary>
     /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
@@ -69,6 +69,7 @@ public class FlowerMon : MonoBehaviour
     private Vector3 startPos;
 
     private Coroutine roamingCor;
+    private Coroutine rangedAttackCor;
 
 
     void Start()
@@ -80,6 +81,8 @@ public class FlowerMon : MonoBehaviour
         flowermonRb = gameObject.GetComponent<Rigidbody>();
 
         startPos = transform.position;
+
+        DropItems();
     }
 
     void Update()
@@ -118,7 +121,7 @@ public class FlowerMon : MonoBehaviour
                     }
                     else
                     {
-                        RangedAttack();
+                        StartCoroutine(RangedAttack());
                     }
                 }
 
@@ -197,7 +200,7 @@ public class FlowerMon : MonoBehaviour
 
                 yield return null;
             }
-            //yield return new WaitForSeconds(waitT);
+            yield return new WaitForSeconds(waitT);
         }
 
         roamingCor = StartCoroutine(Roaming(Random.Range(-1, 2), Random.Range(1.0f, 3.0f), Random.Range(1.0f, 3.0f)));
@@ -209,11 +212,15 @@ public class FlowerMon : MonoBehaviour
     IEnumerator RangedAttack()
     {
         Instantiate(thorn, Vector3.zero, Quaternion.identity);
+        yield return null;
 
         yield break;
     }
 
+    protected override void DoDeathHandle()
+    {
 
+    }
 
 
     #region Draw Scene View Only 
