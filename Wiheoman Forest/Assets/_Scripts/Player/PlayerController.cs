@@ -28,6 +28,8 @@ public struct AttackTupule
     public GameObject hitBox;
     public Vector3 attackPos;
     public float actionTime;
+    string animationName;
+    float attackRangeSummonTime;
 }
 
 public class PlayerController : MonoBehaviour
@@ -192,7 +194,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.LogWarning("주석 내용 확인해주세요");
             /*
-                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
+                C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
                 위 코드는 아래와 같이 작성 가능
 
                 lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(HitboxAttackLight[lightAttackCombo - 1].actionTime + comboAttackResetTime,
@@ -303,8 +305,10 @@ public class PlayerController : MonoBehaviour
         isHeavyAttackReady = true;
     }
 
-    IEnumerator OverloadingCoroutine(float t, System.Action nextAction = null)
+    IEnumerator OverloadingCoroutine(float t, System.Action nextAction)
     {
+        Debug.Assert(nextAction != null);
+
         yield return new WaitForSeconds(t);
         nextAction.Invoke();
     }
