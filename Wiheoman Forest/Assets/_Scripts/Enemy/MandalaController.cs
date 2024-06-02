@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Build.Pipeline.Tasks;
 using UnityEngine;
 
 public class MandalaController : MonoBehaviour
@@ -16,18 +17,21 @@ public class MandalaController : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float sensingRange;
     [SerializeField] private float mandalaJumpSpeed;
-    [SerializeField] private float mandalaMovSpeed;
+    [SerializeField] private float mandalaMoveSpeed;
+    [SerializeField] private float mandalaExplosionRange;
 
     private bool isPerceive;
     private bool isOnGround = false;
     private Rigidbody mandalaRb;
-    private GameObject player;
     private Rigidbody playerRb;
+    private GameObject player;
     private Collider col;
     private Vector3 mandalaDir;
 
-    private float groundPos = 1.0f;
     private float mandalaJumpMax = 1.5f;
+    private float mandalaDamage = 0.3f;
+
+    private bool isWaitAttack = false;
 
     void Start()
     {
@@ -62,7 +66,7 @@ public class MandalaController : MonoBehaviour
                     break;
             }
         }
-        transform.position += mandalaDir * mandalaMovSpeed * Time.deltaTime;
+        transform.position += mandalaDir * mandalaMoveSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -79,20 +83,58 @@ public class MandalaController : MonoBehaviour
         mandalaRb.useGravity = true;
 
         col.isTrigger = false;
-        isOnGround = true;
+    }
+
+    private IEnumerator DamagePlayer(GameObject player)
+    {
+        mandalaMoveSpeed = 0;
+        isWaitAttack = true;
+
+        yield return new WaitForSeconds(2);
+
+        if (Physics.CheckSphere(transform.position, mandalaExplosionRange, playerLayer))
+        {
+            player.GetComponent<Test_PlayerMove>().dameged = true;
+
+            yield return new WaitForSeconds(0);
+
+            player.GetComponent<Test_PlayerMove>().dameged = false;
+        }
+        isWaitAttack = false;
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
+            switch (type)
+            {
+                case MandalaType.Herb:
+                    gameObject.SetActive(false);
+                    break;
+                case MandalaType.Explosion:
+                    StartCoroutine(DamagePlayer(collision.gameObject));
+                    break;
+            }
+            
         }
     }
 
     private void OnDrawGizmos()
     {
-        Handles.color = Color.red;
+        Handles.color = Color.green;
         Handles.DrawWireDisc(transform.position, Vector3.forward, sensingRange);
+
+        if(isWaitAttack)
+        {
+            Handles.color = new Color(1f, 0f, 0f, 0.2f);
+            Handles.DrawSolidDisc(transform.position, Vector3.forward, mandalaExplosionRange);
+        }
     }
 }
