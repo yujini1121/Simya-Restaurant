@@ -929,10 +929,10 @@ MonoBehaviour:
   HitboxAttackLight:
   - hitBox: {fileID: 3381487614639242661, guid: dbea16c60ccd0e845923927f9e7bcb37, type: 3}
     attackPos: {x: 1, y: 0, z: 0}
-    actionTime: 1
+    actionTime: 0.5
   - hitBox: {fileID: 5223572993704299129, guid: 1f11a3b019d9c6c419964e2f188868ca, type: 3}
     attackPos: {x: 1, y: 0, z: 0}
-    actionTime: 1
+    actionTime: 0.5
   - hitBox: {fileID: 6432214704970253291, guid: 1dadf951c5fb9c4498739a7a411a4096, type: 3}
     attackPos: {x: 1, y: 0, z: 0}
     actionTime: 1
@@ -944,6 +944,7 @@ MonoBehaviour:
     actionTime: 2
   heavyAttackChargeTime: 2
   health: 100
+  prePressAllowTime: 0.2
 --- !u!1 &3651476744418566325
 GameObject:
   m_ObjectHideFlags: 0

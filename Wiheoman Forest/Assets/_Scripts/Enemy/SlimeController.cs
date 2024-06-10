@@ -29,6 +29,7 @@ public class SlimeController : EnemyBase
         // 슬라임이 사망했으므로 더이상 점프를 하지 않습니다.
         // ===============================
         StopCoroutine(jumpCoroutine);
+        isAttackMode = false;
         Debug.Log("슬라임이 사망했습니다.");
     }
 
@@ -59,9 +60,11 @@ public class SlimeController : EnemyBase
 
             //Debug.Log($"found player : {IsFoundPlayer()}");
             // 점프
+            
             enemyRigidbody.AddForce(
-                new Vector3(0, jumpForce, 0) + GetPseudoDirection() * moveForce, 
+                new Vector3(0, jumpForce, 0) + (playerScript.IsDead ? Vector3.zero : GetPseudoDirection()) * moveForce, 
                 ForceMode.VelocityChange);
+            isAttackMode = true;
         }
     }
 
@@ -72,10 +75,13 @@ public class SlimeController : EnemyBase
             return;
         }
 
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.tag == "Ground")
         {
-            //playerGameObject.GetComponent<PlayerController>()
+            isAttackMode = false;
+        }
+        if (collision.gameObject.name == "Player" && isAttackMode)
+        {
+            playerGameObject.GetComponent<PlayerController>().BeAttacked(30, GetPseudoDirection(), 2.0f);
         }
     }
 }

@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,8 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool isGround = true;
     // 플레이어 상태 변수
     private EPlayerStatus currentPlayerStatus;
-    private EPlayerAction currentPlayerAction;
-    private EPlayerAction nextPlayerAction;
+#warning isAttacking 변수 삭제할 것
     private bool isAttacking = false;
     // 플레이어 방향
     private Vector3 playerVec;
@@ -55,7 +56,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float comboAttackFinalDelay;
     private Coroutine lightAttackResetCoroutine;
     private int lightAttackCombo = 0;
-
     // 플레이어 강공격 파트
     [SerializeField] private AttackTupule HitboxAttackHeavy;
     private Coroutine heavyAttackCoroutine;
@@ -63,12 +63,43 @@ public class PlayerController : MonoBehaviour
     private bool isHeavyAttackReady = false;
     // 플레이어 애니메이션
     private Animator animatorController;
-    private string parameterLightAttackCombo = "lightAttackCombo";
-
     // 플레이어 체력 정보
     [SerializeField] public float health;
+    public bool IsDead { get; private set; }
     // 임시 변수
     private string BaseLayer = "Base Layer.";
+    // 시간 담당 변수
+    bool isInputAllowed = true;
+    bool isPlayerDoing = false;
+    System.Action nextAct = null;
+    [SerializeField] private float prePressAllowTime = 0.5f;
+    Coroutine inputBlockingCoroutine;
+
+    /// <summary>
+    ///     플레이어의 공격받은 것을 구현하는 함수입니다.
+    /// </summary>
+    /// <param name="damage"> 데미지의 양 </param>
+    /// <param name="knockBackDirection"></param>
+    /// <param name="force"></param>
+    public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
+    {
+        health -= damage;
+
+        if (health <= 0.0f && (IsDead == false))
+        {
+            DoDeathHandle();
+        }
+
+        playerRb.AddForce(knockBackDirection.normalized * force, ForceMode.Impulse);
+    }
+
+    private void DoDeathHandle()
+    {
+        // 나중에 여기 구현하세요.
+        IsDead = true;
+        currentPlayerStatus = EPlayerStatus.dead;
+        animatorController.CrossFade($"Dead", 0.15f);
+    }
 
     void Start()
     {
@@ -90,8 +121,6 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
 
-        //HandleButton();
-
         DoAttackLight();
         DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
 
@@ -100,6 +129,10 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (IsDead)
+        {
+            return;
+        }
         playerInput = Input.GetAxis("Horizontal");
         playerVec = new Vector3(playerInput, 0, 0).normalized;
         transform.position += playerVec * moveSpeed * Time.deltaTime;
@@ -113,6 +146,10 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        if (IsDead)
+        {
+            return;
+        }
         if(Input.GetKeyDown(KeyCode.Space) && isGround) 
         {
             playerRb.velocity = Vector3.zero;
@@ -122,126 +159,110 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    ///     플레이어가 여러 버튼을 누르는것에 대응합니다. 즉 버튼들의 신호등 역할을 합니다.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         플레이어가 현재 행동하고 있는지 여부를 판단하고, 
-    ///         만약 비어있다면 즉시 실행, 진행 중이라면 예약을 하고, 
-    ///         만약 예약마저 꽉찼다면 무시합니다. 현재 행동이 완료되는 즉시 예약된 행동을 실행합니다.
-    ///     </para>
-    ///     <para>
-    ///         플레이어가 아무것도 하고 있지 않는다면 이동 버튼이 먹힙니다
-    ///         이동중 공격 버튼이 눌린다면 이동 버튼은 무시됩니다.
-    ///     </para>
-    /// </remarks>
-    void HandleButton()
-    {
-        if (nextPlayerAction != EPlayerAction.empty)
-        {
-            return;
-        }
-
-        // 가만히 있을때 할수 있는 것들
-        if (currentPlayerAction == EPlayerAction.empty)
-        {
-            Move();
-            Jump();
-        }
-
-
-        // 행동중 홀드 키가 눌린 경우
-        // 행동이 끝난 뒤에도 홀드 키가 눌리는지 체크하기
-        // 버튼 눌림 감지 -> 플레이어 현재 행동 종료 후에도 홀드 키가 눌리는지 감지 -> 행동
-
-
-
-    }
-
-    /// <summary>
-    ///     약공격 실행
+    ///     약공격 실행 함수
     /// </summary>
     /// <remarks>
     ///     SRP 원칙을 지켜주세요 : 이 함수는 너무 무책임해서 약공격 실행만 책임집니다.
     /// </remarks>
     void DoAttackLight()
     {
+        ReadyAttackLight();
+
+        // 빈 현재 행동에 nextAct를 집어넣음
+        if (nextAct != null && (isPlayerDoing == false)) // 이때 현재 행동중이 아니여야 함
+        {
+            nextAct();
+            nextAct = null;
+        }
+    }
+
+    /// <summary>
+    ///     조건에 맞는 상태인 경우, 약공격 액션을 준비합니다.
+    /// </summary>
+    void ReadyAttackLight()
+    {
+        // 얼리 리턴 패턴을 사용하기 위해 함수 블록을 따로 빼두었습니다.
+        if (currentPlayerStatus == EPlayerStatus.interaction ||
+            currentPlayerStatus == EPlayerStatus.dead
+            // 그 외 각종 상태는 허용
+            )
+        {
+            return;
+        }
+        if (isInputAllowed == false)
+        {
+            //Debug.Log("공격 입력을 받을 수 없음");
+            return;
+        }
         if (Input.GetButtonDown("AttackLight") == false)
         {
+            //Debug.Log("공격 입력 안함");
             return;
         }
-        if (isAttacking == true)
+        if (nextAct != null)
         {
+            //Debug.Log("현재 행동 중 + 이미 예약이 가득 참");
             return;
         }
-        //Debug.Log("DoAttackLight() : 실행됨");
-        if (lightAttackResetCoroutine != null)
+        // nextAct에 값 쑤셔넣기
+        nextAct = () =>
         {
-            StopCoroutine(lightAttackResetCoroutine);
-        }
-        lightAttackCombo++;
-        switch (lightAttackCombo)
-        {
-            case 1: animatorController.CrossFade("LightAttackCombo1", 0.15f); break;
-            case 2: animatorController.CrossFade("LightAttackCombo2", 0.15f); break;
-            case 3: animatorController.CrossFade("LightAttackCombo3", 0.15f); break;
-            default: break;
-        }
+            if (lightAttackResetCoroutine != null)
+            {
+                StopCoroutine(lightAttackResetCoroutine);
+            }
+            lightAttackCombo++;
 
-        if (lightAttackCombo < 3)
-        {
-            lightAttackResetCoroutine = StartCoroutine(ResetComboAttack(HitboxAttackLight[lightAttackCombo - 1].actionTime));
+            Debug.Assert(
+                lightAttackCombo >= 1 && lightAttackCombo <= 3,
+                "PlayerController.DoAttackLight : 유효하지 않은 lightAttackCombo 값.");
+            animatorController.CrossFade($"LightAttackCombo{lightAttackCombo}", 0.15f);
 
-            Debug.LogWarning("주석 내용 확인해주세요");
-            /*
-                C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
-                위 코드는 아래와 같이 작성 가능
+            if (lightAttackCombo < 3)
+            {
+                lightAttackResetCoroutine = StartCoroutine(
+                    RunAfterDelay(
+                        HitboxAttackLight[lightAttackCombo - 1].actionTime + comboAttackResetTime,
+                        () => { lightAttackCombo = 0; }
+                        )
+                    );
 
-                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(HitboxAttackLight[lightAttackCombo - 1].actionTime + comboAttackResetTime,
-                                                                    () => {
-                                                                        lightAttackCombo = 0;
-                                                                        animatorController.SetInteger(parameterLightAttackCombo, lightAttackCombo);
-                                                                    }));
-            */
-
-
-
-
-            DoAttack(HitboxAttackLight[lightAttackCombo - 1]);
-        }
-        else
-        {
-            lightAttackCombo = 0;
-            StartCoroutine(LightAttackLastCombo());
-            Debug.LogWarning("주석 내용 확인해주세요");
-            /*
-                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
-                위 코드는 아래와 같이 작성 가능
-
-                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(comboAttackFinalDelay,
-                                                                    () => { DoAttack(HitboxAttackLight[2]); }));
-            */
-        }
+                MakeHitbox(HitboxAttackLight[lightAttackCombo - 1]);
+                inputBlockingCoroutine = BlockInputForSeconds(HitboxAttackLight[lightAttackCombo - 1].actionTime);
+            }
+            else
+            {
+                lightAttackCombo = 0;
+                lightAttackResetCoroutine = StartCoroutine(
+                    RunAfterDelay(
+                        comboAttackFinalDelay,
+                        () => {
+                            MakeHitbox(HitboxAttackLight[2]);
+                            inputBlockingCoroutine = BlockInputForSeconds(HitboxAttackLight[2].actionTime);
+                        }
+                        )
+                    );
+            }
+            nextAct = null;
+        };
     }
 
-    IEnumerator SetAttacking(float time)
+    /// <summary>
+    ///     일정시간동안 입력을 받지 못하게 합니다.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    Coroutine BlockInputForSeconds(float time)
     {
-        isAttacking = true;
-        yield return new WaitForSeconds(time);
-        isAttacking = false;
-    }
-
-    IEnumerator ResetComboAttack(float time)
-    {
-        yield return new WaitForSeconds(comboAttackResetTime + time);
-        lightAttackCombo = 0;
-        animatorController.SetInteger(parameterLightAttackCombo, lightAttackCombo);
-    }
-
-    IEnumerator LightAttackLastCombo()
-    {
-        yield return new WaitForSeconds(comboAttackFinalDelay);
-        DoAttack(HitboxAttackLight[2]);
+        isInputAllowed = false;
+        isPlayerDoing = true;
+        
+        return StartCoroutine(
+            RunAfterDelay(
+                (time - prePressAllowTime, () => { isInputAllowed = true; }),
+                (prePressAllowTime, () => { isPlayerDoing = false; })
+                )
+            );
     }
 
     void DoAttackHeavy()
@@ -254,23 +275,22 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        if (isAttacking)
+        if (isInputAllowed == false)
         {
             return;
         }
 
         if (Input.GetButtonDown("AttackHeavy"))
         {
-            heavyAttackCoroutine = StartCoroutine(ChargeHeavyAttack());
-
-            Debug.LogWarning("주석 내용 확인해주세요");
-            /*
-                Unity C# 기능인 Func, Action 사용하여 메서드(특히 코루틴) 범용성 있게 작성
-                위 코드는 아래와 같이 작성 가능
-
-                lightAttackResetCoroutine = StartCoroutine(OverloadingCoroutine(heavyAttackChargeTime,
-                                                                    () => {isHeavyAttackReady = true;}));
-            */
+            heavyAttackCoroutine
+                = StartCoroutine(
+                    RunAfterDelay(
+                        heavyAttackChargeTime,
+                        () => {
+                            isHeavyAttackReady = true;
+                        }
+                        )
+                    );
         }
         if (Input.GetButtonUp("AttackHeavy") == false)
         {
@@ -280,7 +300,8 @@ public class PlayerController : MonoBehaviour
         if (isHeavyAttackReady)
         {
             animatorController.CrossFade("HeavyAttack", 0.15f);
-            DoAttack(HitboxAttackHeavy);
+            MakeHitbox(HitboxAttackHeavy);
+            inputBlockingCoroutine = BlockInputForSeconds(HitboxAttackHeavy.actionTime);
         }
         else
         {
@@ -299,27 +320,59 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator ChargeHeavyAttack()
+    /// <summary>
+    ///     대기 시간 후 호출할 함수의 일련을 준비합니다.
+    /// </summary>
+    /// <param name="actionSequences">
+    ///     대기 시간과 대기시간 후 실행할 무명 메서드의 튜플입니다.
+    /// </param>
+    /// <returns>
+    ///     코루틴을 돌려줍니다.
+    /// </returns>
+    IEnumerator RunAfterDelay(params (float waitingTime, System.Action nextAction)[] actionSequences)
     {
-        yield return new WaitForSeconds(heavyAttackChargeTime);
-        isHeavyAttackReady = true;
+        // for문을 따로 떼어둔 것은, 호출 시점에서 오류를 미리 잡아두는 것이 가장 좋기 때문입니다.
+        for (int index = 0; index < actionSequences.Length; ++index)
+        {
+            Debug.Assert(
+                actionSequences[index].waitingTime >= 0.0f,
+                $"오류_PlayerController.RunAfterDelay : {index + 1}번째 시퀀스의 waitingTime이 {actionSequences[index].waitingTime}이며 0보다 작습니다."
+                );
+            Debug.Assert(
+                actionSequences[index].nextAction != null, 
+                $"오류_PlayerController.RunAfterDelay : {index + 1}번째 시퀀스의 nextAction이 널 값입니다.");
+        }
+
+        for (int index = 0; index < actionSequences.Length; ++index)
+        {
+            yield return new WaitForSeconds(actionSequences[index].waitingTime);
+            actionSequences[index].nextAction();
+        }
     }
 
-    IEnumerator OverloadingCoroutine(float t, System.Action nextAction)
+    /// <summary>
+    ///     대기 시간 후 호출할 함수를 준비합니다.
+    /// </summary>
+    /// <param name="waitingTime">
+    ///     대기할 시간입니다.
+    /// </param>
+    /// <param name="nextAction">
+    ///     waitingTime 뒤에 실행할 코드입니다. 무명 메서드를 넣을 수 있고, 혹은 입력과 출력이 void인 함수명을 넣을 수 있습니다.
+    /// </param>
+    /// <returns>
+    ///     코루틴을 돌려줍니다.
+    /// </returns>
+    IEnumerator RunAfterDelay(float waitingTime, System.Action nextAction)
     {
-        Debug.Assert(nextAction != null);
-
-        yield return new WaitForSeconds(t);
-        nextAction.Invoke();
+        return RunAfterDelay((waitingTime, nextAction));
     }
 
     /// <summary>
     ///     공격 내용을 담은 튜플을 이용해 히트박스 객체를 생성합니다. 1초당 20회 이상 호출되는것을 권장하지 않습니다.
     /// </summary>
     /// <param name="attack"></param>
-    void DoAttack(AttackTupule attack)
+    void MakeHitbox(AttackTupule attack)
     {
-        //Debug.Log("DoAttack(AttackTupule attack) : 실행됨");
         Quaternion rotation = attack.hitBox.transform.rotation;
         if (playerLookingDirection == LOOK_RIGHT)
         {
@@ -332,7 +385,6 @@ public class PlayerController : MonoBehaviour
                 transform.position.y + attack.attackPos.y,
                 transform.position.z + attack.attackPos.z),
             rotation);
-        StartCoroutine(SetAttacking(attack.actionTime));
     }
 
     void TEMP_PlayAnimate()
@@ -354,6 +406,4 @@ public class PlayerController : MonoBehaviour
             animatorController.Play($"{BaseLayer}HeavyAttack");
         }
     }
-
-
 }

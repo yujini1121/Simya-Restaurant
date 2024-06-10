@@ -27,13 +27,8 @@ public class PlayerAttackRange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Enemy"))
-        {
-            //Debug.Log("OnTriggerEnter 나감");
-            return;
-        }
-        //Debug.Log("OnTriggerEnter 적용됨");
         EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
+        if (enemy == null) { return; }
         Vector3 direction = enemy.transform.position - transform.position;
         direction.y = 0;
 

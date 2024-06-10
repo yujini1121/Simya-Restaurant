@@ -20,7 +20,7 @@ public enum ERank
 public struct EnemyStatus
 {
     public float health;
-    public int guardGauge;
+    public float guardGauge;
     public ERank rank;
 }
 
@@ -35,6 +35,7 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField] protected EnemyStatus stat;
 
     static protected GameObject playerGameObject = null;
+    static protected PlayerController playerScript = null;
     protected Rigidbody enemyRigidbody;
 
     protected bool isDead = false;
@@ -50,6 +51,7 @@ public abstract class EnemyBase : MonoBehaviour
     static public void SetPlayer(GameObject player)
     {
         playerGameObject = player;
+        playerScript = player.GetComponent<PlayerController>();
     }
 
     /// <summary>
