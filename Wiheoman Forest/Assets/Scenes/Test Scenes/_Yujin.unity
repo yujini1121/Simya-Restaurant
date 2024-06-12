@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 163967827}
   - component: {fileID: 163967829}
   - component: {fileID: 163967828}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 639919891}
   - component: {fileID: 639919890}
   - component: {fileID: 639919889}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1148347402}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 1219735128}
   - component: {fileID: 1219735132}
   - component: {fileID: 1219735133}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1221,9 +1221,10 @@ GameObject:
   - component: {fileID: 1884689992}
   - component: {fileID: 1884689991}
   - component: {fileID: 1884689990}
+  - component: {fileID: 1884689994}
   m_Layer: 0
   m_Name: Interactable Object
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1243,7 +1244,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1314,6 +1315,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1884689994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884689989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff0d20fc7329c541a4f594163f398b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
+  checkRadius: 2
 --- !u!1 &1904838909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,7 +1339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904838910}
   - component: {fileID: 1904838911}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1414,7 +1429,7 @@ GameObject:
   - component: {fileID: 1973701577}
   - component: {fileID: 1973701579}
   - component: {fileID: 1973701578}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
