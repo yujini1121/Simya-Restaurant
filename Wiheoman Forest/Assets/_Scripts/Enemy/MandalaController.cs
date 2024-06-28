@@ -17,8 +17,10 @@ public class MandalaController : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float sensingRange;
     [SerializeField] private float mandalaJumpSpeed;
-    [SerializeField] private float mandalaMoveSpeed;
+    // [SerializeField] private float mandalaMoveSpeed;
     [SerializeField] private float mandalaExplosionRange;
+
+    private float mandalaMoveSpeed;
 
     private bool isPerceive;
     private bool isOnGround = false;
@@ -30,6 +32,7 @@ public class MandalaController : MonoBehaviour
 
     private float mandalaJumpMax = 1.5f;
     private float mandalaDamage = 0.3f;
+    private float explosionDelay = 2.0f;
 
     private bool isWaitAttack = false;
 
@@ -44,6 +47,17 @@ public class MandalaController : MonoBehaviour
 
         player = GameObject.Find("Player");
         playerRb = player.GetComponent<Rigidbody>();
+        mandalaMoveSpeed = player.GetComponent<Test_PlayerMove>().moveSpeed;
+
+        switch (type)
+        {
+            case MandalaType.Herb:
+                mandalaMoveSpeed *= 0.8f;
+                break;
+            case MandalaType.Explosion:
+                mandalaMoveSpeed *= 1.2f;
+                break;
+        }
     }
 
     void Update()
@@ -85,12 +99,12 @@ public class MandalaController : MonoBehaviour
         col.isTrigger = false;
     }
 
-    private IEnumerator DamagePlayer(GameObject player)
+    IEnumerator DamagePlayer(GameObject player)
     {
         mandalaMoveSpeed = 0;
         isWaitAttack = true;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(explosionDelay);
 
         if (Physics.CheckSphere(transform.position, mandalaExplosionRange, playerLayer))
         {
@@ -121,8 +135,7 @@ public class MandalaController : MonoBehaviour
                 case MandalaType.Explosion:
                     StartCoroutine(DamagePlayer(collision.gameObject));
                     break;
-            }
-            
+            }            
         }
     }
 
