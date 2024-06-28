@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Test_PlayerMove : MonoBehaviour
 {
@@ -19,15 +20,20 @@ public class Test_PlayerMove : MonoBehaviour
 
     Slider healthBar;
 
+    Rigidbody rb;
+
     private void Start()
     {
         healthBar = GetComponentInChildren<Slider>();
+        rb = GetComponentInChildren<Rigidbody>();
     }
 
     void Update()
     {
         float moveDir = Input.GetAxisRaw("Horizontal");
-        transform.position += new Vector3(moveDir * moveSpeed * Time.deltaTime, 0, 0);
+        //transform.position += new Vector3(moveDir * moveSpeed * Time.deltaTime, 0, 0);
+        rb.AddForce(new Vector3(moveDir, 0f, 0f) * moveSpeed);
+        
 
         if (_dameged && !invincible)
         {
