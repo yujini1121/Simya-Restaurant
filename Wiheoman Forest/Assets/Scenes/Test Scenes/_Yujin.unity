@@ -801,7 +801,6 @@ GameObject:
   - component: {fileID: 1219735128}
   - component: {fileID: 1219735132}
   - component: {fileID: 1219735133}
-  - component: {fileID: 1219735134}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -932,7 +931,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219735127}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7b31bc070330be4487cec13ed08dcf6, type: 3}
   m_Name: 
@@ -941,31 +940,6 @@ MonoBehaviour:
   _dameged: 0
   invincible: 0
   invincibleDuration: 1
---- !u!114 &1219735134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219735127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98404c68c7c503047b8b1545e29690d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 11
-  acceleration: 3
-  jumpForce: 10
-  HitboxAttackLight: []
-  comboAttackResetTime: 0
-  comboAttackFinalDelay: 0
-  HitboxAttackHeavy:
-    hitBox: {fileID: 0}
-    attackPos: {x: 0, y: 0, z: 0}
-    actionTime: 0
-  heavyAttackChargeTime: 0
-  health: 0
-  prePressAllowTime: 0.5
 --- !u!1 &1630472016
 GameObject:
   m_ObjectHideFlags: 0

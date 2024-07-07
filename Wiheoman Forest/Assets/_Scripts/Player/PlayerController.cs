@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 // 플레이어의 현재 상태를 저장하는 열거자입니다.
 public enum EPlayerStatus
@@ -37,9 +36,7 @@ public struct AttackTupule
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float jumpForce = 10f;
     private float playerInput;
     private Rigidbody playerRb;
@@ -55,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private const int LOOK_RIGHT = 1;
     private const int LOOK_LEFT = -1;
 
-    [Header("Attack")]
     // 플레이어 약공격 파트
     [SerializeField] private List<AttackTupule> HitboxAttackLight;
     [SerializeField] private float comboAttackResetTime;
@@ -78,17 +74,7 @@ public class PlayerController : MonoBehaviour
 
     // 임시 변수
     private string BaseLayer = "Base Layer.";
-    
-    // 플레이어 애니메이션
-    private Animator animatorController;
-    
-    // 플레이어 체력 정보
-    [SerializeField] public float health;
-    public bool IsDead { get; private set; }
-    
-    // 임시 변수
-    private string BaseLayer = "Base Layer.";
-    
+
     // 시간 담당 변수
     bool isInputAllowed = true;
     bool isPlayerDoing = false;
@@ -156,14 +142,6 @@ public class PlayerController : MonoBehaviour
         }
 
         playerInput = Input.GetAxis("Horizontal");
-        playerVec = new Vector3(playerInput, 0, 0).normalized;
-
-        //transform.position += playerVec * moveSpeed * Time.deltaTime;
-
-        Vector3 currentVelocity = playerRb.velocity;
-        Vector3 targetVelocity = new Vector3(playerInput * moveSpeed, currentVelocity.y, currentVelocity.z);
-        Vector3 newVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-        playerRb.velocity = newVelocity;
 
         if (Mathf.Abs(playerInput) > 0.1) // playerInput != 0.0f보다 안전
         {
