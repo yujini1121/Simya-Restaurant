@@ -36,7 +36,9 @@ public struct AttackTupule
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float jumpForce = 10f;
     private float playerInput;
     private Rigidbody playerRb;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private const int LOOK_RIGHT = 1;
     private const int LOOK_LEFT = -1;
 
+    [Header("Attack")]
     // 플레이어 약공격 파트
     [SerializeField] private List<AttackTupule> HitboxAttackLight;
     [SerializeField] private float comboAttackResetTime;
@@ -143,21 +146,10 @@ public class PlayerController : MonoBehaviour
 
         playerInput = Input.GetAxis("Horizontal");
 
-        if (Mathf.Abs(playerInput) > 0.1) // playerInput != 0.0f보다 안전
-        {
-            playerLookingDirection
-                = (playerInput > 0.0f) ? LOOK_RIGHT : LOOK_LEFT;
-
-            playerRb.velocity = new Vector3(playerInput * moveSpeed, 
-                                            playerRb.velocity.y, 
-                                            playerRb.velocity.z);
-        }
-        else
-        {
-            playerRb.velocity = new Vector3(playerRb.velocity.normalized.x * 0.5f, 
-                                            playerRb.velocity.y, 
-                                            playerRb.velocity.z);
-        }
+        Vector3 currentVelocity = playerRb.velocity;
+        Vector3 targetVelocity = new Vector3(playerInput * moveSpeed, currentVelocity.y, currentVelocity.z);
+        Vector3 newVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
+        playerRb.velocity = newVelocity;
     }
 
     void Jump()
