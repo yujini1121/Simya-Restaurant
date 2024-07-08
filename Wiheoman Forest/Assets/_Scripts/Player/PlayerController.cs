@@ -54,7 +54,8 @@ public class PlayerController : MonoBehaviour
     private const int LOOK_RIGHT = 1;
     private const int LOOK_LEFT = -1;
 
-    [Header("Attack")]
+    [Space (10f)]
+    [Header("Light Attack")]
     // 플레이어 약공격 파트
     [SerializeField] private List<AttackTupule> HitboxAttackLight;
     [SerializeField] private float comboAttackResetTime;
@@ -63,6 +64,8 @@ public class PlayerController : MonoBehaviour
     private int lightAttackCombo = 0;
 
     // 플레이어 강공격 파트
+    [Space (5f)]
+    [Header("Heavy Attack")]
     [SerializeField] private AttackTupule HitboxAttackHeavy;
     private Coroutine heavyAttackCoroutine;
     [SerializeField] private float heavyAttackChargeTime;
