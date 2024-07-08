@@ -1,0 +1,36 @@
+﻿{
+	"dialogue": [
+		{
+			"id": 0,
+			"characterNameL": "character1",
+			"characterNameR": "",
+			"speaker": 0,
+			"speakerName": "Character1",
+			"text": "hi..."
+		},
+		{
+			"id": 1,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 1,
+			"speakerName" :  "Character2",
+			"text": "oh hi......."
+		},
+		{
+			"id": 2,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 1,
+			"speakerName": "Character2",
+			"text": "wwww......."
+		},
+		{
+			"id": 3,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 0,
+			"speakerName": "Character1",
+			"text": "wowwowowow......."
+		}
+	]
+}
