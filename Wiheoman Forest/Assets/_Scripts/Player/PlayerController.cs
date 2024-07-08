@@ -25,7 +25,7 @@ public enum EPlayerAction
 ///     플레이어 공격 액션(강공격/약공격/ 화살공격)을 실행할때 필요한 매개변수 목록입니다.
 /// </summary>
 [System.Serializable]
-public struct AttackTupule
+public struct AttackExecutionTupule
 {
     public GameObject hitBox;
     public Vector3 attackPos;
@@ -51,13 +51,13 @@ public class PlayerController : MonoBehaviour
     private const int LOOK_RIGHT = 1;
     private const int LOOK_LEFT = -1;
     // 플레이어 약공격 파트
-    [SerializeField] private List<AttackTupule> HitboxAttackLight;
+    [SerializeField] private List<AttackExecutionTupule> HitboxAttackLight;
     [SerializeField] private float comboAttackResetTime;
     [SerializeField] private float comboAttackFinalDelay;
     private Coroutine lightAttackResetCoroutine;
     private int lightAttackCombo = 0;
     // 플레이어 강공격 파트
-    [SerializeField] private AttackTupule HitboxAttackHeavy;
+    [SerializeField] private AttackExecutionTupule HitboxAttackHeavy;
     private Coroutine heavyAttackCoroutine;
     [SerializeField] private float heavyAttackChargeTime;
     private bool isHeavyAttackReady = false;
@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviour
     ///     공격 내용을 담은 튜플을 이용해 히트박스 객체를 생성합니다. 1초당 20회 이상 호출되는것을 권장하지 않습니다.
     /// </summary>
     /// <param name="attack"></param>
-    void MakeHitbox(AttackTupule attack)
+    void MakeHitbox(AttackExecutionTupule attack)
     {
         Quaternion rotation = attack.hitBox.transform.rotation;
         if (playerLookingDirection == LOOK_RIGHT)

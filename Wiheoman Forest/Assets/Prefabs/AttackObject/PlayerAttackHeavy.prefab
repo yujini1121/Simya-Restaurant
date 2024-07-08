@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
       propertyPath: damage
-      value: 40
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
+      propertyPath: attackType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
       propertyPath: isBypassBlock

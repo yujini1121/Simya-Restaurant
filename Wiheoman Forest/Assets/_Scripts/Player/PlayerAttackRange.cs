@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+public enum EPlayerAttackType
+{
+    none = 0,
+    lightAttack = 1,
+    heavyAttack = 2
+}
+
+public struct PlayerAttackParameters
+{
+    public EPlayerAttackType attackType;
+    public float damage;
+    public Vector3 knockbackDirection;
+    public float knockbackForce;
+}
+
 /// <summary>
 ///     적 캐릭터에게 데미지를 주는 존재입니다.
 /// </summary>
@@ -17,6 +32,7 @@ public class PlayerAttackRange : MonoBehaviour
     ///     해당 옵션이 켜져 있는 경우, 해당 공격은 적 캐릭터의 방어 행위를 무시하고 공격을 적용합니다.
     /// </summary>
     [SerializeField] protected bool isBypassBlock;
+    [SerializeField] protected EPlayerAttackType attackType;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +48,13 @@ public class PlayerAttackRange : MonoBehaviour
         Vector3 direction = enemy.transform.position - transform.position;
         direction.y = 0;
 
-        enemy.BeAttacked(damage, direction, knockback);
+        enemy.BeAttacked(new PlayerAttackParameters()
+        {
+            attackType = attackType,
+            damage = damage,
+            knockbackDirection = direction,
+            knockbackForce = knockback,
+        });
         if (isStunEnemy)
         {
             enemy.ApplyStun(stunTime);
