@@ -36,38 +36,51 @@ public struct AttackExecutionTupule
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float jumpForce = 10f;
     private float playerInput;
     private Rigidbody playerRb;
     private bool isGround = true;
+
     // 플레이어 상태 변수
     private EPlayerStatus currentPlayerStatus;
 #warning isAttacking 변수 삭제할 것
     private bool isAttacking = false;
+
     // 플레이어 방향
-    private Vector3 playerVec;
-    private int playerLookingDirection = 1; // 안타깝게도 playerVec만으로 플레이어가 현재 바라보는 방향을 저장할 수 없습니다. 해봤어요.
+    private int playerLookingDirection = 1; // 안타깝게도 playerDirection만으로 플레이어가 현재 바라보는 방향을 저장할 수 없습니다. 해봤어요.
     private const int LOOK_RIGHT = 1;
     private const int LOOK_LEFT = -1;
+
+    [Space (10f)]
+    [Header("Light Attack")]
     // 플레이어 약공격 파트
     [SerializeField] private List<AttackExecutionTupule> HitboxAttackLight;
     [SerializeField] private float comboAttackResetTime;
     [SerializeField] private float comboAttackFinalDelay;
     private Coroutine lightAttackResetCoroutine;
     private int lightAttackCombo = 0;
+
     // 플레이어 강공격 파트
+    [Space (5f)]
+    [Header("Heavy Attack")]
     [SerializeField] private AttackExecutionTupule HitboxAttackHeavy;
     private Coroutine heavyAttackCoroutine;
     [SerializeField] private float heavyAttackChargeTime;
     private bool isHeavyAttackReady = false;
+
     // 플레이어 애니메이션
     private Animator animatorController;
+
     // 플레이어 체력 정보
     [SerializeField] public float health;
     public bool IsDead { get; private set; }
+
     // 임시 변수
     private string BaseLayer = "Base Layer.";
+
     // 시간 담당 변수
     bool isInputAllowed = true;
     bool isPlayerDoing = false;
@@ -133,15 +146,13 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        playerInput = Input.GetAxis("Horizontal");
-        playerVec = new Vector3(playerInput, 0, 0).normalized;
-        transform.position += playerVec * moveSpeed * Time.deltaTime;
 
-        if (Mathf.Abs(playerInput) > 0.1) // playerInput != 0.0f보다 안전
-        {
-            playerLookingDirection
-                = (playerInput > 0.0f) ? LOOK_RIGHT : LOOK_LEFT;
-        }
+        playerInput = Input.GetAxis("Horizontal");
+
+        Vector3 currentVelocity = playerRb.velocity;
+        Vector3 targetVelocity = new Vector3(playerInput * moveSpeed, currentVelocity.y, currentVelocity.z);
+        Vector3 newVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
+        playerRb.velocity = newVelocity;
     }
 
     void Jump()
@@ -269,9 +280,7 @@ public class PlayerController : MonoBehaviour
     {
         // 민혁씨 인용) 상호작용 시에는 강공격 차징 풀리게 할 것 같네욘
         if (currentPlayerStatus == EPlayerStatus.interaction ||
-            currentPlayerStatus == EPlayerStatus.dead
-            // 그 외 각종 상태는 허용
-            )
+            currentPlayerStatus == EPlayerStatus.dead)                      // 그 외 각종 상태는 허용
         {
             return;
         }
