@@ -17,6 +17,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
+      propertyPath: attackType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560163930936412278, guid: 274e958e241d70844b3b771ee8d5aa26, type: 3}
       propertyPath: isStunEnemy
       value: 1
       objectReference: {fileID: 0}

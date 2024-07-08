@@ -37,7 +37,8 @@ public abstract class EnemyBase : MonoBehaviour
     static protected GameObject playerGameObject = null;
     static protected PlayerController playerScript = null;
     protected Rigidbody enemyRigidbody;
-
+    
+    
     protected bool isDead = false;
     protected bool isStuned = false;            // 경직 or 스턴용 값
     protected float endStunTime;
@@ -78,7 +79,7 @@ public abstract class EnemyBase : MonoBehaviour
     /// <summary>
     ///     공격을 받은 경우를 설정합니다.
     /// </summary>
-    public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
+    public void BeAttacked(PlayerAttackParameters parameter)
     {
         // ===============================
         // 공격을 받은 경우 해당 함수를 호출합니다.
@@ -88,16 +89,19 @@ public abstract class EnemyBase : MonoBehaviour
         // 결론적으로 나중에 해당 내용이 합의된다면 해당 함수를 호출하세요.
         // ===============================
 
-        stat.health -= damage;
+        stat.health -= parameter.damage;
+        DoInjuryHandle(parameter);
 
-        if (stat.health <= 0.0f && (isDead == false))
+        if (stat.health <= 0.0f && (isDead == false) && IsDeathAllowed())
         {
             DoDeathHandle();
+            isDead = true;
         }
         if (enemyRigidbody != null)
         {
-            enemyRigidbody.AddForce(knockBackDirection.normalized * force, ForceMode.Impulse);
+            enemyRigidbody.AddForce(parameter.knockbackDirection.normalized * parameter.knockbackForce, ForceMode.Impulse);
         }
+
     }
 
     /// <summary>
@@ -128,10 +132,8 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected IEnumerator ReleaseStunAfterTime(float time)
     {
-        Debug.Log("스턴 적용");
         yield return new WaitForSeconds(time);
         isStuned = false;
-        Debug.Log("스턴 해제");
     }
 
     /// <summary>
@@ -139,7 +141,23 @@ public abstract class EnemyBase : MonoBehaviour
     /// </summary>
     protected abstract void DoDeathHandle();
 
+    /// <summary>
+    ///     해당 적 캐릭터의 부상을 처리하는 함수입니다. 체력이 깎이고 나서 호출됩니다.
+    /// </summary>
+    /// <param name="damage"></param>
+    protected virtual void DoInjuryHandle(PlayerAttackParameters parameter)
+    {
+        
+    }
 
+    /// <summary>
+    ///     해당 에너미의 사망에 추가적인 조건이 붙은 경우, 해당 함수를 오버라이드하세요.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual bool IsDeathAllowed()
+    {
+        return true;
+    }
 
     protected void DropItems()
     {
@@ -153,6 +171,7 @@ public abstract class EnemyBase : MonoBehaviour
         }
     }
 
+#warning TODO : 아이탬 갯수 인스팩터 창을 통해 결정하도록 함 아이탬 갯수 및 확률은 맴버 변수에서 저장
     /// <summary>
     /// 떨어트릴 아이템 개수 랜덤으로 지정하는 메서드 
     /// </summary>
