@@ -1,0 +1,36 @@
+﻿{
+	"dialogue": [
+		{
+			"id": 0,
+			"characterNameL": "character1",
+			"characterNameR": "",
+			"speaker": 0,
+			"speakerName": "파란 고양이",
+			"text": "날씨가 너무 더워요..."
+		},
+		{
+			"id": 1,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 1,
+			"speakerName" :  "스펀지밥",
+			"text": "바다 밑은 시원해......."
+		},
+		{
+			"id": 2,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 1,
+			"speakerName": "스펀지밥",
+			"text": "꺄를르ㅡㄱ......."
+		},
+		{
+			"id": 3,
+			"characterNameL": "character1",
+			"characterNameR": "character2",
+			"speaker": 0,
+			"speakerName": "파란 고양이",
+			"text": "wowwowowow......."
+		}
+	]
+}

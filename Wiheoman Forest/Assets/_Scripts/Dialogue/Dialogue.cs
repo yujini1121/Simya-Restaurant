@@ -40,7 +40,7 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        script = JsonUtility.FromJson<DialogueList>(Resources.Load<TextAsset>("Dialogue").text);
+        script = JsonUtility.FromJson<DialogueList>(Resources.Load<TextAsset>("Json Files/Dialogue").text);
 
         currentLine = BeginLine;
 
