@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 250937475}
   - component: {fileID: 250937474}
   - component: {fileID: 250937473}
+  - component: {fileID: 250937477}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -306,10 +307,27 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 639919888}
-  - {fileID: 789740360}
   - {fileID: 5128639772570759373}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250937477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250937472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bba5be04f276734697695d1338fcdcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SMR: {fileID: 1338588333385424975}
+  trailCount: 20
+  drawCycle: 0.001
+  motionTrailMat: {fileID: 2100000, guid: 9e44d277e0b35cd4181c440a5d3e5f0a, type: 2}
+  frontColor: {r: 1, g: 1, b: 1, a: 0}
+  backColor: {r: 0, g: 0.92156863, b: 1, a: 0}
 --- !u!1 &639919887
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,52 +566,6 @@ MonoBehaviour:
   dayFogDensity: 0
   fogDensityCalc: 0.2
   isNight: 0
---- !u!1 &789740359
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 789740360}
-  - component: {fileID: 789740361}
-  m_Layer: 3
-  m_Name: CharacterStructure
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &789740360
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789740359}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 250937476}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &789740361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789740359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bba5be04f276734697695d1338fcdcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SMR: {fileID: 1338588333385424975}
-  motionTrailMat: {fileID: 2100000, guid: 9e44d277e0b35cd4181c440a5d3e5f0a, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
