@@ -126,15 +126,27 @@ MonoBehaviour:
     guardGauge: 0
     rank: 0
   maxHealth: 500
+  subHealth: 0
   thresholdHealthRateSummon: 0.5
+  thresholdHealthRateHealing: 0
   healthRateHealed: 0.3
   attackBeginTime: 1
   attackPeriod: 3
-  chanceOfRootAttack: 0.8
-  chanceOfBerryBomb: 0.2
+  timeForFlowerSpawning: 3
+  timeForHealing: 10
+  timeForBerryMove: 2
+  chanceOfRootAttack: 0.7
+  chanceOfBerryBomb: 0.3
   prefabRoot: {fileID: 3756904208457183791, guid: 9691d8d6f62ed1544a4c10dae0eb4d16, type: 3}
   prefabBerryBomb: {fileID: 6280397613393638542, guid: e851b888f98cc824ea4ee608793ceca8, type: 3}
   prefabFlowerMon: {fileID: 730227577268071707, guid: da0ad636b8b1c5b4fa7605663ddb9981, type: 3}
+  flowerMonSpawnPositionMaxX: -3
+  flowerMonSpawnPositionMinX: 3
+  positionTopYofBerryCenter: 10
+  positionMinOfBerrySpawn: {x: 8, y: 5, z: 0}
+  positionMaxOfBerrySpawn: {x: 12, y: 5, z: 0}
+  positionMinOfBerryDestination: {x: -5, y: 1, z: 0}
+  positionMaxOfBerryDestination: {x: 5, y: 1, z: 0}
 --- !u!54 &6494960327363205062
 Rigidbody:
   m_ObjectHideFlags: 0

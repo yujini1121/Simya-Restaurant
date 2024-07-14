@@ -3,21 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
-
-// 액션 A, A, A
-// 액션 A, (B, C)
-public class BossActionPattern
-{
-    // 반복인가
-    // 조건인가
-
-
-
-
-}
-
-
 /// <summary>
 ///     1스테이지 보스 클래스입니다.
 /// </summary>
@@ -35,6 +20,7 @@ public class BossFlorainaController : EnemyBase
     [SerializeField] private float attackPeriod = 3.0f;
     [SerializeField] private float timeForFlowerSpawning = 3.0f;
     [SerializeField] private float timeForHealing = 10.0f;
+    [SerializeField] private float timeForBerryMove = 2.0f;
     [SerializeField] private float chanceOfRootAttack = 0.7f;
     [SerializeField] private float chanceOfBerryBomb = 0.3f;
     private Coroutine attackCoroutine; // 일반적으로는 켜져 있음. 꽃몬 소환할떄 잠시 꺼두고, 소환 다 되었으면 다시 실행.
@@ -46,6 +32,11 @@ public class BossFlorainaController : EnemyBase
     [SerializeField] private float flowerMonSpawnPositionMaxX;
     [SerializeField] private float flowerMonSpawnPositionMinX;
     private bool isHealing = false;
+    [SerializeField] private float positionTopYofBerryCenter;
+    [SerializeField] private Vector3 positionMinOfBerrySpawn;
+    [SerializeField] private Vector3 positionMaxOfBerrySpawn;
+    [SerializeField] private Vector3 positionMinOfBerryDestination;
+    [SerializeField] private Vector3 positionMaxOfBerryDestination;
 
     // Start is called before the first frame update
     void Start()
@@ -126,13 +117,36 @@ public class BossFlorainaController : EnemyBase
 
     private void AttackWithRoot()
     {
-        Instantiate(prefabRoot, playerGameObject.transform.position, prefabRoot.transform.rotation);
+        Instantiate(
+            prefabRoot,
+            new Vector3(playerGameObject.transform.position.x, 1.5f, 0),
+            prefabRoot.transform.rotation);
     }
 
     private void AttackWithBerryBomb()
     {
         // 민혁씨 요구사항이 완전히 결정되지 않음. 로직 바뀔 예정
-        Instantiate(prefabBerryBomb, playerGameObject.transform.position, prefabBerryBomb.transform.rotation);
+        for (int berryNumner = 0; berryNumner < 3; ++berryNumner)
+        {
+            GameObject berryBomb =
+                Instantiate(
+                    prefabBerryBomb,
+                    playerGameObject.transform.position,
+                    prefabBerryBomb.transform.rotation);
+            Vector3 berryStart = new Vector3(
+                Random.Range(positionMinOfBerrySpawn.x, positionMaxOfBerrySpawn.x),
+                Random.Range(positionMinOfBerrySpawn.y, positionMaxOfBerrySpawn.y),
+                0);
+            Vector3 berryEnd = new Vector3(
+                Random.Range(positionMinOfBerryDestination.x, positionMaxOfBerryDestination.x),
+                Random.Range(positionMinOfBerryDestination.y, positionMaxOfBerryDestination.y),
+                0);
+            Vector3 berryCenter = new Vector3(
+                (berryStart.x + berryEnd.x) / 2.0f,
+                positionTopYofBerryCenter,
+                0);
+            StartCoroutine(UtilityFunctions.MoveOnBezierCurve(berryStart, berryEnd, berryCenter, berryBomb, timeForBerryMove));
+        }
     }
 
     /// <summary>

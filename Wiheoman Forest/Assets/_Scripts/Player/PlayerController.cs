@@ -36,6 +36,8 @@ public struct AttackExecutionTupule
 
 public class PlayerController : MonoBehaviour
 {
+    static public PlayerController instance;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
@@ -116,7 +118,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        if(playerRb == null)
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        if (playerRb == null)
         {
             playerRb = GetComponent<Rigidbody>();
         }
