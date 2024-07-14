@@ -254,7 +254,8 @@ public class PlayerController : MonoBehaviour
                 lightAttackResetCoroutine = StartCoroutine(
                     RunAfterDelay(
                         comboAttackFinalDelay,
-                        () => {
+                        () =>
+                        {
                             MakeHitbox(HitboxAttackLight[2]);
                             inputBlockingCoroutine = BlockInputForSeconds(HitboxAttackLight[2].actionTime);
                         }
