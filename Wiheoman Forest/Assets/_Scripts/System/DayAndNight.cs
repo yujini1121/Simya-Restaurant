@@ -2,53 +2,77 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TimeOfDay
+{
+    Day,
+    Night,
+    Dawn
+}
+
 public class DayAndNight : MonoBehaviour
 {
-    [SerializeField][Tooltip("게임 60초 = 현실 1초")] 
-    private float secondPerRealTimeSecond;
+    public TimeOfDay current;
 
-    [SerializeField][Tooltip("밤에서의 Fog 밀도")] 
-    private float nightFogDensity;
+    [Header("Day")]
+    public Light day;
+    public Color dayColor;
 
-    [SerializeField][Tooltip("낮에서의 Fog 밀도")] 
-    private float dayFogDensity;
+    [Header("Night")]
+    public Light night;
+    public Color nightColor;
 
-    [SerializeField][Tooltip("증감량 비율")]
-    private float fogDensityCalc;
+    [Header("Dawn")]
+    public Light dawn;
+    public Color dawnColor;
 
-    [SerializeField] private bool isNight = false;
-    private float currentFogDensity;
 
-    void Start()
+    private void Start()
     {
-        dayFogDensity = RenderSettings.fogDensity;
+        UpdateLighting();
     }
 
-    void Update()
+    private void UpdateLighting()
     {
-        // 계속 태양을 X 축 중심으로 회전. 현실시간 1초에  0.1f * secondPerRealTimeSecond 각도만큼 회전
-        transform.Rotate(Vector3.right, 0.1f * secondPerRealTimeSecond * Time.deltaTime);
-
-        if (transform.eulerAngles.x >= 170)
-            isNight = true;
-        else if (transform.eulerAngles.x <= 10)
-            isNight = false;
-
-        if (isNight)
+        switch (current)
         {
-            if (currentFogDensity <= nightFogDensity)
-            {
-                currentFogDensity += 0.1f * fogDensityCalc * Time.deltaTime;
-                RenderSettings.fogDensity = currentFogDensity;
-            }
+            case TimeOfDay.Day:
+                day.color = dayColor;
+                day.gameObject.SetActive(true);
+                night.gameObject.SetActive(false);
+                dawn.gameObject.SetActive(false);
+                break;
+
+            case TimeOfDay.Night:
+                night.color = nightColor;
+                night.gameObject.SetActive(true);
+                day.gameObject.SetActive(false);
+                dawn.gameObject.SetActive(false);
+                break;
+
+            case TimeOfDay.Dawn:
+                dawn.color = dawnColor;
+                dawn.gameObject.SetActive(true);
+                day.gameObject.SetActive(false);
+                night.gameObject.SetActive(false);
+                break;
         }
-        else
-        {
-            if (currentFogDensity >= dayFogDensity)
-            {
-                currentFogDensity -= 0.1f * fogDensityCalc * Time.deltaTime;
-                RenderSettings.fogDensity = currentFogDensity;
-            }
-        }
+    }
+
+    public void SetDay()
+    {
+        current = TimeOfDay.Day;
+        UpdateLighting();
+    }
+
+    public void SetNight()
+    {
+        current = TimeOfDay.Night;
+        UpdateLighting();
+    }
+
+    public void SetDawn()
+    {
+        current = TimeOfDay.Dawn;
+        UpdateLighting();
     }
 }
