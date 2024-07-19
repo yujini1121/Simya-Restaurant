@@ -1,0 +1,22 @@
+﻿{
+  "Item": [
+    {
+      "itemID": 0,
+      "itemName": "ItemTest1",
+      "itemDescription": "어떤 설명 쭈루루루루루루ㅜㄱ",
+      "itemAmount": 5000
+    },
+    {
+      "itemID": 1,
+      "itemName": "ItemTest2",
+      "itemDescription": "또 설명 쭈루루루루루루르르르루루루룩",
+      "itemAmount": 10000
+    },
+    {
+      "itemID": 2,
+      "itemName": "ItemTest3",
+      "itemDescription": "어떤 또 설명 쭈루루루루루루ㅜㄱ",
+      "itemAmount": 15000
+    }
+  ]
+}
