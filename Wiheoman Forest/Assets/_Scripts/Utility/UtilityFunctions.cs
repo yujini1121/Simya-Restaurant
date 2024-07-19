@@ -31,4 +31,51 @@ public class UtilityFunctions : MonoBehaviour
 
         moveObject.transform.position = end; // 베리가 도착 지점에 정확히 위치함을 보장한다.
     }
+
+    /// <summary>
+    ///     대기 시간 후 호출할 함수의 일련을 준비합니다.
+    /// </summary>
+    /// <param name="actionSequences">
+    ///     대기 시간과 대기시간 후 실행할 무명 메서드의 튜플입니다.
+    /// </param>
+    /// <returns>
+    ///     코루틴을 돌려줍니다.
+    /// </returns>
+    static public IEnumerator RunAfterDelay(params (float waitingTime, System.Action nextAction)[] actionSequences)
+    {
+        // for문을 따로 떼어둔 것은, 호출 시점에서 오류를 미리 잡아두는 것이 가장 좋기 때문입니다.
+        for (int index = 0; index < actionSequences.Length; ++index)
+        {
+            Debug.Assert(
+                actionSequences[index].waitingTime >= 0.0f,
+                $"오류_PlayerController.RunAfterDelay : {index + 1}번째 시퀀스의 waitingTime이 {actionSequences[index].waitingTime}이며 0보다 작습니다."
+                );
+            Debug.Assert(
+                actionSequences[index].nextAction != null,
+                $"오류_PlayerController.RunAfterDelay : {index + 1}번째 시퀀스의 nextAction이 널 값입니다.");
+        }
+
+        for (int index = 0; index < actionSequences.Length; ++index)
+        {
+            yield return new WaitForSeconds(actionSequences[index].waitingTime);
+            actionSequences[index].nextAction();
+        }
+    }
+
+    /// <summary>
+    ///     대기 시간 후 호출할 함수를 준비합니다.
+    /// </summary>
+    /// <param name="waitingTime">
+    ///     대기할 시간입니다.
+    /// </param>
+    /// <param name="nextAction">
+    ///     waitingTime 뒤에 실행할 코드입니다. 무명 메서드를 넣을 수 있고, 혹은 입력과 출력이 void인 함수명을 넣을 수 있습니다.
+    /// </param>
+    /// <returns>
+    ///     코루틴을 돌려줍니다.
+    /// </returns>
+    static public IEnumerator RunAfterDelay(float waitingTime, System.Action nextAction)
+    {
+        return RunAfterDelay((waitingTime, nextAction));
+    }
 }

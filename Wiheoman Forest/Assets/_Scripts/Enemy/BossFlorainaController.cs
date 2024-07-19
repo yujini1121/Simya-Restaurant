@@ -28,15 +28,23 @@ public class BossFlorainaController : EnemyBase
     private Coroutine healingCoroutine;
     [SerializeField] private GameObject prefabRoot;
     [SerializeField] private GameObject prefabBerryBomb;
-    [SerializeField] private GameObject prefabFlowerMon;
+    [SerializeField] private GameObject prefabFallingFlower;
+    [SerializeField] private GameObject prefabFlowerMonMelee;
+    [SerializeField] private GameObject prefabFlowerMonRanged;
     [SerializeField] private float flowerMonSpawnPositionMaxX;
     [SerializeField] private float flowerMonSpawnPositionMinX;
     private bool isHealing = false;
+    [SerializeField] private float positionTopYofFlowerCenter;
     [SerializeField] private float positionTopYofBerryCenter;
+    [SerializeField] private float positionYBeyondCamera;
+    [SerializeField] private Vector3 positionMinOfFlowerSpawn;
+    [SerializeField] private Vector3 positionMaxOfFlowerSpawn;
     [SerializeField] private Vector3 positionMinOfBerrySpawn;
     [SerializeField] private Vector3 positionMaxOfBerrySpawn;
     [SerializeField] private Vector3 positionMinOfBerryDestination;
     [SerializeField] private Vector3 positionMaxOfBerryDestination;
+    [SerializeField] private int countOfSpawningFlowerMonMelee;
+    [SerializeField] private int countOfSpawningFlowerMonRanged;
 
     // Start is called before the first frame update
     void Start()
@@ -146,6 +154,12 @@ public class BossFlorainaController : EnemyBase
                 positionTopYofBerryCenter,
                 0);
             StartCoroutine(UtilityFunctions.MoveOnBezierCurve(berryStart, berryEnd, berryCenter, berryBomb, timeForBerryMove));
+            StartCoroutine(UtilityFunctions.RunAfterDelay(
+                timeForBerryMove,
+                () =>
+                {
+                    berryBomb.GetComponent<FlorainaBerryBombController>().Land();
+                }));
         }
     }
 
@@ -155,12 +169,56 @@ public class BossFlorainaController : EnemyBase
     private IEnumerator SpawnEnemy()
     {
         // 꽃이 소환됨
-        // 꽃이 떨어지는 중
-        yield return new WaitForSeconds(timeForFlowerSpawning);
-        Vector3 position = new Vector3(
-            UnityEngine.Random.Range(flowerMonSpawnPositionMinX, flowerMonSpawnPositionMaxX), 1, 0);
+        GameObject[] flowers = new GameObject[countOfSpawningFlowerMonMelee + countOfSpawningFlowerMonRanged];
 
-        Instantiate(prefabFlowerMon, position, prefabFlowerMon.transform.rotation);
+        // 무작위 위치에 적 생성
+
+        // 1번째 코드
+        //for (int index = 0; index < flowers.Length; ++index)
+        //{
+        //    Vector3 oneStartPosition = new Vector3(
+        //        UnityEngine.Random.Range(positionMinOfFlowerSpawn.x, positionMaxOfFlowerSpawn.x),
+        //        UnityEngine.Random.Range(positionMinOfFlowerSpawn.y, positionMaxOfFlowerSpawn.y),
+        //        0);
+        //    Vector3 oneEndPosition = new Vector3(
+        //        UnityEngine.Random.Range(flowerMonSpawnPositionMinX, flowerMonSpawnPositionMaxX), 1, 0);
+        //    Vector3 oneCenterPosition = new Vector3(
+        //        (oneStartPosition.x + oneEndPosition.x) / 2.0f,
+        //        positionTopYofFlowerCenter,
+        //        0);
+        //    flowers[index] = Instantiate(prefabFallingFlower, oneStartPosition, prefabFallingFlower.transform.rotation);
+        //    StartCoroutine(UtilityFunctions.MoveOnBezierCurve(oneStartPosition, oneEndPosition, oneCenterPosition, flowers[index], timeForFlowerSpawning));
+        //}
+        //// 꽃이 떨어지는 중
+        //yield return new WaitForSeconds(timeForFlowerSpawning);
+
+        // 2번째 코드
+        
+        for (int index = 0; index < flowers.Length; ++index)
+        {
+            Vector3 oneStartPosition = new Vector3(
+                UnityEngine.Random.Range(positionMinOfFlowerSpawn.x, positionMaxOfFlowerSpawn.x),
+                UnityEngine.Random.Range(positionMinOfFlowerSpawn.y, positionMaxOfFlowerSpawn.y),
+                0);
+            Vector3 oneEndPosition = new Vector3(
+                UnityEngine.Random.Range(flowerMonSpawnPositionMinX, flowerMonSpawnPositionMaxX), positionYBeyondCamera, 0);
+            Vector3 oneCenterPosition = new Vector3(
+                oneStartPosition.x, positionYBeyondCamera, 0);
+            flowers[index] = Instantiate(prefabFallingFlower, oneStartPosition, prefabFallingFlower.transform.rotation);
+            StartCoroutine(UtilityFunctions.MoveOnBezierCurve(oneStartPosition, oneEndPosition, oneCenterPosition, flowers[index], timeForFlowerSpawning));
+        }
+        yield return new WaitForSeconds(timeForFlowerSpawning);
+
+        for (int index = 0; index < countOfSpawningFlowerMonMelee; ++index)
+        {
+            Instantiate(prefabFlowerMonMelee, flowers[index].transform.position, prefabFlowerMonMelee.transform.rotation);
+            Destroy(flowers[index]);
+        }
+        for (int index = countOfSpawningFlowerMonMelee; index < flowers.Length; ++index)
+        {
+            Instantiate(prefabFlowerMonRanged, flowers[index].transform.position, prefabFlowerMonRanged.transform.rotation);
+            Destroy(flowers[index]);
+        }
         // 코루틴 복귀
         attackCoroutine = StartCoroutine(AttackPattern());
     }

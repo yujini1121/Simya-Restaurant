@@ -37,7 +37,6 @@ public class FlorainaBerryBombController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("밀려남!");
         // 플레이어가 베리를 때린 상황
         // -> 베리가 플레이어의 반대 방향으로 튕겨져 나감
         Vector3 playerToBerry = transform.position - PlayerController.instance.transform.position;
@@ -46,6 +45,10 @@ public class FlorainaBerryBombController : MonoBehaviour
         Vector3 centerPosition = Vector3.Lerp(transform.position, endPosition, 0.5f);
         centerPosition += new Vector3(0, 4.0f, 0);
 
-        UtilityFunctions.MoveOnBezierCurve(transform.position, endPosition, centerPosition, gameObject, timeForPlayerPushBerry);
+        StartCoroutine(UtilityFunctions.MoveOnBezierCurve(transform.position, endPosition, centerPosition, gameObject, timeForPlayerPushBerry));
+        Debug.Log($"밀려남 : 시작 : {transform.position} -> {centerPosition} -> {endPosition}");
+
     }
+
+    public void Land() => isPushable = true;
 }
