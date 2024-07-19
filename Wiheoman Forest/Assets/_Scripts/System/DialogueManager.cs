@@ -5,7 +5,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine.UI;
 
-public class Dialogue : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
     [System.Serializable]
     public class Data
