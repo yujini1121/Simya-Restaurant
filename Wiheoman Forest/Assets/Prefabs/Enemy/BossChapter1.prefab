@@ -139,14 +139,22 @@ MonoBehaviour:
   chanceOfBerryBomb: 0.3
   prefabRoot: {fileID: 3756904208457183791, guid: 9691d8d6f62ed1544a4c10dae0eb4d16, type: 3}
   prefabBerryBomb: {fileID: 6280397613393638542, guid: e851b888f98cc824ea4ee608793ceca8, type: 3}
-  prefabFlowerMon: {fileID: 730227577268071707, guid: da0ad636b8b1c5b4fa7605663ddb9981, type: 3}
-  flowerMonSpawnPositionMaxX: -3
-  flowerMonSpawnPositionMinX: 3
+  prefabFallingFlower: {fileID: 8593889425993261212, guid: 4a961246b0c47054dab2a203eac3bb2e, type: 3}
+  prefabFlowerMonMelee: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288, type: 3}
+  prefabFlowerMonRanged: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288, type: 3}
+  flowerMonSpawnPositionMaxX: -10
+  flowerMonSpawnPositionMinX: 4
+  positionTopYofFlowerCenter: 15
   positionTopYofBerryCenter: 10
+  positionYBeyondCamera: 15
+  positionMinOfFlowerSpawn: {x: 12, y: 4, z: 0}
+  positionMaxOfFlowerSpawn: {x: 8, y: 6, z: 0}
   positionMinOfBerrySpawn: {x: 8, y: 5, z: 0}
   positionMaxOfBerrySpawn: {x: 12, y: 5, z: 0}
-  positionMinOfBerryDestination: {x: -5, y: 1, z: 0}
-  positionMaxOfBerryDestination: {x: 5, y: 1, z: 0}
+  positionMinOfBerryDestination: {x: -8, y: 1, z: 0}
+  positionMaxOfBerryDestination: {x: 3, y: 1, z: 0}
+  countOfSpawningFlowerMonMelee: 3
+  countOfSpawningFlowerMonRanged: 3
 --- !u!54 &6494960327363205062
 Rigidbody:
   m_ObjectHideFlags: 0
