@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
-[System.Flags]
-public enum ItemType
-{
-    ingredient
-}
-
 [CreateAssetMenu(fileName = "Item", menuName = "Add/Item")]
 public class TestItem : ScriptableObject
 {
@@ -25,7 +19,7 @@ public class TestItem : ScriptableObject
 
     [Header("아이템 중첩이 가능한가?")]
     [SerializeField] private bool mCanOverlap;
-    // 아이템 중첩 가능 여부
+    // 아이템 중첩 가능 여부a
     public bool CanOverlap
     {
         get
@@ -56,18 +50,7 @@ public class TestItem : ScriptableObject
         }
     }
 
-    [Header("아이템 타입")]
-    [SerializeField] private ItemType mItemType;
-    // 아이템 유형
-    public ItemType Type
-    {
-        get
-        {
-            return mItemType;
-        }
-    }
-
-    [Header("보여질 아이템 이미지")]
+    [Header("아이템 이미지")]
     [SerializeField] private Sprite mItemImage;
     public Sprite ItemImage
     {
@@ -77,6 +60,7 @@ public class TestItem : ScriptableObject
         }
     }
 
+    /*
     [Header("씬에서 오브젝트로 보여질 아이템 프리팹")]
     [SerializeField] private GameObject mItemPrefab;
     public GameObject ItemPrefab
@@ -86,4 +70,5 @@ public class TestItem : ScriptableObject
             return mItemPrefab;
         }
     }
+    */
 }
