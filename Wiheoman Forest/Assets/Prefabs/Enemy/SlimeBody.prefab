@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6332193655426167965}
   - component: {fileID: 6750391545777450249}
   m_Layer: 0
-  m_Name: Slime
+  m_Name: SlimeBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,9 +125,18 @@ MonoBehaviour:
     health: 100
     guardGauge: 0
     rank: 0
-  jumpInterval: 1.5
+  timeForJumpInterval: 0
   jumpForce: 4
   moveForce: 2
+  speedOfRoamingMin: 3
+  speedOfRoamingMax: 5
+  timeForRoamingIdle: 0
+  timeForRoamingMoving: 0
+  lengthForRoamingRange: 0
+  isHidden: 0
+  spawnRaidusLeftDown: {x: 0, y: 0, z: 0}
+  spawnRaodusRightUp: {x: 0, y: 0, z: 0}
+  offsetForRoamingCenter: {x: 0, y: 0, z: 0}
 --- !u!54 &6750391545777450249
 Rigidbody:
   m_ObjectHideFlags: 0

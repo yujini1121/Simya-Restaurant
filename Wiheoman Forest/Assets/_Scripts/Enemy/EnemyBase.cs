@@ -38,12 +38,12 @@ public abstract class EnemyBase : MonoBehaviour
     static protected PlayerController playerScript = null;
     protected Rigidbody enemyRigidbody;
     
-    
+
     protected bool isDead = false;
     protected bool isStuned = false;            // 경직 or 스턴용 값
     protected float endStunTime;
     protected Coroutine stunReleaseCoroutine;
-
+    
 
     /// <summary>
     ///     해당 씬에 유일하게 존재하는 플레이어의 정보를 에너미에게 알려줍니다.

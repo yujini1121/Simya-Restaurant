@@ -127,7 +127,7 @@ MonoBehaviour:
     rank: 0
   maxHealth: 500
   subHealth: 0
-  thresholdHealthRateSummon: 0.5
+  thresholdHealthRateSummon: 0.9
   thresholdHealthRateHealing: 0
   healthRateHealed: 0.3
   attackBeginTime: 1
