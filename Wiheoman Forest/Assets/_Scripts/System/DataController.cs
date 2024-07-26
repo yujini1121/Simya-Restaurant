@@ -9,46 +9,39 @@ public class PlayerData
     public bool isDead;
     public string name;
     public int level;
-    public int coin;
-    public string[] itmes;
+    public int gold;
+    public string[] items;
 }
 
 public class DataController : MonoBehaviour
 {
-    public static DataController instance;
-    PlayerData player = new PlayerData();
-
-    private string path;
-    private string fileName = "Save";
-
+    [SerializeField] private PlayerData playerData;
 
     private void Awake()
     {
-        #region Singleton
-        if (instance == null) instance = this;
-        else if (instance != this) Destroy(gameObject);
-
         DontDestroyOnLoad(gameObject);
-        #endregion
-
-        path = Application.persistentDataPath + "/";
-    }
-
-    private void Start()
-    {
-
+        LoadData();
     }
 
     public void SaveData()
     {
-        string data = JsonUtility.ToJson(player, true);
-        File.WriteAllText(path + fileName, data);
-        Debug.Log(path + fileName);
+        string json = JsonUtility.ToJson(playerData, true);
+        string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
+        File.WriteAllText(path, json);
     }
 
     public void LoadData()
     {
-        string data = File.ReadAllText(path + fileName);
-        JsonUtility.FromJson<PlayerData>(data);
+        string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
+
+        if (File.Exists(path))
+        {
+            string data = File.ReadAllText(path);
+            playerData = JsonUtility.FromJson<PlayerData>(data);
+        }
+        else
+        {
+            Debug.LogError("Not Found 'PlayerData.json' File.");
+        }
     }
 }
