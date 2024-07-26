@@ -78,4 +78,25 @@ public class UtilityFunctions : MonoBehaviour
     {
         return RunAfterDelay((waitingTime, nextAction));
     }
+
+    /// <summary>
+    ///     원을 그리는 함수입니다. OnDrawGizmos 함수의 정의에 해당 함수를 호출하는게 좋습니다.
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="radius"></param>
+    /// <param name="segments"></param>
+    static public void DrawGizmoCircle(Vector3 center, float radius, int segments)
+    {
+        float angle = 2 * Mathf.PI / segments;
+
+        Vector3 prevPoint = center + new Vector3(radius, 0, 0);
+        for (int i = 1; i <= segments; i++)
+        {
+            float x = Mathf.Cos(angle * i) * radius;
+            float y = Mathf.Sin(angle * i) * radius;
+            Vector3 nextPoint = center + new Vector3(x, y, 0);
+            Gizmos.DrawLine(prevPoint, nextPoint);
+            prevPoint = nextPoint;
+        }
+    }
 }

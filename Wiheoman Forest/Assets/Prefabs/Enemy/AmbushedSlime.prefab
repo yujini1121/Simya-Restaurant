@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2366360501099715226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9048381984927940342}
+  - component: {fileID: 819946939225331225}
+  - component: {fileID: 231138681868891145}
+  m_Layer: 0
+  m_Name: SlimeSpawnerSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9048381984927940342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366360501099715226}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1326102731003210495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &819946939225331225
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366360501099715226}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &231138681868891145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366360501099715226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d72202d2917364192bf07a7c89447b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5739719181292276710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1326102731003210495}
+  m_Layer: 0
+  m_Name: AmbushedSlime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1326102731003210495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5739719181292276710}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8811756221218453274}
+  - {fileID: 9048381984927940342}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8086119678908051519
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1326102731003210495}
+    m_Modifications:
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: range
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: speedOfRoamingMax
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: speedOfRoamingMin
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: timeForRoamingIdle
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: timeForJumpInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: timeForRoamingMoving
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332193655426167965, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: lengthForRoamingRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782676382744305968, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+      propertyPath: m_Name
+      value: SlimeBody
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+--- !u!4 &8811756221218453274 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 756057838635992869, guid: 4b38d0354c323744b9ca779dbc4bece2, type: 3}
+  m_PrefabInstance: {fileID: 8086119678908051519}
+  m_PrefabAsset: {fileID: 0}
