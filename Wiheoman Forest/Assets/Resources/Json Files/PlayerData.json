@@ -1,0 +1,13 @@
+{
+    "isDead": false,
+    "name": "Yujin",
+    "level": 100002,
+    "gold": 23,
+    "items": [
+        "Slime",
+        "Potion",
+        "Bag",
+        "Water",
+        "Jam"
+    ]
+}
