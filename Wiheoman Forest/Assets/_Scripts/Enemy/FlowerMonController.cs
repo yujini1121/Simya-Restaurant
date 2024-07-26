@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 
-public class FlowerMon : EnemyBase
+public class FlowerMonController : EnemyBase
 {
     /// <summary>
     /// FlowerMon 타입 관리 (Melee : 근거리 / Ranged : 원거리) 
