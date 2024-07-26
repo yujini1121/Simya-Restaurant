@@ -207,10 +207,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250937476}
-  - component: {fileID: 250937475}
   - component: {fileID: 250937474}
   - component: {fileID: 250937473}
   - component: {fileID: 250937477}
+  - component: {fileID: 250937478}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -270,29 +270,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!136 &250937475
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 250937472}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 1.75
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.75, z: -0.03}
 --- !u!4 &250937476
 Transform:
   m_ObjectHideFlags: 0
@@ -323,11 +300,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SMR: {fileID: 1338588333385424975}
-  trailCount: 5
-  drawCycle: 0.01
+  trailCount: 20
+  drawCycle: 0.001
   motionTrailMat: {fileID: 2100000, guid: 9e44d277e0b35cd4181c440a5d3e5f0a, type: 2}
   frontColor: {r: 1, g: 1, b: 1, a: 0}
   backColor: {r: 1, g: 0.73585486, b: 0, a: 0}
+--- !u!136 &250937478
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250937472}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &639919887
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,14 +612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e661f2000f74814fa9f2cd063db0972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData:
-    isDead: 0
-    name: Yujin
-    level: 3
-    gold: 3800
-    items:
-    - Slime
-    - Potion
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

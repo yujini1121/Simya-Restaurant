@@ -16,6 +16,8 @@ public class MotionTrail : MonoBehaviour
     private List<MeshInfo>      meshInfos = new List<MeshInfo>();
     private List<Vector3>       posMemory = new List<Vector3>();
     private List<Quaternion>    rotMemory = new List<Quaternion>();
+    private int curMemBeginIndex = 0;
+    private WaitForSeconds drawCycleT;
 
     [Header("Trail Info")]
     [SerializeField][Range(0, 30)] private int trailCount;
@@ -69,34 +71,57 @@ public class MotionTrail : MonoBehaviour
             #endregion
         }
 
+        drawCycleT = new WaitForSeconds(drawCycle);
         StartCoroutine(BakeMeshCoroutine());
     }
 
     private IEnumerator BakeMeshCoroutine()
     {
-        for (int i = meshInfos.Count - 2; i >= 0; i--)
+        while (true)
         {
-            meshInfos[i + 1].mesh.vertices = meshInfos[i].mesh.vertices;
-            meshInfos[i + 1].mesh.triangles = meshInfos[i].mesh.triangles;
+            for (int i = meshInfos.Count - 2; i >= 0; i--)
+            {
+                meshInfos[i + 1].mesh.vertices = meshInfos[i].mesh.vertices;
+                meshInfos[i + 1].mesh.triangles = meshInfos[i].mesh.triangles;
+            }
+
+            SMR.BakeMesh(meshInfos[0].mesh);
+
+            /*
+            posMemory.Insert(0, transform.position);
+            rotMemory.Insert(0, transform.rotation);
+
+            if (posMemory.Count > trailCount)
+                posMemory.RemoveAt(posMemory.Count - 1);
+            if (rotMemory.Count > trailCount)
+                rotMemory.RemoveAt(rotMemory.Count - 1);
+            */
+
+            if (posMemory.Count < trailCount && rotMemory.Count < trailCount)
+            {
+                posMemory.Insert(0, transform.position);
+                rotMemory.Insert(0, transform.rotation);
+            }
+            else
+            {
+                posMemory[(posMemory.Count + curMemBeginIndex) % posMemory.Count] = transform.position;
+                rotMemory[(rotMemory.Count + curMemBeginIndex) % posMemory.Count] = transform.rotation;
+            }
+
+            curMemBeginIndex = (curMemBeginIndex + 1) % posMemory.Count;
+
+            for (int i = 0; i < meshInfos.Count; i++)
+            {
+                /*
+                meshInfos[i].motionObj.transform.position = posMemory[Mathf.Min(i, posMemory.Count - 1)];
+                meshInfos[i].motionObj.transform.rotation = rotMemory[Mathf.Min(i, rotMemory.Count - 1)];
+                */
+
+                meshInfos[i].motionObj.transform.position = posMemory[(i + curMemBeginIndex) % posMemory.Count];
+                meshInfos[i].motionObj.transform.rotation = rotMemory[(i + curMemBeginIndex) % rotMemory.Count];
+            }
+
+            yield return drawCycleT;
         }
-
-        SMR.BakeMesh(meshInfos[0].mesh);
-
-        posMemory.Insert(0, transform.position);
-        rotMemory.Insert(0, transform.rotation);
-        
-        if (posMemory.Count > trailCount)
-            posMemory.RemoveAt(posMemory.Count - 1);
-        if (rotMemory.Count > trailCount)
-            rotMemory.RemoveAt(rotMemory.Count - 1);
-
-        for (int i = 0; i < meshInfos.Count; i++)
-        {
-            meshInfos[i].motionObj.transform.position = posMemory[Mathf.Min(i, posMemory.Count - 1)];
-            meshInfos[i].motionObj.transform.rotation = rotMemory[Mathf.Min(i, rotMemory.Count - 1)];
-        }
-
-        yield return new WaitForSeconds(drawCycle);
-        StartCoroutine(BakeMeshCoroutine());
     }
 }
