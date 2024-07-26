@@ -1,51 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class ItemShopSlotInfo
 {
     [Header("판매할 아이템")]
-    [SerializeField] public TestItem sellItem;
+    [SerializeField] public ItemShopSlot sellItem;
 
-    [Header("거래 한 번 당 아이템 비용")]
-    [SerializeField] public int cost;
+    [Header("거래 당 아이템 비용")]
+    [SerializeField] public int itemCost;
 
-    [Header("아이템의 재고량")]
-    [SerializeField] public int ItemAmount;
-
-    [Header("거래 1회당 아이템 지급 개수")]
-    [SerializeField] public int GiveItemAmount;
+    [Header("지급되는 아이템 수")]
+    [SerializeField] public int buyItemCount;
 
     public ItemShopSlotInfo(ItemShopSlotInfo origin)
     {
         this.sellItem = origin.sellItem;
-        this.cost = origin.cost;
-        this.ItemAmount = origin.ItemAmount;
-        this.GiveItemAmount = origin.GiveItemAmount;
+        this.itemCost = origin.itemCost;
+        this.buyItemCount = origin.buyItemCount;
     }
 }
 
 public class ItemShopSlot : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI mName, mCost;
-    [SerializeField] private Button mBuyButton;
+    [SerializeField] private InventorySlot itemSlot;
+    [SerializeField] private TextMeshProUGUI itemName, itemCost;
+    [SerializeField] private Button buyButton;
 
-    private ItemShopSlotInfo mSellInfo;
-
-    public void InitSlot(ItemShopSlotInfo sellItem)
+    private ItemShopSlotInfo sellItemInfo;
+    
+    public void InitSlot(ItemShopSlotInfo intfoSellItem)
     {
-        // 정보 가져오기
-        mSellInfo = sellItem;
+        sellItemInfo = intfoSellItem;
 
-        mName.text = mSellInfo.sellItem.name;
-        mCost.text = mSellInfo.cost.ToString();
-    }
+        itemSlot.ClearSlot();
 
-    public void BuyItem()
-    {
 
     }
 }

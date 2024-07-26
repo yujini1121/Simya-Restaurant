@@ -17,6 +17,16 @@ public class TestItem : ScriptableObject
         }
     }
 
+    [Header("아이템 이름")]
+    [SerializeField] private string mItemName;
+    public string ItemName
+    {
+        get
+        {
+            return mItemName;
+        }
+    }
+
     [Header("아이템 중첩이 가능한가?")]
     [SerializeField] private bool mCanOverlap;
     // 아이템 중첩 가능 여부a
@@ -57,6 +67,16 @@ public class TestItem : ScriptableObject
         get
         {
             return mItemImage;
+        }
+    }
+
+    [Header("아이템 설명")]
+    [SerializeField] private string mItemDescription;
+    public string ItemDescription
+    {
+        get
+        {
+            return mItemDescription;
         }
     }
 
