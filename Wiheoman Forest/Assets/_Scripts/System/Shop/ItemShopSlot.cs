@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-[System.Serializable]
-public class ItemShopSlotInfo
+public class ItemShopSlot : MonoBehaviour
 {
     [Header("판매할 아이템")]
-    [SerializeField] public ItemShopSlot sellItem;
+    [SerializeField] public TestItem sellItem;
 
     [Header("거래 당 아이템 비용")]
     [SerializeField] public int itemCost;
@@ -16,28 +15,52 @@ public class ItemShopSlotInfo
     [Header("지급되는 아이템 수")]
     [SerializeField] public int buyItemCount;
 
-    public ItemShopSlotInfo(ItemShopSlotInfo origin)
-    {
-        this.sellItem = origin.sellItem;
-        this.itemCost = origin.itemCost;
-        this.buyItemCount = origin.buyItemCount;
-    }
-}
-
-public class ItemShopSlot : MonoBehaviour
-{
-    [SerializeField] private InventorySlot itemSlot;
-    [SerializeField] private TextMeshProUGUI itemName, itemCost;
+    [Header("상점 UI")]
+    [SerializeField] private GameObject storeUI;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private TextMeshProUGUI itemCostText;
+    [SerializeField] private TextMeshProUGUI itemDescriptionText;
     [SerializeField] private Button buyButton;
 
-    private ItemShopSlotInfo sellItemInfo;
-    
-    public void InitSlot(ItemShopSlotInfo intfoSellItem)
+    private bool isStoreActive = false;
+    private int totalCost;
+
+    void Update()
     {
-        sellItemInfo = intfoSellItem;
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (!isStoreActive)
+            {
+                isStoreActive = true;
+                storeUI.SetActive(true);
+                InitSlot();
+            }
+            else 
+            {
+                isStoreActive = false;
+                storeUI.SetActive(false);
+            }
+        }
+    }
 
-        itemSlot.ClearSlot();
+    private void InitSlot()
+    {
+        totalCost = 0;
 
+        itemImage.sprite = sellItem.ItemImage;
+        itemNameText.text = sellItem.ItemName;
+        itemCostText.text = totalCost.ToString();
+        itemDescriptionText.text = sellItem.ItemDescription;
 
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(OnBuyButtonClicked);
+    }
+
+    public void OnBuyButtonClicked()
+    {
+        totalCost += itemCost;
+        itemCostText.text = totalCost.ToString();
+        Debug.Log("아이템 구매함");
     }
 }
