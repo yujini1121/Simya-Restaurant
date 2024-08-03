@@ -15,6 +15,7 @@ public class ItemShopSlot : MonoBehaviour
     [Header("지급되는 아이템 수")]
     [SerializeField] public int buyItemCount;
 
+    [Header("상점 UI")]
     [SerializeField] private GameObject storeUI;
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemNameText;
