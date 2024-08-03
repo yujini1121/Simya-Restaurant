@@ -1,13 +1,11 @@
 {
-    "isDead": false,
+    "isDead": true,
     "name": "Yujin",
-    "level": 100002,
-    "gold": 23,
+    "level": 21,
+    "gold": 23000,
     "items": [
         "Slime",
         "Potion",
-        "Bag",
-        "Water",
         "Jam"
     ]
 }

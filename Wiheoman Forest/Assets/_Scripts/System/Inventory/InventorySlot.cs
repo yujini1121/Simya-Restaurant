@@ -28,7 +28,6 @@ public class InventorySlot : MonoBehaviour
         mItem = item;
         mItemCount = count;
         mItemImage.sprite = mItem.ItemImage;
-        Debug.Log("이미지 추가");
 
         mItemCountText.text = mItemCount.ToString();
     }

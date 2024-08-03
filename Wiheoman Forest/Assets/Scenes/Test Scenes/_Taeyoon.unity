@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4093728701819088487, guid: ad454d2fc8319864f806faa4764d97e1, type: 3}
+      propertyPath: dropa.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5090392141548236717, guid: ad454d2fc8319864f806faa4764d97e1, type: 3}
       propertyPath: m_IsTrigger
       value: 0

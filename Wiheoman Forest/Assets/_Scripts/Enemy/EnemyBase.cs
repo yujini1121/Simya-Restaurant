@@ -24,11 +24,18 @@ public struct EnemyStatus
     public ERank rank;
 }
 
+[System.Serializable]
+public struct DropTuple
+{
+    public float probabilityWeight;
+    public int dropCount;
+}
 
 public abstract class EnemyBase : MonoBehaviour
 {
     [Header("Items")]
     [SerializeField] protected GameObject[] items;
+    [SerializeField] protected List<DropTuple> dropRate;
 
     [Header("Set Value")]
     [SerializeField] protected float range = 0;
@@ -37,13 +44,12 @@ public abstract class EnemyBase : MonoBehaviour
     static protected GameObject playerGameObject = null;
     static protected PlayerController playerScript = null;
     protected Rigidbody enemyRigidbody;
-    
 
     protected bool isDead = false;
     protected bool isStuned = false;            // 경직 or 스턴용 값
     protected float endStunTime;
     protected Coroutine stunReleaseCoroutine;
-    
+
 
     /// <summary>
     ///     해당 씬에 유일하게 존재하는 플레이어의 정보를 에너미에게 알려줍니다.
@@ -178,19 +184,45 @@ public abstract class EnemyBase : MonoBehaviour
     /// <returns></returns>
     protected int DetermineItemsCount()
     {
-        float probability = Random.value;   // 0.0 ~ 1.0 사이의 임의의 랜덤 숫자 생성
+        if (dropRate.Count == 0)
+        {
+            dropRate = new List<DropTuple>()
+            {
+                new DropTuple()
+                {
+                    dropCount = 1,
+                    probabilityWeight = 0.5f
+                },
+                new DropTuple()
+                {
+                    dropCount = 2,
+                    probabilityWeight = 0.3f
+                },
+                new DropTuple()
+                {
+                    dropCount = 3,
+                    probabilityWeight = 0.2f
+                },
+            };
+        }
 
-        if (probability <= 0.5f)
+
+        float m_sum = 0.0f;
+        for (int index = 0; index < dropRate.Count; ++index)
         {
-            return 1;
+            m_sum += dropRate[index].probabilityWeight;
         }
-        else if (probability <= 0.8f)
+        float probability = Random.value * m_sum;   // 0.0 ~ m_sum 사이의 임의의 랜덤 숫자 생성
+
+        for (int index = 0; index < dropRate.Count; ++index)
         {
-            return 2;
+            if (probability < dropRate[index].probabilityWeight)
+            {
+                return dropRate[index].dropCount;
+            }
+
+            probability -= dropRate[index].probabilityWeight;
         }
-        else
-        {
-            return 3;
-        }
+        return dropRate[dropRate.Count - 1].dropCount;
     }
 }
