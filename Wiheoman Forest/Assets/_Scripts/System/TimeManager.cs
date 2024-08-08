@@ -35,11 +35,6 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField] private AnimationCurve lightChangeCurve;
 
-    //// 차례대로 새벽, 낮, 밤 시간을 나타냄
-    //private float dawnTime;             // 새벽 5시
-    //private float noonTime;             // 낮 12시
-    //private float midnightTime;         // 저녁 7시 (편의상)
-
 
     private void Start()
     {
@@ -52,8 +47,19 @@ public class TimeManager : MonoBehaviour
     private void Update()
     {
         UpdateTime();
-        RotateSun();
     }
+
+
+    private void UpdateTime()
+    {
+        currentTime = currentTime.AddSeconds(Time.deltaTime * realTimeToGameTimeMultiplier);
+
+        if (timeText != null)
+        {
+            timeText.text = currentTime.ToString("HH:mm");
+        }
+    }
+
 
     private void SkipToNextTime(TimeOfDay current)
     {
@@ -72,32 +78,23 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    private void DurationToNextTime()
+    private void DurationToNextTime(TimeOfDay current)
     {
-        //if (current == TimeOfDay.Dawn)
-        //{
-
-        //}
-        //else
-        //{
-        //    Debug.LogError("DurationToNextTime() - Not Found Current Time");
-        //    return;
-        //}
-    }
-
-    private void UpdateTime()
-    {
-        currentTime = currentTime.AddSeconds(Time.deltaTime * realTimeToGameTimeMultiplier);
-
-        if (timeText != null)
+        if (current == TimeOfDay.Dawn)
         {
-            timeText.text = currentTime.ToString("HH:mm");
+            
+        }
+        else
+        {
+            Debug.LogError("DurationToNextTime() - Not Found Current Time");
+            return;
         }
     }
 
+
     private void RotateSun()
     {
-        float sunLight;
+        float lightLerp;
 
         if (currentTime.TimeOfDay > dayTimeSpan && currentTime.TimeOfDay < nightTimeSpan)
         {
@@ -106,7 +103,7 @@ public class TimeManager : MonoBehaviour
 
             double percentage = timeSinceSunrise.TotalMinutes / sunriseToSunsetDuration.TotalMinutes;
 
-            sunLight = Mathf.Lerp(0, 180, (float)percentage);
+            lightLerp = Mathf.Lerp(0, 180, (float)percentage);
         }
         else
         {
@@ -115,16 +112,15 @@ public class TimeManager : MonoBehaviour
 
             double percentage = timeSinceSunset.TotalMinutes / sunsetToSunriseDuration.TotalMinutes;
 
-            sunLight = Mathf.Lerp(180, 360, (float)percentage);
+            lightLerp = Mathf.Lerp(180, 360, (float)percentage);
         }
 
-        GetComponent<Light>().transform.rotation = Quaternion.AngleAxis(sunLight, Vector3.right);
+        GetComponent<Light>().transform.rotation = Quaternion.AngleAxis(lightLerp, Vector3.right);
     }
 
-
-    private TimeSpan CalculateTime(TimeSpan from, TimeSpan to)
+    private TimeSpan CalculateTime(TimeSpan fromTime, TimeSpan toTime)
     {
-        TimeSpan difference = to - from;
+        TimeSpan difference = toTime - fromTime;
 
         if (difference.TotalSeconds < 0.1f)
         {
@@ -133,7 +129,6 @@ public class TimeManager : MonoBehaviour
 
         return difference;
     }
-
 
 
     #region Set Time Methods
@@ -158,21 +153,8 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Set Dawn");
 
         current = TimeOfDay.Dawn;
-        DurationToNextTime();
+        DurationToNextTime(current);
     }
     #endregion
-
-
-    //private TimeSpan CalculateTimeDifference(TimeSpan fromTime, TimeSpan toTime)
-    //{
-    //    TimeSpan difference = toTime - fromTime;
-
-    //    if (difference.TotalSeconds < 0)
-    //    {
-    //        difference += TimeSpan.FromHours(24);
-    //    }
-
-    //    return difference;
-    //}
 
 }

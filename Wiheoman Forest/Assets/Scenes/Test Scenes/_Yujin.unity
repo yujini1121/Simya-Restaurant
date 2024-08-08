@@ -227,6 +227,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &111031155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111031156}
+  m_Layer: 0
+  m_Name: ---------------[Time Manager]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &111031156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111031155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.3586454, y: -2.1753745, z: 7.9055862}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &250937472
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +878,7 @@ GameObject:
   - component: {fileID: 705507996}
   - component: {fileID: 705507997}
   m_Layer: 0
-  m_Name: Sun (Directional Light)
+  m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -864,7 +895,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.8235294, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -967,16 +998,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: 0
   timeText: {fileID: 2010120945}
-  realTimeToGameTimeMultiplier: 2000
+  realTimeToGameTimeMultiplier: 60
   initGameTime: 12
-  sunriseHour: 0
-  sunsetHour: 0
-  dayAmbientLight: {r: 0.9644001, g: 0.9328688, b: 0.7582335, a: 0}
+  sunriseHour: 7
+  sunsetHour: 20.5
+  dayAmbientLight: {r: 1, g: 1, b: 0.8235294, a: 0}
   nightAmbientLight: {r: 0.15686275, g: 0.3137255, b: 0.39195436, a: 0}
-  dawnAmbientLight: {r: 0.5016997, g: 0.3931728, b: 0.55428976, a: 0}
+  dawnAmbientLight: {r: 0.7163257, g: 0.4725155, b: 0.7678889, a: 0}
   lightChangeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6957699
+      value: 0.22726215
+      inSlope: 0.7643424
+      outSlope: 0.7643424
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1839,7 +1897,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 705507997}
-        m_TargetAssemblyTypeName: DayAndNight, Assembly-CSharp
+        m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
         m_MethodName: SetDawn
         m_Mode: 1
         m_Arguments:
@@ -2496,7 +2554,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 705507997}
-        m_TargetAssemblyTypeName: DayAndNight, Assembly-CSharp
+        m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
         m_MethodName: SetNight
         m_Mode: 1
         m_Arguments:
@@ -2629,7 +2687,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 705507997}
-        m_TargetAssemblyTypeName: DayAndNight, Assembly-CSharp
+        m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
         m_MethodName: SetDay
         m_Mode: 1
         m_Arguments:
@@ -5222,7 +5280,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
-  - {fileID: 705507995}
   - {fileID: 1216743004}
   - {fileID: 1630472020}
   - {fileID: 1021604795}
@@ -5231,3 +5288,5 @@ SceneRoots:
   - {fileID: 250937476}
   - {fileID: 31703583}
   - {fileID: 873473392}
+  - {fileID: 111031156}
+  - {fileID: 705507995}
