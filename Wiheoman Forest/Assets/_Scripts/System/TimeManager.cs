@@ -33,23 +33,35 @@ public class TimeManager : MonoBehaviour
     }
 
 
-    private void DurationToNextTime(TimeOfDay current)
-    {
-
-    }
-
     private void SkipToNextTime(TimeOfDay current)
     {
         if (current == TimeOfDay.Day)
         {
-            Debug.Log("Day!!!!!!!!");
+
         }
         else if (current == TimeOfDay.Night)
         {
-            Debug.Log("Night!!!!!!!!!!");
-        }    
+
+        }
+        else
+        {
+            Debug.LogError("SkipToNextTime() - Not Found Current Time!");
+            return;
+        }
     }
 
+    private void DurationToNextTime(TimeOfDay current)
+    {
+        if (current == TimeOfDay.Dawn)
+        {
+
+        }
+        else
+        {
+            Debug.LogError("DurationToNextTime() - Not Found Current Time!");
+            return;
+        }
+    }
 
 
     public void SetDay()
@@ -65,7 +77,7 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Set Night");
 
         current = TimeOfDay.Night;
-        DurationToNextTime(current);
+        SkipToNextTime(current);
     }
 
     public void SetDawn()
@@ -73,7 +85,7 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Set Dawn");
 
         current = TimeOfDay.Dawn;
-        SkipToNextTime(current);
+        DurationToNextTime(current);
     }
 
 
