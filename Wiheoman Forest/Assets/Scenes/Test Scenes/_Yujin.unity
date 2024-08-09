@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 4a38f8e24158d5a4a81b8d43d1a212da, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -935,7 +935,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1000,7 +1000,7 @@ MonoBehaviour:
   timeText: {fileID: 2010120945}
   realTimeToGameTimeMultiplier: 60
   initGameTime: 12
-  sunriseHour: 7
+  sunriseHour: 6
   sunsetHour: 20.5
   dayAmbientLight: {r: 1, g: 1, b: 0.8235294, a: 0}
   nightAmbientLight: {r: 0.15686275, g: 0.3137255, b: 0.39195436, a: 0}
@@ -1011,17 +1011,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.6957699
-      value: 0.22726215
-      inSlope: 0.7643424
-      outSlope: 0.7643424
+      time: 0.25498074
+      value: 0.9942426
+      inSlope: 0.1656795
+      outSlope: 0.1656795
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.28292236
+    - serializedVersion: 3
+      time: 0.5551339
+      value: 0.0028178096
+      inSlope: 0.4020953
+      outSlope: 0.4020953
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -1029,8 +1038,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -1898,7 +1907,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 705507997}
         m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
-        m_MethodName: SetDawn
+        m_MethodName: SetDawnToDay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2555,7 +2564,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 705507997}
         m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
-        m_MethodName: SetNight
+        m_MethodName: SetNightToDawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2688,7 +2697,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 705507997}
         m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
-        m_MethodName: SetDay
+        m_MethodName: SetDayToNight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

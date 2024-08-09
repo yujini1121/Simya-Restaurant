@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public enum TimeOfDay
 {
@@ -27,7 +26,6 @@ public class TimeManager : MonoBehaviour
     private DateTime currentTime;
     private TimeSpan dayTimeSpan;
     private TimeSpan nightTimeSpan;
-    private TimeSpan dawnTimeSpan;
 
     [SerializeField] private Color dayAmbientLight;
     [SerializeField] private Color nightAmbientLight;
@@ -46,9 +44,18 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateTime();
-    }
+        if (current == TimeOfDay.Night)
+        {
+            timeText.enabled = true;
 
+            UpdateTime();
+            RotateSun();
+        }
+        else
+        {
+            timeText.enabled = false;
+        }
+    }
 
     private void UpdateTime()
     {
@@ -60,14 +67,17 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// case 1. 새벽 -> 낮 ///
+    /// case 2. 낮 -> 밤
+    /// </summary>
     private void SkipToNextTime(TimeOfDay current)
     {
-        if (current == TimeOfDay.Day)
+        if      (current == TimeOfDay.Dawn)
         {
 
         }
-        else if (current == TimeOfDay.Night)
+        else if (current == TimeOfDay.Day)
         {
 
         }
@@ -78,9 +88,12 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 밤 -> 새벽 
+    /// </summary>
     private void DurationToNextTime(TimeOfDay current)
     {
-        if (current == TimeOfDay.Dawn)
+        if (current == TimeOfDay.Night)
         {
             
         }
@@ -94,28 +107,30 @@ public class TimeManager : MonoBehaviour
 
     private void RotateSun()
     {
+        Debug.Log("Rotate Sun");
+
         float lightLerp;
 
         if (currentTime.TimeOfDay > dayTimeSpan && currentTime.TimeOfDay < nightTimeSpan)
         {
-            TimeSpan sunriseToSunsetDuration = CalculateTime(dayTimeSpan, nightTimeSpan);
             TimeSpan timeSinceSunrise = CalculateTime(dayTimeSpan, currentTime.TimeOfDay);
+            TimeSpan sunriseToSunsetDuration = CalculateTime(dayTimeSpan, nightTimeSpan);
 
             double percentage = timeSinceSunrise.TotalMinutes / sunriseToSunsetDuration.TotalMinutes;
 
-            lightLerp = Mathf.Lerp(0, 180, (float)percentage);
+            lightLerp = Mathf.Lerp(200, 360, (float)percentage);
+            transform.rotation = Quaternion.AngleAxis(lightLerp, Vector3.right);
+
+            float dotProduct = Vector3.Dot(transform.forward, Vector3.down);
+            float intensityLerp = Mathf.Lerp(0, 1, lightChangeCurve.Evaluate(dotProduct));
+
+            GetComponent<Light>().intensity = intensityLerp;
         }
         else
         {
-            TimeSpan sunsetToSunriseDuration = CalculateTime(nightTimeSpan, dayTimeSpan);
-            TimeSpan timeSinceSunset = CalculateTime(nightTimeSpan, currentTime.TimeOfDay);
-
-            double percentage = timeSinceSunset.TotalMinutes / sunsetToSunriseDuration.TotalMinutes;
-
-            lightLerp = Mathf.Lerp(180, 360, (float)percentage);
+            SetDawnToDay();
         }
 
-        GetComponent<Light>().transform.rotation = Quaternion.AngleAxis(lightLerp, Vector3.right);
     }
 
     private TimeSpan CalculateTime(TimeSpan fromTime, TimeSpan toTime)
@@ -132,27 +147,28 @@ public class TimeManager : MonoBehaviour
 
 
     #region Set Time Methods
-    public void SetDay()
+    public void SetDawnToDay()
     {
+        Debug.Log("Set Dawn");
+
+        current = TimeOfDay.Dawn;
+        SkipToNextTime(current);
+    }
+
+    public void SetDayToNight()
+    {
+        Debug.LogWarning("Save All Data");
         Debug.Log("Set Day");
 
         current = TimeOfDay.Day;
         SkipToNextTime(current);
     }
 
-    public void SetNight()
+    public void SetNightToDawn()
     {
         Debug.Log("Set Night");
 
         current = TimeOfDay.Night;
-        SkipToNextTime(current);
-    }
-
-    public void SetDawn()
-    {
-        Debug.Log("Set Dawn");
-
-        current = TimeOfDay.Dawn;
         DurationToNextTime(current);
     }
     #endregion
