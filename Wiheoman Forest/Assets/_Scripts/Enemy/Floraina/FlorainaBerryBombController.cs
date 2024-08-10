@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class FlorainaBerryBombController : MonoBehaviour
 {
+    public float timeForSingleBomb
+    {
+        get => beginWaitTime + remainTime;
+    }
+    public float timeForWaiting
+    {
+        get => remainTime;
+    }
+
     [SerializeField] float beginWaitTime = 5.0f;
     [SerializeField] float remainTime = 0.3f;
     [SerializeField] float playerPushBerryDistance;
     [SerializeField] float timeForPlayerPushBerry;
     bool isPushable = false;
+    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(DoAction());
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    StartCoroutine(DoAction());
+    //}
 
     IEnumerator DoAction()
     {
@@ -50,5 +60,9 @@ public class FlorainaBerryBombController : MonoBehaviour
 
     }
 
-    public void Land() => isPushable = true;
+    public void Land()
+    {
+        StartCoroutine(DoAction());
+        isPushable = true;
+    }
 }
