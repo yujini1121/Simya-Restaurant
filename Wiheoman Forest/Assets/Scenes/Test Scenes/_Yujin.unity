@@ -998,7 +998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current: 0
   timeText: {fileID: 2010120945}
-  realTimeToGameTimeMultiplier: 60
+  realTimeToGameTimeMultiplier: 2000
   initGameTime: 12
   sunriseHour: 6
   sunsetHour: 20.5
@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4504013, g: 0.716846, b: 0.742257, a: 0.39215687}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.12156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
