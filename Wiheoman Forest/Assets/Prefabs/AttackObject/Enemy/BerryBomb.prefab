@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beginWaitTime: 5
-  remainTime: 0.3
+  remainTime: 0.2
   playerPushBerryDistance: 8
   timeForPlayerPushBerry: 1
 --- !u!54 &-5208787635243261168

@@ -21,8 +21,14 @@ public class BossFlorainaController : EnemyBase
     [SerializeField] private float timeForFlowerSpawning = 3.0f;
     [SerializeField] private float timeForHealing = 10.0f;
     [SerializeField] private float timeForBerryMove = 2.0f;
-    [SerializeField] private float chanceOfRootAttack = 0.7f;
-    [SerializeField] private float chanceOfBerryBomb = 0.3f;
+    [SerializeField] private float timeForAttackInterval = 2.0f;
+    private float timeForLeavesWarning;
+    private float timeForLeavesMoving;
+    private float timeForSingleBomb;
+    [SerializeField] private float chanceOfRootAttack = 0.5f;
+    [SerializeField] private float chanceOfLeavesAttack = 0.3f;
+    [SerializeField] private float chanceOfBerryBomb = 0.2f;
+    [SerializeField] private float heightOfLeavesAttack = 3f;
     private Coroutine attackCoroutine; // 일반적으로는 켜져 있음. 꽃몬 소환할떄 잠시 꺼두고, 소환 다 되었으면 다시 실행.
     private Coroutine flownerMonSpawnCoroutine;
     private Coroutine healingCoroutine;
@@ -31,6 +37,8 @@ public class BossFlorainaController : EnemyBase
     [SerializeField] private GameObject prefabFallingFlower;
     [SerializeField] private GameObject prefabFlowerMonMelee;
     [SerializeField] private GameObject prefabFlowerMonRanged;
+    [SerializeField] private GameObject prefabLeavesAttackWarning;
+    [SerializeField] private GameObject prefabLeavesAttackHitBox;
     [SerializeField] private float flowerMonSpawnPositionMaxX;
     [SerializeField] private float flowerMonSpawnPositionMinX;
     private bool isHealing = false;
@@ -45,6 +53,10 @@ public class BossFlorainaController : EnemyBase
     [SerializeField] private Vector3 positionMaxOfBerryDestination;
     [SerializeField] private int countOfSpawningFlowerMonMelee;
     [SerializeField] private int countOfSpawningFlowerMonRanged;
+    private const int INDEX_OF_ROOT_ATTACK = 0;
+    private const int INDEX_OF_LEAVES_ATTACK = 1;
+    private const int INDEX_OF_BERRY_BOMB_ATTACK = 2;
+    [SerializeField] private int countOfBerries = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -105,21 +117,38 @@ public class BossFlorainaController : EnemyBase
         yield return new WaitForSeconds(attackBeginTime);
         while (true)
         {
+
             // 공격 뭐 할지 선택
             // 그 다음 공격 함수 호출
-            
-            float randomNumber = UnityEngine.Random.Range(0.0f, chanceOfRootAttack + chanceOfBerryBomb);
 
-            if (randomNumber < chanceOfRootAttack)
+            float randomNumber = UtilityFunctions.GetRandom(chanceOfRootAttack, chanceOfLeavesAttack, chanceOfBerryBomb);
+            float waitTime = 0.5f;
+
+            switch (randomNumber)
             {
-                AttackWithRoot();
-            }
-            else
-            {
-                AttackWithBerryBomb();
+                case INDEX_OF_ROOT_ATTACK:
+                    AttackWithRoot();
+                    waitTime = timeForAttackInterval + 
+                        FlorainaRootController.timeForRootAction;
+                    break;
+                case INDEX_OF_LEAVES_ATTACK:
+                    AttackWithLeaves();
+                    waitTime = timeForAttackInterval + 
+                        timeForLeavesWarning +
+                        timeForLeavesMoving;
+                    break;
+                case INDEX_OF_BERRY_BOMB_ATTACK:
+                    AttackWithBerryBomb();
+                    waitTime = timeForAttackInterval +
+                        timeForBerryMove +
+                        timeForSingleBomb;
+                    break;
+                default:
+                    break;
             }
 
-            yield return new WaitForSeconds(attackPeriod);
+            Debug.Log($"{randomNumber} / {waitTime}");
+            yield return new WaitForSeconds(waitTime);
         }
     }
 
@@ -131,34 +160,80 @@ public class BossFlorainaController : EnemyBase
             prefabRoot.transform.rotation);
     }
 
+    private void AttackWithLeaves()
+    {
+        GameObject m_warningObject = Instantiate(
+            prefabLeavesAttackWarning,
+            new Vector3(0, (heightOfLeavesAttack + 1) / 2.0f, 0),
+            prefabLeavesAttackWarning.transform.rotation);
+        m_warningObject.transform.localScale = new Vector3(40, heightOfLeavesAttack, 1);
+        timeForLeavesWarning = m_warningObject.GetComponent<FlorainaLeafWarningController>().remainTime;
+
+        GameObject m_hitBox = Instantiate(
+            prefabLeavesAttackHitBox,
+            new Vector3(
+                transform.position.x,
+                (heightOfLeavesAttack + 1) / 2.0f,
+                0
+                ),
+            prefabLeavesAttackHitBox.transform.rotation
+            );
+        m_hitBox.transform.localScale = new Vector3(heightOfLeavesAttack, heightOfLeavesAttack, 1);
+        timeForLeavesMoving = m_hitBox.GetComponent<FlorainaLeafHitBoxController>().timeForMoving;
+    }
+
+    private void TEMP_SpeedShotBerryBomb()
+    {
+
+    }
+
     private void AttackWithBerryBomb()
     {
         // 민혁씨 요구사항이 완전히 결정되지 않음. 로직 바뀔 예정
-        for (int berryNumner = 0; berryNumner < 3; ++berryNumner)
+        // 순서대로 바꿔달라고 함
+
+        GameObject[] berries = new GameObject[countOfBerries];
+        Vector3[] berryStartPositions = new Vector3[countOfBerries];
+        Vector3[] berryEndPositions = new Vector3[countOfBerries];
+
+        for (int berryNumber = 0; berryNumber < berries.Length; ++berryNumber)
         {
-            GameObject berryBomb =
+            berries[berryNumber] =
                 Instantiate(
                     prefabBerryBomb,
                     playerGameObject.transform.position,
                     prefabBerryBomb.transform.rotation);
-            Vector3 berryStart = new Vector3(
+            if (berryNumber == 0)
+            {
+                timeForSingleBomb = berries[berryNumber].GetComponent<FlorainaBerryBombController>().timeForSingleBomb;
+            }
+            berryStartPositions[berryNumber] = new Vector3(
                 Random.Range(positionMinOfBerrySpawn.x, positionMaxOfBerrySpawn.x),
                 Random.Range(positionMinOfBerrySpawn.y, positionMaxOfBerrySpawn.y),
                 0);
-            Vector3 berryEnd = new Vector3(
+            berryEndPositions[berryNumber] = new Vector3(
                 Random.Range(positionMinOfBerryDestination.x, positionMaxOfBerryDestination.x),
                 Random.Range(positionMinOfBerryDestination.y, positionMaxOfBerryDestination.y),
                 0);
+        }
+
+        UtilityFunctions.Sort(ref berryStartPositions, (Vector3 left, Vector3 right) => { return left.x > right.x; });
+        UtilityFunctions.Sort(ref berryEndPositions, (Vector3 left, Vector3 right) => { return left.x > right.x; });
+        
+        for (int berryNumber = 0; berryNumber < berries.Length; ++berryNumber)
+        {
+            GameObject selectedGameObject = berries[berryNumber];
             Vector3 berryCenter = new Vector3(
-                (berryStart.x + berryEnd.x) / 2.0f,
+                (berryStartPositions[berryNumber].x + berryEndPositions[berryNumber].x) / 2.0f,
                 positionTopYofBerryCenter,
                 0);
-            StartCoroutine(UtilityFunctions.MoveOnBezierCurve(berryStart, berryEnd, berryCenter, berryBomb, timeForBerryMove));
+            StartCoroutine(UtilityFunctions.MoveOnBezierCurve(berryStartPositions[berryNumber], berryEndPositions[berryNumber], berryCenter, selectedGameObject, timeForBerryMove));
             StartCoroutine(UtilityFunctions.RunAfterDelay(
                 timeForBerryMove,
                 () =>
                 {
-                    berryBomb.GetComponent<FlorainaBerryBombController>().Land();
+                    Debug.Log($"berryNumber => {berryNumber}");
+                    selectedGameObject.GetComponent<FlorainaBerryBombController>().Land();
                 }));
         }
     }

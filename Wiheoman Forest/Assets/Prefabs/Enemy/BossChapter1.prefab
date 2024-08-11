@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
+  dropRate: []
   range: 0
   stat:
     health: 0
@@ -135,13 +136,18 @@ MonoBehaviour:
   timeForFlowerSpawning: 3
   timeForHealing: 10
   timeForBerryMove: 2
-  chanceOfRootAttack: 0.7
-  chanceOfBerryBomb: 0.3
+  timeForAttackInterval: 2
+  chanceOfRootAttack: 0.5
+  chanceOfLeavesAttack: 0.3
+  chanceOfBerryBomb: 0.2
+  heightOfLeavesAttack: 3
   prefabRoot: {fileID: 3756904208457183791, guid: 9691d8d6f62ed1544a4c10dae0eb4d16, type: 3}
   prefabBerryBomb: {fileID: 6280397613393638542, guid: e851b888f98cc824ea4ee608793ceca8, type: 3}
   prefabFallingFlower: {fileID: 8593889425993261212, guid: 4a961246b0c47054dab2a203eac3bb2e, type: 3}
   prefabFlowerMonMelee: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288, type: 3}
   prefabFlowerMonRanged: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288, type: 3}
+  prefabLeavesAttackWarning: {fileID: 1553023000297302007, guid: 705aa76f91b206942a0ce0d2a37524b3, type: 3}
+  prefabLeavesAttackHitBox: {fileID: 6798844009843498755, guid: c08598f784f25984eac1204220ae00a0, type: 3}
   flowerMonSpawnPositionMaxX: -10
   flowerMonSpawnPositionMinX: 4
   positionTopYofFlowerCenter: 15
@@ -155,6 +161,7 @@ MonoBehaviour:
   positionMaxOfBerryDestination: {x: 3, y: 1, z: 0}
   countOfSpawningFlowerMonMelee: 3
   countOfSpawningFlowerMonRanged: 3
+  countOfBerries: 3
 --- !u!54 &6494960327363205062
 Rigidbody:
   m_ObjectHideFlags: 0
