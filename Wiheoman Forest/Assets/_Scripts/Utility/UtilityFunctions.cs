@@ -99,4 +99,54 @@ public class UtilityFunctions : MonoBehaviour
             prevPoint = nextPoint;
         }
     }
+
+    static public int GetRandom(params float[] weights)
+    {
+        if (weights.Length == 0)
+        {
+            return 0;
+        }
+
+        float m_sum = 0.0f;
+        for (int index = 0; index < weights.Length; ++index)
+        {
+            m_sum += weights[index];
+        }
+
+        float probability = Random.value * m_sum;
+        for (int index = 0; index < weights.Length - 1; ++index)
+        {
+            if (probability < weights[index])
+            {
+                return index;
+            }
+            probability -= weights[index];
+        }
+        return weights.Length - 1;
+    }
+
+    /// <summary>
+    ///     느린 정렬 알고리즘입니다. 배열의 원소의 갯수가 100개 미만이면 적당합니다.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="original"></param>
+    /// <param name="isRightFirst"></param>
+    /// <returns></returns>
+    static public void Sort<T>(ref T[] targetArray, System.Func<T, T, bool> isRightFirst) where T : struct
+    {
+        for (int index1 = 0; index1 < targetArray.Length; ++index1)
+        {
+            for (int index2 = index1 + 1; index2 < targetArray.Length; ++index2)
+            {
+                if (isRightFirst(targetArray[index1], targetArray[index2]))
+                {
+                    T temp = targetArray[index1];
+                    targetArray[index1] = targetArray[index2];
+                    targetArray[index2] = temp;
+                }
+            }
+        }
+    }
+
+    
 }
