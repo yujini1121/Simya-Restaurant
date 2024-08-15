@@ -74,13 +74,10 @@ public class TestShopManager : MonoBehaviour
         selectedItemUI = newItemUI;
 
         TestItem selectedItem = sellItem[selectedIndex];
-        Debug.Log("1번 됨");
-        Transform itemImagePanel = storeUI.transform.Find("InventorySlot_Panel");
-        Debug.Log("2번 됨");
-        Image itemImage = itemImagePanel.transform.Find("InventoryItem_Image").GetComponent<Image>();
-        Debug.Log("3번 됨");
+        Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
+        Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
+        Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
         itemImage.sprite = selectedItem.ItemImage;
-        Debug.Log("4번 됨");
     }
 
     private void ToggleOutline(GameObject itemUI, bool enable)
