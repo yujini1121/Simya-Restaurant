@@ -11,10 +11,11 @@ public class PlayerInventoryController : MonoBehaviour
 
     [Header("Slots")]
     [SerializeField] private InventorySlot[] slots;
+    [SerializeField] RectTransform rectTransform;
 
     [Header("External Scripts")]
     [SerializeField] private GameObject dataController;
-    [SerializeField] private int curItemCount;
+    [SerializeField] private int curItemCount = 0;
 
 
     private void Start()
@@ -25,38 +26,13 @@ public class PlayerInventoryController : MonoBehaviour
         }
 
         curItemCount = PlayerData.instance.items.Length;
-        slots = new InventorySlot[10];
+        rectTransform = inventoryBasePanel.GetComponent<RectTransform>();
     }
 
     void Update()
     {
         OpenInventory();
-    }
-
-
-    public void AcquireItem(TestItem item, int count = 1)
-    {
-        if (item.CanOverlap && curItemCount == slots.Length)
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i].Item != null && slots[i].Item.ItemID == item.ItemID)
-                {
-                    slots[i].ItemCountUpdate(count);
-                    return;
-                }
-            }
-        }
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].Item == null)
-            {
-                slots[i].AddItemSlot(item, count);
-                Debug.Log("아이템 슬롯 추가");
-                return;
-            }
-        }
+        SetScale();
     }
 
     private void OpenInventory()
@@ -80,5 +56,61 @@ public class PlayerInventoryController : MonoBehaviour
                 Cursor.visible = false;
             }
         }
+    }
+
+    private void SetScale()
+    {
+        if (curItemCount <= 5)
+        {
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 200);
+            
+            for (int i = 5; i < 10; i++)
+            {
+                slots[i].gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 400);
+
+            for (int i = 5; i < 10; i++)
+            {
+                slots[i].gameObject.SetActive(true);
+            }
+
+        }
+    }
+
+    public void AcquireItem(TestItem item, int count = 1)
+    {
+        if (item.CanOverlap)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].Item != null && slots[i].Item.ItemID == item.ItemID)
+                {
+                    slots[i].ItemCountUpdate(count);
+
+                    return;
+                }
+            }
+        }
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].Item == null)
+            {
+                curItemCount++;
+                slots[i].AddItemSlot(item, count);
+
+                Debug.Log(curItemCount);
+                return;
+            }
+        }
+    }
+
+    public void LoseItem(TestItem item, int count = 1)
+    {
+
     }
 }
