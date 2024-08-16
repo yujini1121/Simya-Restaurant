@@ -23,7 +23,7 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mItemCountText;
 
     // 인벤토리에 새로운 아이템 슬롯 추가
-    public void AddItem(TestItem item, int count = 1)
+    public void AddItemSlot(TestItem item, int count = 1)
     {
         mItem = item;
         mItemCount = count;
