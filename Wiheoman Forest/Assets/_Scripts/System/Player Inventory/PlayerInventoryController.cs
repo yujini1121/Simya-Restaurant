@@ -27,12 +27,20 @@ public class PlayerInventoryController : MonoBehaviour
 
         curItemCount = PlayerData.instance.items.Length;
         rectTransform = inventoryBasePanel.GetComponent<RectTransform>();
+
+        slots[curItemCount].gameObject.SetActive(true);
+
+        for (int i = 0; i < 10; i++)
+        {
+            slots[i].gameObject.SetActive(false);
+        }
     }
 
     void Update()
     {
         OpenInventory();
         SetScale();
+        UpdateSlot();
     }
 
     private void OpenInventory()
@@ -75,11 +83,23 @@ public class PlayerInventoryController : MonoBehaviour
 
             for (int i = 5; i < 10; i++)
             {
+                slots[i].gameObject.SetActive(false);
+            }
+            for (int i = 5; i < curItemCount; i++)
+            {
                 slots[i].gameObject.SetActive(true);
             }
-
         }
     }
+
+    private void UpdateSlot()
+    {
+        if (curItemCount <= 10 && curItemCount > 0)
+        {
+            slots[curItemCount - 1].gameObject.SetActive(true);
+        }
+    }
+
 
     public void AcquireItem(TestItem item, int count = 1)
     {
