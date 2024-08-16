@@ -132,7 +132,7 @@ public class UtilityFunctions : MonoBehaviour
     /// <param name="original"></param>
     /// <param name="isRightFirst"></param>
     /// <returns></returns>
-    static public void Sort<T>(ref T[] targetArray, System.Func<T, T, bool> isRightFirst) where T : struct
+    static public void Sort<T>(ref T[] targetArray, System.Func<T, T, bool> isRightFirst)
     {
         for (int index1 = 0; index1 < targetArray.Length; ++index1)
         {
@@ -148,5 +148,22 @@ public class UtilityFunctions : MonoBehaviour
         }
     }
 
-    
+    static public void SetSize(Transform transform, float sizeX, float sizeY, float offsetY)
+    {
+        transform.localScale = new Vector3(sizeX, sizeY, transform.localScale.z);
+        transform.position = new Vector3(transform.position.x, sizeY / 2 + offsetY + 0.5f, transform.position.z);
+    }
+
+    static public void Log(object callerInstance, object message)
+    {
+        Debug.Log($">> {callerInstance.GetType().Name} : {message.ToString()}");
+    }
+
+    static public Vector3 GetMiddleForBezierCurve(Vector3 left, Vector3 right, float top)
+    {
+        Vector3 result = new Vector3();
+        result = Vector3.Lerp(left, right, 0.5f);
+        result.y = top;
+        return result;
+    }    
 }

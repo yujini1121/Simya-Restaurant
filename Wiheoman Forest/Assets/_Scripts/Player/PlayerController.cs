@@ -90,6 +90,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float prePressAllowTime = 0.5f;
     Coroutine inputBlockingCoroutine;
 
+    // 상호 작용 변수
+    List<InteractiveObjectBase> approchableInteractives;
+    int index = 0;
+
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
     /// </summary>
@@ -107,6 +111,25 @@ public class PlayerController : MonoBehaviour
 
         playerRb.AddForce(knockBackDirection.normalized * force, ForceMode.Impulse);
     }
+    
+    public void AddInteractive(InteractiveObjectBase target)
+    {
+        if (m_FindInteractive(target) != -1)
+        {
+            return;
+        }
+        approchableInteractives.Add(target);
+    }
+
+    public void RemoveInteractive(InteractiveObjectBase target)
+    {
+        int index = m_FindInteractive(target);
+        if (index == -1)
+        {
+            return;
+        }
+        approchableInteractives.RemoveAt(index);
+    }
 
     private void DoDeathHandle()
     {
@@ -114,6 +137,12 @@ public class PlayerController : MonoBehaviour
         IsDead = true;
         currentPlayerStatus = EPlayerStatus.dead;
         animatorController.CrossFade($"Dead", 0.15f);
+    }
+
+    private void Awake()
+    {
+        approchableInteractives = new List<InteractiveObjectBase>(32);
+
     }
 
     void Start()
@@ -143,6 +172,7 @@ public class PlayerController : MonoBehaviour
 
         DoAttackLight();
         DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
+        DoInteractive();
 
         TEMP_PlayAnimate();
     }
@@ -329,6 +359,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void DoInteractive()
+    {
+        if (Input.GetButtonDown("Interactive") == false)
+        {
+            return;
+        }
+        if (approchableInteractives.Count == 0)
+        {
+            Debug.Log("인터랙티브 할 수 있는 대상이 없음");
+            return;
+        }
+        Debug.Log("인터랙티브 진행");
+
+        InteractiveObjectBase[] sortedArray = approchableInteractives.ToArray();
+        UtilityFunctions.Sort(
+            ref sortedArray,
+            (InteractiveObjectBase left, InteractiveObjectBase right) =>
+            {
+                return (left.transform.position - transform.position).sqrMagnitude >
+                    (right.transform.position - transform.position).sqrMagnitude;
+            }
+            );
+
+        sortedArray[0].DoInteractiveWithThis();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -422,5 +478,17 @@ public class PlayerController : MonoBehaviour
         {
             animatorController.Play($"{BaseLayer}HeavyAttack");
         }
+    }
+
+    private int m_FindInteractive(InteractiveObjectBase target)
+    {
+        for (int index = 0; index < approchableInteractives.Count; ++index)
+        {
+            if (ReferenceEquals(approchableInteractives[index], target))
+            {
+                return index;
+            }
+        }
+        return -1;
     }
 }
