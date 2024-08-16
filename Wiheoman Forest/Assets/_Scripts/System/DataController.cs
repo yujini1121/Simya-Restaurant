@@ -6,6 +6,8 @@ using System.IO;
 [System.Serializable]
 public class PlayerData
 {
+    public static PlayerData instance;
+
     [Header ("Status")]
     public bool isDead;
     public string name;
@@ -14,11 +16,19 @@ public class PlayerData
 
     [Space(30)][Header ("Inventory")]
     public string[] items;
+
+
+    public PlayerData()
+    {
+        items = new string[0];
+        instance = this;
+    }
 }
 
 public class DataController : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
+
 
     private void Awake()
     {

@@ -22,10 +22,6 @@ public class TestShopManager : MonoBehaviour
     private int selectedIndex = 0;
     private GameObject selectedItemUI;
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -47,15 +43,40 @@ public class TestShopManager : MonoBehaviour
         }
     }
 
+    private void InitSlot()
+    {
+        foreach (Transform child in storeUIParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var item in sellItem)
+        {
+            GameObject newItemUI = Instantiate(storeUIPrefab, storeUIParent);
+
+            newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
+        }
+    }
+
     private void SelectInput()
     {
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             ChangeSelection(-1);
         }
-        else if(Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeSelection(1);
+        }
+    }
+
+    private void SelectItem(int index)
+    {
+        if (storeUIParent != null && storeUIParent.childCount > 0)
+        {
+            selectedIndex = Mathf.Clamp(index, 0, storeUIParent.childCount - 1);
+            selectedItemUI = storeUIParent.GetChild(selectedIndex).gameObject;
+            ToggleOutline(selectedItemUI, true);
         }
     }
 
@@ -74,46 +95,18 @@ public class TestShopManager : MonoBehaviour
         selectedItemUI = newItemUI;
 
         TestItem selectedItem = sellItem[selectedIndex];
-        Debug.Log("1번 됨");
-        Transform itemImagePanel = storeUI.transform.Find("InventorySlot_Panel");
-        Debug.Log("2번 됨");
-        Image itemImage = itemImagePanel.transform.Find("InventoryItem_Image").GetComponent<Image>();
-        Debug.Log("3번 됨");
+        Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
+        Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
+        Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
         itemImage.sprite = selectedItem.ItemImage;
-        Debug.Log("4번 됨");
     }
 
     private void ToggleOutline(GameObject itemUI, bool enable)
     {
         var outline = itemUI.GetComponent<Outline>();
-        if(outline != null)
+        if (outline != null)
         {
             outline.enabled = enable;
         }
     }
-
-    private void SelectItem(int index)
-    {
-        if (storeUIParent != null && storeUIParent.childCount > 0)
-        {
-            selectedIndex = Mathf.Clamp(index, 0, storeUIParent.childCount - 1);
-            selectedItemUI = storeUIParent.GetChild(selectedIndex).gameObject;
-            ToggleOutline(selectedItemUI, true);
-        }
-    }
-
-    private void InitSlot()
-    {
-        foreach (Transform child in storeUIParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach(var item in sellItem)
-        {
-            GameObject newItemUI = Instantiate(storeUIPrefab, storeUIParent);
-
-            newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
-        }
-    }    
 }

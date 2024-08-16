@@ -16,55 +16,17 @@ public class TestInventoryItem : MonoBehaviour
     [SerializeField] private Button item2Button;
     [SerializeField] private Button item3Button;
 
-    private bool item1Clicked = false;
-    private bool item2Clicked = false;
-    private bool item3Clicked = false;
-
     private void Start()
     {
-        // 버튼 클릭 이벤트에 메서드 연결
-        item1Button.onClick.AddListener(OnItem1ButtonClicked);
-        item2Button.onClick.AddListener(OnItem2ButtonClicked);
-        item3Button.onClick.AddListener(OnItem3ButtonClicked);
+        // 버튼 클릭 이벤트에 메서드 직접 연결
+        item1Button.onClick.AddListener(() => AcquireItem(item1, "1번"));
+        item2Button.onClick.AddListener(() => AcquireItem(item2, "2번"));
+        item3Button.onClick.AddListener(() => AcquireItem(item3, "3번"));
     }
 
-    private void Update()
+    private void AcquireItem(TestItem item, string debugMessage)
     {
-        // 버튼 클릭 이벤트 확인
-        if (item1Clicked)
-        {
-            item1Clicked = false;
-            mInventoryMain.AcquireItem(item1);
-            Debug.Log("1번");
-        }
-
-        if (item2Clicked)
-        {
-            item2Clicked = false;
-            mInventoryMain.AcquireItem(item2);
-            Debug.Log("2번");
-        }
-
-        if (item3Clicked)
-        {
-            item3Clicked = false;
-            mInventoryMain.AcquireItem(item3);
-            Debug.Log("3번");
-        }
-    }
-
-    public void OnItem1ButtonClicked()
-    {
-        item1Clicked = true;
-    }
-
-    public void OnItem2ButtonClicked()
-    {
-        item2Clicked = true;
-    }
-
-    public void OnItem3ButtonClicked()
-    {
-        item3Clicked = true;
+        mInventoryMain.AcquireItem(item);
+        Debug.Log(debugMessage);
     }
 }

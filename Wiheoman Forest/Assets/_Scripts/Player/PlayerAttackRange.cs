@@ -34,6 +34,11 @@ public class PlayerAttackRange : MonoBehaviour
     [SerializeField] protected bool isBypassBlock;
     [SerializeField] protected EPlayerAttackType attackType;
 
+    public EPlayerAttackType GetAttackType()
+    {
+        return attackType;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
