@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryBase : MonoBehaviour
+public class Chest_InventoryBase : MonoBehaviour
 {
     [SerializeField] protected GameObject inventoryBase;
     [SerializeField] protected GameObject inventoryBasePanel;

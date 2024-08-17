@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventoryController : MonoBehaviour
+public class Player_InventoryController : MonoBehaviour
 {
     [Header("Inventory")]
     [SerializeField] protected GameObject inventoryBase;
