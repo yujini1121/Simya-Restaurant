@@ -6,10 +6,7 @@ using UnityEngine.UI;
 public class PlayerInventory : MonoBehaviour
 {
     #region Variable
-    [Header("인벤토리 메인")]
-    [SerializeField] private PlayerInventoryController mInventoryMain;
-
-    [Header("획득할 아이템")] [Space(10)]
+    [Header("Items")] 
     [SerializeField] private TestItem item1;
     [SerializeField] private TestItem item2;
     [SerializeField] private TestItem item3;
@@ -18,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private TestItem item6;
     [SerializeField] private TestItem item7;
 
-    [Header("UI 버튼")] [Space(10)]
+    [Header("Buttons")] [Space(10)]
     [SerializeField] private Button item1Button;
     [SerializeField] private Button item2Button;
     [SerializeField] private Button item3Button;
@@ -27,6 +24,9 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private Button item6Button;
     [SerializeField] private Button item7Button;
     [SerializeField] private Button minusButton;
+
+    [Header("External")] [Space(10)]
+    [SerializeField] private PlayerInventoryController mInventoryMain;
     #endregion
 
 
