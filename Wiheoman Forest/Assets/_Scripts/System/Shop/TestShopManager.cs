@@ -18,10 +18,35 @@ public class TestShopManager : MonoBehaviour
     [Header("상점 판매 ui가 배치될 부모 객체")]
     [SerializeField] private Transform storeUIParent;
 
+    [Header("상점 아이템 설명")]
+    [SerializeField] private TextMeshProUGUI itemDescriptionText;
+
     private bool isStoreActive = false;
     private int selectedIndex = 0;
     private GameObject selectedItemUI;
+    private TestItem selectedItem;
+    private GameObject newItemUI;
+    private ItemInformationList itemInfo;
 
+    [System.Serializable]
+    public class ItemInfomation
+    {
+        public int itemID;
+        public string Description;
+        public string Price;
+    }
+
+    [System.Serializable]
+    public class ItemInformationList
+    {
+        public ItemInfomation[] ItemDescription;
+    }
+
+
+    void Start()
+    {
+        itemInfo = JsonUtility.FromJson<ItemInformationList>(Resources.Load<TextAsset>("Json Files/TestItemDescription").text);
+    }
 
     void Update()
     {
@@ -33,6 +58,7 @@ public class TestShopManager : MonoBehaviour
             if (isStoreActive)
             {
                 InitSlot();
+                SetItemInfo();
                 SelectItem(0);
             }
         }
@@ -43,30 +69,47 @@ public class TestShopManager : MonoBehaviour
         }
     }
 
-    private void InitSlot()
-    {
-        foreach (Transform child in storeUIParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (var item in sellItem)
-        {
-            GameObject newItemUI = Instantiate(storeUIPrefab, storeUIParent);
-
-            newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
-        }
-    }
-
     private void SelectInput()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.UpArrow))
         {
             ChangeSelection(-1);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeSelection(1);
+        }
+    }
+
+    private void ChangeSelection(int direction)
+    {
+        selectedIndex = Mathf.Clamp(selectedIndex + direction, 0, storeUIParent.childCount - 1);
+
+        GameObject itemUI = storeUIParent.GetChild(selectedIndex).gameObject;
+
+        if (selectedItemUI != null)
+        {
+            ToggleOutline(selectedItemUI, false);
+        }
+
+        ToggleOutline(itemUI, true);
+        selectedItemUI = itemUI;
+
+        selectedItem = sellItem[selectedIndex];
+        Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
+        Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
+        Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
+        itemImage.sprite = selectedItem.ItemImage;
+
+        SetItemInfo();
+    }
+
+    private void ToggleOutline(GameObject itemUI, bool enable)
+    {
+        var outline = itemUI.GetComponent<Outline>();
+        if(outline != null)
+        {
+            outline.enabled = enable;
         }
     }
 
@@ -80,33 +123,46 @@ public class TestShopManager : MonoBehaviour
         }
     }
 
-    private void ChangeSelection(int direction)
+    private void InitSlot()
     {
-        selectedIndex = Mathf.Clamp(selectedIndex + direction, 0, storeUIParent.childCount - 1);
-
-        GameObject newItemUI = storeUIParent.GetChild(selectedIndex).gameObject;
-
-        if (selectedItemUI != null)
+        foreach (Transform child in storeUIParent)
         {
-            ToggleOutline(selectedItemUI, false);
+            Destroy(child.gameObject);
         }
 
-        ToggleOutline(newItemUI, true);
-        selectedItemUI = newItemUI;
+        foreach(var item in sellItem)
+        {
+            newItemUI = Instantiate(storeUIPrefab, storeUIParent);
 
-        TestItem selectedItem = sellItem[selectedIndex];
-        Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
-        Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
-        Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
-        itemImage.sprite = selectedItem.ItemImage;
+            var itemData = FindItemData(item.ItemID);
+            if (itemData != null)
+            {
+                newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
+                newItemUI.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price;
+            }
+        }
+    }    
+
+    private void SetItemInfo()
+    {
+        int currentSelectedItemId = selectedItem.ItemID;
+
+        var itemData = FindItemData(currentSelectedItemId);
+        if (itemData != null)
+        {
+            itemDescriptionText.text = itemData.Description;
+        }
     }
 
-    private void ToggleOutline(GameObject itemUI, bool enable)
+    private ItemInfomation FindItemData(int itemID)
     {
-        var outline = itemUI.GetComponent<Outline>();
-        if (outline != null)
+        foreach (var item in itemInfo.ItemDescription)
         {
-            outline.enabled = enable;
+            if (item.itemID == itemID)
+            {
+                return item;
+            }
         }
+        return null;
     }
 }
