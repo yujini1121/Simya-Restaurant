@@ -5,8 +5,8 @@ using UnityEngine;
 public class Player_InventoryController : MonoBehaviour
 {
     [Header("Inventory")]
-    [SerializeField] protected GameObject inventoryBase;
-    [SerializeField] protected GameObject inventoryBasePanel;
+    [SerializeField] private GameObject inventoryBase;
+    [SerializeField] private GameObject inventoryBasePanel;
     [SerializeField] private bool isInventoryActive = false;
 
     [Header("Slots")]
@@ -45,7 +45,7 @@ public class Player_InventoryController : MonoBehaviour
 
     private void OpenInventory()
     {
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.B))
         {
             if (!isInventoryActive)
             {
@@ -68,6 +68,8 @@ public class Player_InventoryController : MonoBehaviour
 
     private void SetSlotScale()
     {
+        Vector2 originalSize = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y);
+
         if (curItemCount <= 5)
         {
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 200);

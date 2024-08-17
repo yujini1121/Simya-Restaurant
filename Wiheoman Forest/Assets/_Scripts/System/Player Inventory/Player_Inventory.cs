@@ -15,7 +15,8 @@ public class Player_Inventory : MonoBehaviour
     [SerializeField] private TestItem item6;
     [SerializeField] private TestItem item7;
 
-    [Header("Buttons")] [Space(10)]
+    [Space(10)]
+    [Header("Buttons")] 
     [SerializeField] private Button item1Button;
     [SerializeField] private Button item2Button;
     [SerializeField] private Button item3Button;
@@ -25,14 +26,17 @@ public class Player_Inventory : MonoBehaviour
     [SerializeField] private Button item7Button;
     [SerializeField] private Button minusButton;
 
-    [Header("External")] [Space(10)]
+    [Space(10)]
+    [Header("External")]
     [SerializeField] private Player_InventoryController mInventoryMain;
     #endregion
 
 
+    /// <summary>
+    /// 버튼 클릭 이벤트에 직접 연결 - Inspector창에서 OnClick 메서드를 사용하려 했으나, 매개변수가 매우 한정적일때만 가능하여 이번 경우엔 어려울 수 있어 직접 연결함.
+    /// </summary>
     private void Start()
     {
-        // 버튼 클릭 이벤트에 메서드 직접 연결
         item1Button.onClick.AddListener(() => AcquireItem(item1, "Strawberry"));
         item2Button.onClick.AddListener(() => AcquireItem(item2, "Peach"));
         item3Button.onClick.AddListener(() => AcquireItem(item3, "Grape"));
