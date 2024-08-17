@@ -2522,7 +2522,7 @@ GameObject:
   - component: {fileID: 348892076}
   - component: {fileID: 348892075}
   m_Layer: 5
-  m_Name: InventoryBase_Panel
+  m_Name: Chest_InventoryBase_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2762,8 +2762,6 @@ MonoBehaviour:
   storeUIPrefab: {fileID: 5970776138901495469, guid: ac19d1e9e6510e24496f75d8a4240ff3, type: 3}
   storeUIParent: {fileID: 872146597}
   itemDescriptionText: {fileID: 132936055}
-  itemInfo:
-    ItemDescription: []
 --- !u!1 &356991938
 GameObject:
   m_ObjectHideFlags: 0
@@ -10064,7 +10062,7 @@ GameObject:
   - component: {fileID: 1522495165}
   - component: {fileID: 1522495168}
   m_Layer: 5
-  m_Name: Inventory_UI
+  m_Name: Chest_Inventory_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

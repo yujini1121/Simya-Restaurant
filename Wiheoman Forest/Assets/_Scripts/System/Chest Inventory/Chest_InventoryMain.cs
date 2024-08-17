@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InventoryMain : InventoryBase
+public class Chest_InventoryMain : Chest_InventoryBase
 {
     [SerializeField] private InventorySlot[] mSlots;
 

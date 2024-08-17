@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInventory : MonoBehaviour
+public class Player_Inventory : MonoBehaviour
 {
     #region Variable
     [Header("Items")] 
@@ -26,7 +26,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private Button minusButton;
 
     [Header("External")] [Space(10)]
-    [SerializeField] private PlayerInventoryController mInventoryMain;
+    [SerializeField] private Player_InventoryController mInventoryMain;
     #endregion
 
 

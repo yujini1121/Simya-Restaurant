@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestInventoryItem : MonoBehaviour
+public class Chest_InventoryItem : MonoBehaviour
 {
     [Header("인벤토리 메인")]
-    [SerializeField] private InventoryMain mInventoryMain;
+    [SerializeField] private Chest_InventoryMain mInventoryMain;
 
     [Header("획득할 아이템")]
     [SerializeField] private TestItem item1, item2, item3;
