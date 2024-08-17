@@ -39,7 +39,7 @@ public class PlayerInventoryController : MonoBehaviour
     void Update()
     {
         OpenInventory();
-        SetScale();
+        SetSlotScale();
         UpdateSlot();
     }
 
@@ -66,7 +66,7 @@ public class PlayerInventoryController : MonoBehaviour
         }
     }
 
-    private void SetScale()
+    private void SetSlotScale()
     {
         if (curItemCount <= 5)
         {
@@ -123,7 +123,6 @@ public class PlayerInventoryController : MonoBehaviour
                 curItemCount++;
                 slots[i].AddItemSlot(item, count);
 
-                Debug.Log(curItemCount);
                 return;
             }
         }
