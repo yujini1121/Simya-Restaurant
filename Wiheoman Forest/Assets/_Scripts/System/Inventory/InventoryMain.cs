@@ -40,7 +40,7 @@ public class InventoryMain : InventoryBase
         {
             if (mSlots[i].Item == null)
             {
-                mSlots[i].AddItem(item, count);
+                mSlots[i].AddItemSlot(item, count);
                 Debug.Log("아이템 추가");
                 return;
             }
