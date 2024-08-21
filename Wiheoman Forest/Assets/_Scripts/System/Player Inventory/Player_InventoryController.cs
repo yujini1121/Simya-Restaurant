@@ -28,11 +28,14 @@ public class Player_InventoryController : MonoBehaviour
         curItemCount = PlayerData.instance.items.Length;
         rectTransform = inventoryBasePanel.GetComponent<RectTransform>();
 
-        slots[curItemCount].gameObject.SetActive(true);
-
         for (int i = 0; i < 10; i++)
         {
             slots[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < curItemCount; i++)
+        {
+            slots[i].gameObject.SetActive(true);
         }
     }
 
@@ -45,7 +48,7 @@ public class Player_InventoryController : MonoBehaviour
 
     private void OpenInventory()
     {
-        if (Input.GetKeyUp(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             if (!isInventoryActive)
             {
