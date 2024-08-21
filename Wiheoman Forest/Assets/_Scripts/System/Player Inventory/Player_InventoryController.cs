@@ -18,45 +18,37 @@ public class Player_InventoryController : MonoBehaviour
     [SerializeField] private int curSlotCount;
 
 
-    private void Start()
+    private void OnEnable()
     {
         curSlotCount = PlayerData.instance.items.Length;
+        Debug.Log("Current Item Slots Count : " + curSlotCount);
 
         for (int i = 0; i < 10; i++)
         {
-            slots[i].gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < curSlotCount; i++)
-        {
-            slots[i].gameObject.SetActive(true);
+            if (i < curSlotCount)
+            {
+                slots[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                slots[i].gameObject.SetActive(false);
+            }
         }
     }
 
-    void Update()
+    private void Update()
     {
-        OpenInventory();
-        SetSlotScale();
         UpdateSlot();
-
-        Debug.Log("Current Item Slots Count : " + curSlotCount);
+        SetSlotScale();
     }
 
-    private void OpenInventory()
+
+    private void UpdateSlot()
     {
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    if (!isInventoryActive)
-        //    {
-        //        inventoryBase.SetActive(true);
-        //        isInventoryActive = true;
-        //    }
-        //    else
-        //    {
-        //        inventoryBase.SetActive(false);
-        //        isInventoryActive = false;
-        //    }
-        //}
+        if (curSlotCount <= 10 && curSlotCount > 0)
+        {
+            slots[curSlotCount - 1].gameObject.SetActive(true);
+        }
     }
 
     private void SetSlotScale()
@@ -84,15 +76,6 @@ public class Player_InventoryController : MonoBehaviour
             }
         }
     }
-
-    private void UpdateSlot()
-    {
-        if (curSlotCount <= 10 && curSlotCount > 0)
-        {
-            slots[curSlotCount - 1].gameObject.SetActive(true);
-        }
-    }
-
 
     public void AcquireItem(TestItem item, int count = 1)
     {

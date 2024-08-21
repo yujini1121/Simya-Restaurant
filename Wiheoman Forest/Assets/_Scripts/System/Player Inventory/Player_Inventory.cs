@@ -44,8 +44,6 @@ public class Player_Inventory : MonoBehaviour
         item5Button.onClick.AddListener(() => AcquireItem(item5, "Add Blueberry"));
         item6Button.onClick.AddListener(() => AcquireItem(item6, "Add Pasnip"));
         item7Button.onClick.AddListener(() => AcquireItem(item7, "Add Starfruit"));
-
-        //minusButton.onClick.AddListener(() => LoseItem(item1));
     }
 
     private void AcquireItem(TestItem item, string debugMessage)
@@ -54,8 +52,8 @@ public class Player_Inventory : MonoBehaviour
         Debug.Log(debugMessage);
     }
 
-    private void LoseItem(TestItem item)
+    private void LoseItem(TestItem item, string debugMessage)
     {
-        
+
     }
 }
