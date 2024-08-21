@@ -37,13 +37,13 @@ public class Player_Inventory : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        item1Button.onClick.AddListener(() => AcquireItem(item1, "Strawberry"));
-        item2Button.onClick.AddListener(() => AcquireItem(item2, "Peach"));
-        item3Button.onClick.AddListener(() => AcquireItem(item3, "Grape"));
-        item4Button.onClick.AddListener(() => AcquireItem(item4, "Orange"));
-        item5Button.onClick.AddListener(() => AcquireItem(item5, "Blueberry"));
-        item6Button.onClick.AddListener(() => AcquireItem(item6, "Pasnip"));
-        item7Button.onClick.AddListener(() => AcquireItem(item7, "Starfruit"));
+        item1Button.onClick.AddListener(() => AcquireItem(item1, "Add Strawberry"));
+        item2Button.onClick.AddListener(() => AcquireItem(item2, "Add Peach"));
+        item3Button.onClick.AddListener(() => AcquireItem(item3, "Add Grape"));
+        item4Button.onClick.AddListener(() => AcquireItem(item4, "Add Orange"));
+        item5Button.onClick.AddListener(() => AcquireItem(item5, "Add Blueberry"));
+        item6Button.onClick.AddListener(() => AcquireItem(item6, "Add Pasnip"));
+        item7Button.onClick.AddListener(() => AcquireItem(item7, "Add Starfruit"));
 
         //minusButton.onClick.AddListener(() => LoseItem(item1));
     }

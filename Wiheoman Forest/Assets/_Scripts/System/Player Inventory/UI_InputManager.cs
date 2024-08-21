@@ -8,6 +8,10 @@ public class UI_InputManager : MonoBehaviour
     [SerializeField] private GameObject UI_PlayerInventory;
     [SerializeField] private GameObject UI_TimeSwitching;
 
+    private bool Active_SaveAndLoad = false;
+    private bool Active_PlayerInventory = false;
+    private bool Active_TimeSwitching = false;
+
 
     void Start()
     {
@@ -22,14 +26,46 @@ public class UI_InputManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.S))
-        //    UI_SaveAndLoad.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (!Active_SaveAndLoad)
+            {
+                UI_SaveAndLoad.SetActive(true);
+                Active_SaveAndLoad = true;
+            }
+            else
+            {
+                UI_SaveAndLoad.SetActive(false);
+                Active_SaveAndLoad = false;
+            }
+        }
 
-        //else if (Input.GetKeyDown(KeyCode.B))
-        //    UI_PlayerInventory.SetActive(true);
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (!Active_PlayerInventory)
+            {
+                UI_PlayerInventory.SetActive(true);
+                Active_PlayerInventory = true;
+            }
+            else
+            {
+                UI_PlayerInventory.SetActive(false);
+                Active_PlayerInventory = false;
+            }
+        }
 
-        //else if (Input.GetKeyDown(KeyCode.X))
-        //    UI_TimeSwitching.SetActive(true);
-
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (!Active_TimeSwitching)
+            {
+                UI_TimeSwitching.SetActive(true);
+                Active_TimeSwitching = true;
+            }
+            else
+            {
+                UI_TimeSwitching.SetActive(false);
+                Active_TimeSwitching = false;
+            }
+        }
     }
 }

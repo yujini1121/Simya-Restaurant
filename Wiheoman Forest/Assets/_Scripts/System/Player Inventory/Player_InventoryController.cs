@@ -7,33 +7,27 @@ public class Player_InventoryController : MonoBehaviour
     [Header("Inventory")]
     [SerializeField] private GameObject inventoryBase;
     [SerializeField] private GameObject inventoryBasePanel;
+    [SerializeField] RectTransform rectTransform;
     [SerializeField] private bool isInventoryActive = false;
 
     [Header("Slots")]
     [SerializeField] private InventorySlot[] slots;
-    [SerializeField] RectTransform rectTransform;
 
     [Header("External Scripts")]
-    [SerializeField] private GameObject dataController;
-    [SerializeField] private int curItemCount = 0;
+    [SerializeField] private DataController dataController;
+    [SerializeField] private int curSlotCount;
 
 
     private void Start()
     {
-        if (inventoryBase.activeSelf)
-        {
-            inventoryBase.SetActive(false);
-        }
-
-        curItemCount = PlayerData.instance.items.Length;
-        rectTransform = inventoryBasePanel.GetComponent<RectTransform>();
+        curSlotCount = PlayerData.instance.items.Length;
 
         for (int i = 0; i < 10; i++)
         {
             slots[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < curItemCount; i++)
+        for (int i = 0; i < curSlotCount; i++)
         {
             slots[i].gameObject.SetActive(true);
         }
@@ -44,36 +38,30 @@ public class Player_InventoryController : MonoBehaviour
         OpenInventory();
         SetSlotScale();
         UpdateSlot();
+
+        Debug.Log("Current Item Slots Count : " + curSlotCount);
     }
 
     private void OpenInventory()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if (!isInventoryActive)
-            {
-                inventoryBase.SetActive(true);
-                isInventoryActive = true;
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                inventoryBase.SetActive(false);
-                isInventoryActive = false;
-
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    if (!isInventoryActive)
+        //    {
+        //        inventoryBase.SetActive(true);
+        //        isInventoryActive = true;
+        //    }
+        //    else
+        //    {
+        //        inventoryBase.SetActive(false);
+        //        isInventoryActive = false;
+        //    }
+        //}
     }
 
     private void SetSlotScale()
     {
-        Vector2 originalSize = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y);
-
-        if (curItemCount <= 5)
+        if (curSlotCount <= 5)
         {
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 200);
             
@@ -90,7 +78,7 @@ public class Player_InventoryController : MonoBehaviour
             {
                 slots[i].gameObject.SetActive(false);
             }
-            for (int i = 5; i < curItemCount; i++)
+            for (int i = 5; i < curSlotCount; i++)
             {
                 slots[i].gameObject.SetActive(true);
             }
@@ -99,9 +87,9 @@ public class Player_InventoryController : MonoBehaviour
 
     private void UpdateSlot()
     {
-        if (curItemCount <= 10 && curItemCount > 0)
+        if (curSlotCount <= 10 && curSlotCount > 0)
         {
-            slots[curItemCount - 1].gameObject.SetActive(true);
+            slots[curSlotCount - 1].gameObject.SetActive(true);
         }
     }
 
@@ -125,7 +113,7 @@ public class Player_InventoryController : MonoBehaviour
         {
             if (slots[i].Item == null)
             {
-                curItemCount++;
+                curSlotCount++;
                 slots[i].AddItemSlot(item, count);
 
                 return;
