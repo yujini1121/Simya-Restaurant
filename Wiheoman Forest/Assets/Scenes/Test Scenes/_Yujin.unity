@@ -5824,7 +5824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1725128133
 Transform:
   m_ObjectHideFlags: 0
@@ -5899,7 +5899,6 @@ MonoBehaviour:
   - {fileID: 1911037680}
   dataController: {fileID: 873473393}
   playerInventory: {fileID: 1725128134}
-  curSlotCount: 0
 --- !u!1 &1731074033
 GameObject:
   m_ObjectHideFlags: 0

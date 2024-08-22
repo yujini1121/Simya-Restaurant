@@ -16,9 +16,9 @@ public class Player_InventoryController : MonoBehaviour
     [Header("External Scripts")]
     [SerializeField] private DataController dataController;
     [SerializeField] private Player_Inventory playerInventory;
-    
+
     private int curSlotCount;
-    string[] itemsName = new string[7];
+    TestItem[] items = new TestItem[7];
 
 
     /// <summary>
@@ -28,13 +28,13 @@ public class Player_InventoryController : MonoBehaviour
     {
         playerInventory = GetComponent<Player_Inventory>();
 
-        itemsName[0] = playerInventory.item1.name;
-        itemsName[1] = playerInventory.item2.name;
-        itemsName[2] = playerInventory.item3.name;
-        itemsName[3] = playerInventory.item4.name;
-        itemsName[4] = playerInventory.item5.name;
-        itemsName[5] = playerInventory.item6.name;
-        itemsName[6] = playerInventory.item7.name;
+        items[0] = playerInventory.item1;
+        items[1] = playerInventory.item2;
+        items[2] = playerInventory.item3;
+        items[3] = playerInventory.item4;
+        items[4] = playerInventory.item5;
+        items[5] = playerInventory.item6;
+        items[6] = playerInventory.item7;
     }
 
     private void OnEnable()
@@ -71,15 +71,21 @@ public class Player_InventoryController : MonoBehaviour
 
         for (int i = 0; i < PlayerData.instance.items.Length; i++)
         {
-            for (int j = 0; j < itemsName.Length; j++)
+            for (int j = 0; j < items.Length; j++)
             {
-                if (PlayerData.instance.items[i] == itemsName[j])
+                if (PlayerData.instance.items[i] == items[j].name)
                 {
-                    Debug.Log("와 된당");
+                    Debug.Log(items[j]);
+                    AcquireItem(items[j]);
                 }
             }
         }
     }
+
+    //private void AcquireItem(TestItem item)
+    //{
+
+    //}
 
     #region 잠시 접어둠
     private void SetSlotScale()

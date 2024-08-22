@@ -4,6 +4,10 @@
     "level": 99999,
     "gold": 2300,
     "items": [
-        "1_Strawberry"
+        "1_Strawberry",
+        "4_Orange",
+        "5_Blueberry",
+        "6_Pasnip",
+        "7_Starfruit"
     ]
 }
