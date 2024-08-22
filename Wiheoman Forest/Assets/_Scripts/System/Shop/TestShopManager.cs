@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class TestShopManager : MonoBehaviour
 {
@@ -21,19 +22,26 @@ public class TestShopManager : MonoBehaviour
     [Header("상점 아이템 설명")]
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
 
+    [Header("플레이어 소지금 Text UI")]
+    [SerializeField] private TextMeshProUGUI playerGoldText;
+
+    private int playerGold;
     private bool isStoreActive = false;
     private int selectedIndex = 0;
     private GameObject selectedItemUI;
     private TestItem selectedItem;
     private GameObject newItemUI;
     private ItemInformationList itemInfo;
+    private PlayerData playerGoldData;
+
+    private DataController dataController;
 
     [System.Serializable]
     public class ItemInfomation
     {
         public int itemID;
         public string Description;
-        public string Price;
+        public int Price;
     }
 
     [System.Serializable]
@@ -45,12 +53,14 @@ public class TestShopManager : MonoBehaviour
 
     void Start()
     {
-        itemInfo = JsonUtility.FromJson<ItemInformationList>(Resources.Load<TextAsset>("Json Files/TestItemDescription").text);
+        JsonFileReadAndGoldSet();
+        GameObject dataControllerObject = GameObject.Find("Data Controller");
+        dataController = dataControllerObject.GetComponent<DataController>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             isStoreActive = !isStoreActive;
             storeUI.SetActive(isStoreActive);
@@ -58,15 +68,25 @@ public class TestShopManager : MonoBehaviour
             if (isStoreActive)
             {
                 InitSlot();
-                SetItemInfo();
                 SelectItem(0);
+                SetItemInfo();
             }
         }
 
         if (isStoreActive)
         {
             SelectInput();
+
+            BuyItem();
         }
+    }
+
+    private void JsonFileReadAndGoldSet()
+    {
+        itemInfo = JsonUtility.FromJson<ItemInformationList>(Resources.Load<TextAsset>("Json Files/TestItemDescription").text);
+        playerGoldData = JsonUtility.FromJson<PlayerData>(Resources.Load<TextAsset>("Json Files/PlayerData").text);
+        playerGold = playerGoldData.gold;
+        playerGoldText.text = playerGold.ToString() + " $";
     }
 
     private void SelectInput()
@@ -138,16 +158,35 @@ public class TestShopManager : MonoBehaviour
             if (itemData != null)
             {
                 newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
-                newItemUI.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price;
+                newItemUI.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price.ToString();
             }
         }
     }    
 
+    private void BuyItem() // 수정..
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            var itemData = FindItemData(selectedItem.ItemID);
+            if (playerGold >= itemData.Price)
+            {
+                playerGold -= itemData.Price;
+                playerGoldText.text = playerGold.ToString() + " $";
+
+                playerGoldData.gold = playerGold;
+
+                dataController.SaveData();
+            }
+            else
+                Debug.Log("소지금 부족!!");
+        }
+    }
+
     private void SetItemInfo()
     {
         int currentSelectedItemId = selectedItem.ItemID;
-
         var itemData = FindItemData(currentSelectedItemId);
+
         if (itemData != null)
         {
             itemDescriptionText.text = itemData.Description;
