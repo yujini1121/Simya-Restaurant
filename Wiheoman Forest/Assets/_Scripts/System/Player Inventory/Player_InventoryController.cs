@@ -28,7 +28,7 @@ public class Player_InventoryController : MonoBehaviour
             slots[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < curSlotCount; i++)
+        for (int i = 0; i < PlayerData.instance.items.Length; i++)
         {
             slots[i].gameObject.SetActive(true);
         }
