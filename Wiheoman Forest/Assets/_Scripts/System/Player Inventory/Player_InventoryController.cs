@@ -15,8 +15,27 @@ public class Player_InventoryController : MonoBehaviour
 
     [Header("External Scripts")]
     [SerializeField] private DataController dataController;
-    [SerializeField] private int curSlotCount;
+    [SerializeField] private Player_Inventory playerInventory;
+    
+    private int curSlotCount;
+    string[] itemsName = new string[7];
 
+
+    /// <summary>
+    /// Get Items List
+    /// </summary>
+    private void Start()
+    {
+        playerInventory = GetComponent<Player_Inventory>();
+
+        itemsName[0] = playerInventory.item1.name;
+        itemsName[1] = playerInventory.item2.name;
+        itemsName[2] = playerInventory.item3.name;
+        itemsName[3] = playerInventory.item4.name;
+        itemsName[4] = playerInventory.item5.name;
+        itemsName[5] = playerInventory.item6.name;
+        itemsName[6] = playerInventory.item7.name;
+    }
 
     private void OnEnable()
     {
@@ -42,15 +61,27 @@ public class Player_InventoryController : MonoBehaviour
         SetSlotScale();
     }
 
-    #region 잠시 접어둠
-    //private void UpdateSlot()
-    //{
-    //    if (curSlotCount <= 10 && curSlotCount > 0)
-    //    {
-    //        slots[curSlotCount - 1].gameObject.SetActive(true);
-    //    }
-    //}
 
+    private void UpdateSlot()
+    {
+        if (curSlotCount <= 10 && curSlotCount > 0)
+        {
+            slots[curSlotCount - 1].gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < PlayerData.instance.items.Length; i++)
+        {
+            for (int j = 0; j < itemsName.Length; j++)
+            {
+                if (PlayerData.instance.items[i] == itemsName[j])
+                {
+                    Debug.Log("와 된당");
+                }
+            }
+        }
+    }
+
+    #region 잠시 접어둠
     private void SetSlotScale()
     {
         if (curSlotCount <= 5)
@@ -105,12 +136,4 @@ public class Player_InventoryController : MonoBehaviour
     }
     #endregion
 
-    private void UpdateSlot()
-    {
-        for (int i = 0; i < curSlotCount; i++)
-        {
-            Debug.Log(PlayerData.instance.items[i]);
-
-        }
-    }
 }

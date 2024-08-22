@@ -2738,7 +2738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e661f2000f74814fa9f2cd063db0972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData:
+  playerData:
     isDead: 0
     name: 
     level: 0
@@ -5816,8 +5816,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1725128133}
-  - component: {fileID: 1725128134}
   - component: {fileID: 1725128135}
+  - component: {fileID: 1725128134}
   m_Layer: 0
   m_Name: Player Inventory
   m_TagString: Untagged
@@ -5898,7 +5898,8 @@ MonoBehaviour:
   - {fileID: 2053773726}
   - {fileID: 1911037680}
   dataController: {fileID: 873473393}
-  curItemCount: 0
+  playerInventory: {fileID: 1725128134}
+  curSlotCount: 0
 --- !u!1 &1731074033
 GameObject:
   m_ObjectHideFlags: 0

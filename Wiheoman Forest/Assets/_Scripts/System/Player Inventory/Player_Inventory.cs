@@ -7,13 +7,13 @@ public class Player_Inventory : MonoBehaviour
 {
     #region Variable
     [Header("Items")] 
-    [SerializeField] private TestItem item1;
-    [SerializeField] private TestItem item2;
-    [SerializeField] private TestItem item3;
-    [SerializeField] private TestItem item4;
-    [SerializeField] private TestItem item5;
-    [SerializeField] private TestItem item6;
-    [SerializeField] private TestItem item7;
+    [SerializeField] public TestItem item1;
+    [SerializeField] public TestItem item2;
+    [SerializeField] public TestItem item3;
+    [SerializeField] public TestItem item4;
+    [SerializeField] public TestItem item5;
+    [SerializeField] public TestItem item6;
+    [SerializeField] public TestItem item7;
 
     [Space(10)]
     [Header("Buttons")] 
