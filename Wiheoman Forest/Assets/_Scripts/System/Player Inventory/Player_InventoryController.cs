@@ -4,38 +4,20 @@ using UnityEngine;
 
 public class Player_InventoryController : MonoBehaviour
 {
-    [Header("Inventory")]
-    [SerializeField] private GameObject inventoryBase;
-    [SerializeField] private GameObject inventoryBasePanel;
-    [SerializeField] RectTransform rectTransform;
-    [SerializeField] private bool isInventoryActive = false;
+    [Header("Items")]
+    [SerializeField] private TestItem[] items = new TestItem[7];
 
     [Header("Slots")]
     [SerializeField] private InventorySlot[] slots;
+    [SerializeField] private int curSlotCount;
+
+    [Header("Inventory")]
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private GameObject inventoryBasePanel;
 
     [Header("External Scripts")]
     [SerializeField] private DataController dataController;
-    [SerializeField] private Player_Inventory playerInventory;
 
-    private int curSlotCount;
-    TestItem[] items = new TestItem[7];
-
-
-    /// <summary>
-    /// Get Items List
-    /// </summary>
-    private void Start()
-    {
-        playerInventory = GetComponent<Player_Inventory>();
-
-        items[0] = playerInventory.item1;
-        items[1] = playerInventory.item2;
-        items[2] = playerInventory.item3;
-        items[3] = playerInventory.item4;
-        items[4] = playerInventory.item5;
-        items[5] = playerInventory.item6;
-        items[6] = playerInventory.item7;
-    }
 
     private void OnEnable()
     {
@@ -92,7 +74,7 @@ public class Player_InventoryController : MonoBehaviour
 
         if (curSlotCount <= 5)
         {
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 200);
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 250);
 
             for (int i = 5; i < 10; i++)
             {
@@ -101,7 +83,7 @@ public class Player_InventoryController : MonoBehaviour
         }
         else
         {
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 400);
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 500);
 
             for (int i = 5; i < 10; i++)
             {
