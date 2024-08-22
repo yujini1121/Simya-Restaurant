@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_InventoryController : MonoBehaviour
 {
+    #region Variables
     [Header("Items")]
     [SerializeField] private TestItem[] items = new TestItem[7];
 
@@ -18,6 +20,10 @@ public class Player_InventoryController : MonoBehaviour
     [Header("External Scripts")]
     [SerializeField] private DataController dataController;
 
+    int index = 0;
+    int y_Index = 0;
+    int x_Index = 0;
+    #endregion
 
 
     private void OnEnable()
@@ -36,20 +42,68 @@ public class Player_InventoryController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// TODO:
-    /// 실행해보면 Current Item Slots Count가 순간적으로 다르게 찍히는 경우가 있음,
-    /// 나중에 버그를 일으킬 것으로 보여 꼭 수정이 필요함 (안 생긴다면 천만다행이지만..)
-    /// 현재 SetSlotScale의 return문을 주석처리하면 나중에 예상되는 버그가 발생함
-    /// </summary>
+
     private void Update()
     {
-        Debug.Log("Current Item Slots Count : " + curSlotCount);
-        Debug.Log("Slots Length : " + slots.Length);
+        //Debug.Log("Current Item Slots Count : " + curSlotCount);
+
+        SelectInput();
+        ToggleOutline();
 
         UpdateSlot();
         SetSlotScale();
     }
+
+    #region Input & Select Item
+    private void SelectInput()
+    {
+        if      (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Y_ChangeSelection(-1);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Y_ChangeSelection(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            X_ChangeSelection(-1);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            X_ChangeSelection(1);
+        }
+    }
+
+    private void Y_ChangeSelection(int direction)
+    {
+        y_Index = Mathf.Clamp(y_Index + direction, 0, 1);
+    }
+
+    private void X_ChangeSelection(int direction)
+    {
+        x_Index = Mathf.Clamp(x_Index + direction, 0, 4);
+    }
+
+    private void ToggleOutline()
+    {
+        index = y_Index * 5 + x_Index;
+
+        for (int i = 0; i < curSlotCount; i++)
+        {
+            Outline outline = slots[i].GetComponent<Outline>();
+
+            if (i == index)
+            {
+                outline.enabled = true;
+            }
+            else
+            {
+                outline.enabled = false;
+            }
+        }
+    }
+    #endregion
 
 
     private void UpdateSlot()
