@@ -35,13 +35,13 @@ public class InventorySlot : MonoBehaviour
     // 아이템 개수 증가
     public void ItemCountUpdate(int count)
     {
-        mItemCount += count;
-        mItemCountText.text = mItemCount.ToString();
-
-        if(mItemCount <= 0)
+        if (mItemCount <= 0)
         {
             ClearSlot();
         }
+
+        mItemCount += count;
+        mItemCountText.text = mItemCount.ToString();
     }
 
     // 슬롯 삭제

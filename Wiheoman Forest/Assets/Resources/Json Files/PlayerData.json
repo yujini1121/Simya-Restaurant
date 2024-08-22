@@ -5,9 +5,10 @@
     "gold": 2300,
     "items": [
         "1_Strawberry",
+        "2_Peach",
+        "3_Grape",
         "4_Orange",
         "5_Blueberry",
-        "6_Pasnip",
-        "7_Starfruit"
+        ""
     ]
 }
