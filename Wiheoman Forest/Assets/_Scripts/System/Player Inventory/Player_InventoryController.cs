@@ -19,6 +19,7 @@ public class Player_InventoryController : MonoBehaviour
     [SerializeField] private DataController dataController;
 
 
+
     private void OnEnable()
     {
         curSlotCount = PlayerData.instance.items.Length;
@@ -67,14 +68,18 @@ public class Player_InventoryController : MonoBehaviour
 
     private void SetSlotScale()
     {
-        if (curSlotCount != slots.Length)
-        {
-            return;
-        }
-
         if (curSlotCount <= 5)
         {
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 250);
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 300);
+
+            #region Set Position Y
+            for (int i = 0; i < curSlotCount; i++)
+            {
+                RectTransform slotRectTransform = slots[i].GetComponent<RectTransform>();
+                Vector2 newPosition = new Vector2(slotRectTransform.anchoredPosition.x, 10);
+                slotRectTransform.anchoredPosition = newPosition;
+            }
+            #endregion
 
             for (int i = 5; i < 10; i++)
             {
@@ -85,22 +90,31 @@ public class Player_InventoryController : MonoBehaviour
         {
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 500);
 
-            for (int i = 5; i < 10; i++)
+            #region Set Position Y
+            for (int i = 0; i < 5; i++)
             {
-                slots[i].gameObject.SetActive(false);
+                RectTransform slotRectTransform = slots[i].GetComponent<RectTransform>();
+                Vector2 newPosition = new Vector2(slotRectTransform.anchoredPosition.x, 80);
+                slotRectTransform.anchoredPosition = newPosition;
             }
+
             for (int i = 5; i < curSlotCount; i++)
             {
+                RectTransform slotRectTransform = slots[i].GetComponent<RectTransform>();
+                Vector2 newPosition = new Vector2(slotRectTransform.anchoredPosition.x, -70);
+                slotRectTransform.anchoredPosition = newPosition;
+
                 slots[i].gameObject.SetActive(true);
+            }
+            #endregion
+
+            for (int i = curSlotCount; i < 10; i++)
+            {
+                slots[i].gameObject.SetActive(false);
             }
         }
     }
 
-    /// <summary>
-    /// ????? 
-    /// </summary>
-    /// <param name="item"></param>
-    /// <param name="count"></param>
     public void AcquireItem(TestItem item, int count = 1)
     {
         if (item.CanOverlap)
@@ -119,8 +133,12 @@ public class Player_InventoryController : MonoBehaviour
         {
             if (slots[i].Item == null)
             {
-                curSlotCount++;
                 slots[i].AddItemSlot(item, count);
+
+                if (slots[i].gameObject.activeSelf == false)
+                {
+                    curSlotCount++;
+                }
                 return;
             }
         }
