@@ -51,9 +51,4 @@ public class Player_Inventory : MonoBehaviour
         mInventoryMain.AcquireItem(item);
         Debug.Log(debugMessage);
     }
-
-    private void LoseItem(TestItem item, string debugMessage)
-    {
-
-    }
 }

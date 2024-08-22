@@ -26,17 +26,9 @@ public class PlayerData
 }
 
 
-
-
 public class DataController : MonoBehaviour
 {
-    [SerializeField] private PlayerData _playerData;
-    public PlayerData playerData
-    {
-        get { return _playerData; }
-        private set { }
-    }
-
+    [SerializeField] private PlayerData playerData;
 
     private void Awake()
     {
@@ -46,7 +38,7 @@ public class DataController : MonoBehaviour
 
     public void SaveData()
     {
-        string json = JsonUtility.ToJson(_playerData, true);
+        string json = JsonUtility.ToJson(playerData, true);
         string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
         File.WriteAllText(path, json);
     }
@@ -58,7 +50,7 @@ public class DataController : MonoBehaviour
         if (File.Exists(path))
         {
             string data = File.ReadAllText(path);
-            _playerData = JsonUtility.FromJson<PlayerData>(data);
+            playerData = JsonUtility.FromJson<PlayerData>(data);
         }
         else
         {

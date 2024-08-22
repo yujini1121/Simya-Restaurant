@@ -42,21 +42,21 @@ public class Player_InventoryController : MonoBehaviour
         SetSlotScale();
     }
 
-
-    private void UpdateSlot()
-    {
-        if (curSlotCount <= 10 && curSlotCount > 0)
-        {
-            slots[curSlotCount - 1].gameObject.SetActive(true);
-        }
-    }
+    #region 잠시 접어둠
+    //private void UpdateSlot()
+    //{
+    //    if (curSlotCount <= 10 && curSlotCount > 0)
+    //    {
+    //        slots[curSlotCount - 1].gameObject.SetActive(true);
+    //    }
+    //}
 
     private void SetSlotScale()
     {
         if (curSlotCount <= 5)
         {
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 200);
-            
+
             for (int i = 5; i < 10; i++)
             {
                 slots[i].gameObject.SetActive(false);
@@ -103,9 +103,14 @@ public class Player_InventoryController : MonoBehaviour
             }
         }
     }
+    #endregion
 
-    public void LoseItem(TestItem item, int count = 1)
+    private void UpdateSlot()
     {
+        for (int i = 0; i < curSlotCount; i++)
+        {
+            Debug.Log(PlayerData.instance.items[i]);
 
+        }
     }
 }
