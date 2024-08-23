@@ -87,8 +87,7 @@ public class Player_InventoryController : MonoBehaviour
         //Debug.Log("Current Item Slots Count : " + curSlotCount);
 
         SelectInput();
-        ToggleOutline();
-        Descrition();
+        SelectedItem();
 
         UpdateSlot();
         SetSlotScale();
@@ -125,8 +124,9 @@ public class Player_InventoryController : MonoBehaviour
         x_Index = Mathf.Clamp(x_Index + direction, 0, 4);
     }
 
-    private void ToggleOutline()
+    private void SelectedItem()
     {
+        // Outline & Description 
         index = y_Index * 5 + x_Index;
 
         for (int i = 0; i < curSlotCount; i++)
@@ -136,6 +136,7 @@ public class Player_InventoryController : MonoBehaviour
             if (i == index)
             {
                 outline.enabled = true;
+                descritionText.text = itemDescriptions.itemDescription[i].description;
             }
             else
             {
@@ -144,13 +145,6 @@ public class Player_InventoryController : MonoBehaviour
         }
     }
     #endregion
-
-
-    private void Descrition()
-    {
-        index = y_Index * 5 + x_Index;
-
-    }
 
     private void UpdateSlot()
     {

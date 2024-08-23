@@ -6070,6 +6070,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72cd42c06620791408907bde58224916, type: 2}
   - {fileID: 11400000, guid: c602117d49964aa4c9b6676f83bc3c91, type: 2}
   - {fileID: 11400000, guid: 751ce29eaed6382489e71395f890bc8d, type: 2}
+  descritionText: {fileID: 2087876266}
   slots:
   - {fileID: 408723125}
   - {fileID: 1345027980}
@@ -6085,6 +6086,8 @@ MonoBehaviour:
   rectTransform: {fileID: 706819837}
   inventoryBasePanel: {fileID: 706819836}
   dataController: {fileID: 873473393}
+  itemDescriptions:
+    itemDescription: []
 --- !u!1 &1731074033
 GameObject:
   m_ObjectHideFlags: 0
