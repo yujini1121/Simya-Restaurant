@@ -2,8 +2,14 @@
     "isDead": false,
     "name": "Yujin",
     "level": 99999,
-    "gold": 230000,
+    "gold": 9000000,
     "items": [
-
+        "1_Strawberry",
+        "2_Peach",
+        "3_Grape",
+        "4_Orange",
+        "5_Blueberry",
+        "6_Pasnip",
+        "7_Starfruit"
     ]
 }

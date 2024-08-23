@@ -2762,6 +2762,7 @@ MonoBehaviour:
   storeUIPrefab: {fileID: 5970776138901495469, guid: ac19d1e9e6510e24496f75d8a4240ff3, type: 3}
   storeUIParent: {fileID: 872146597}
   itemDescriptionText: {fileID: 132936055}
+  playerGoldText: {fileID: 2078614875}
 --- !u!1 &356991938
 GameObject:
   m_ObjectHideFlags: 0
@@ -6975,7 +6976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.49403143, b: 1, a: 0.72156864}
+  m_Color: {r: 0, g: 0.49403143, b: 1, a: 0.050980393}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9321,6 +9322,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345079748}
   m_CullTransparentMesh: 1
+--- !u!1 &1354677295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354677297}
+  - component: {fileID: 1354677296}
+  m_Layer: 0
+  m_Name: Data Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1354677296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354677295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e661f2000f74814fa9f2cd063db0972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData:
+    isDead: 0
+    name: 
+    level: 0
+    gold: 0
+    items: []
+--- !u!4 &1354677297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354677295}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1372637816
 GameObject:
   m_ObjectHideFlags: 0
@@ -13105,3 +13156,4 @@ SceneRoots:
   - {fileID: 566855310}
   - {fileID: 355844749}
   - {fileID: 1324831056}
+  - {fileID: 1354677297}

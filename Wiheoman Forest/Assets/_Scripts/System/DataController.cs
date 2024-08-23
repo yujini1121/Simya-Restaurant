@@ -25,10 +25,10 @@ public class PlayerData
     }
 }
 
+
 public class DataController : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
-
 
     private void Awake()
     {
