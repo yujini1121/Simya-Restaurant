@@ -22,8 +22,8 @@ public class LockedChest : MonoBehaviour
 
                 Debug.Log("레시피를 얻었습니다.");
 
-                CanvasController.instance.OpenTextWimdow("보물 상자를 열었습니다!", true);
-                CanvasController.instance.OpenTextWimdow("레시피를 얻었습니다!", true);
+                CanvasController.instance.OpenTextWindow("Opened the box!\nEnter to close", true);
+                CanvasController.instance.OpenTextWindow("We got recipe!\nEnter to close", true);
             };
     }
 }

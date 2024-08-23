@@ -11,22 +11,30 @@ public class CanvasController : MonoBehaviour
     [SerializeField] GameObject baseWindow;
     [SerializeField] GameObject textWindow;
 
-    Stack<GameObject> windows;
+    Queue<GameObject> windows;
     int stopTriggerCount = 0;
 
     bool isStopped = false;
 
+    
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
+            Debug.Log($">> 창 닫기");
+
             // 가장 첫번째의 윈도우를 닫습니다.
             if (windows.Count <= 0)
             {
+                Debug.Log($">> 모든 창 닫음");
+
                 return;
             }
+            Debug.Log($">> 하나 닫기");
 
-            GameObject one = windows.Pop();
+
+            GameObject one = windows.Dequeue();
 
             WindowController windowsController = one.GetComponent<WindowController>();
             if (windowsController != null)
@@ -41,6 +49,10 @@ public class CanvasController : MonoBehaviour
         }
     }
 
+    public GameObject GetCanvas()
+    {
+        return canvas;
+    }
 
     public void PauseScene()
     {
@@ -73,12 +85,12 @@ public class CanvasController : MonoBehaviour
         stopTriggerCount--;
     }
 
-    public void OpenWindow()
+    public GameObject OpenWindow()
     {
-        Instantiate(baseWindow, canvas.transform.position, textWindow.transform.rotation, canvas.transform);
+        return Instantiate(baseWindow, canvas.transform.position, textWindow.transform.rotation, canvas.transform);
     }
 
-    public void OpenTextWimdow(string message = "메시지를 입력하세요", bool isStopTrigger = false)
+    public GameObject OpenTextWindow(string message = "메시지를 입력하세요", bool isStopTrigger = false)
     {
         GameObject newWindow = Instantiate(textWindow, canvas.transform);
         WindowController m_WindowController = newWindow.GetComponent<WindowController>();
@@ -86,22 +98,26 @@ public class CanvasController : MonoBehaviour
 
         RectTransform rectTransform = newWindow.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = Vector3.zero;
+        rectTransform.SetAsFirstSibling();
 
         if (isStopTrigger)
         {
             AddStopTrigger();
             m_WindowController.hasStopTrigger = true;
         }
+        windows.Enqueue(newWindow);
+
+        return newWindow;
     }
 
     private void Awake()
     {
         instance = this;
-        windows = new Stack<GameObject>();
+        windows = new Queue<GameObject>();
     }
 
     private void Start()
     {
-        GameObject newWindow = Instantiate(textWindow, canvas.transform);
+        Debug.Log("인스턴스화");
     }
 }
