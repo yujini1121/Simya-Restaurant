@@ -1,13 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class ItemDescriptions
+{
+    public List<ItemDescriptionData> itemDescription = new List<ItemDescriptionData>();
+}
+
+[System.Serializable]
+public class ItemDescriptionData
+{
+    public static ItemDescriptionData instance;
+
+    public int id;
+    public string description;
+
+    public ItemDescriptionData() { instance = this; }
+}
+
 
 public class Player_InventoryController : MonoBehaviour
 {
     #region Variables
     [Header("Items")]
     [SerializeField] private TestItem[] items = new TestItem[7];
+    [SerializeField] private TextMeshProUGUI descritionText;
 
     [Header("Slots")]
     [SerializeField] private InventorySlot[] slots;
@@ -17,14 +39,31 @@ public class Player_InventoryController : MonoBehaviour
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private GameObject inventoryBasePanel;
 
-    [Header("External Scripts")]
+    [Header("External")]
     [SerializeField] private DataController dataController;
+    [SerializeField] private ItemDescriptions itemDescriptions;
 
     int index = 0;
     int y_Index = 0;
     int x_Index = 0;
     #endregion
 
+
+    private void Awake()
+    {
+        string path = Application.dataPath + "/Resources/Json Files/PlayerInventoryItems.json";
+
+
+        if (File.Exists(path))
+        {
+            string data = File.ReadAllText(path);
+            itemDescriptions = JsonUtility.FromJson<ItemDescriptions>(data);
+        }
+        else
+        {
+            Debug.LogError("Not Found 'PlayerInventoryItems.json' File.");
+        }
+    }
 
     private void OnEnable()
     {
@@ -49,6 +88,7 @@ public class Player_InventoryController : MonoBehaviour
 
         SelectInput();
         ToggleOutline();
+        Descrition();
 
         UpdateSlot();
         SetSlotScale();
@@ -105,6 +145,12 @@ public class Player_InventoryController : MonoBehaviour
     }
     #endregion
 
+
+    private void Descrition()
+    {
+        index = y_Index * 5 + x_Index;
+
+    }
 
     private void UpdateSlot()
     {
