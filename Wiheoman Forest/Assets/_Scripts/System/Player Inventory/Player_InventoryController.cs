@@ -4,6 +4,7 @@ using System.IO;
 using TMPro;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -42,6 +43,7 @@ public class Player_InventoryController : MonoBehaviour
     [Header("External")]
     [SerializeField] private DataController dataController;
     [SerializeField] private ItemDescriptions itemDescriptions;
+    private Dictionary<int, string> itemDescriptDict = new Dictionary<int, string>();
 
     int index = 0;
     int y_Index = 0;
@@ -58,6 +60,11 @@ public class Player_InventoryController : MonoBehaviour
         {
             string data = File.ReadAllText(path);
             itemDescriptions = JsonUtility.FromJson<ItemDescriptions>(data);
+
+            for (int i = 0; i < itemDescriptions.itemDescription.Count; i++)
+            {
+                itemDescriptDict.Add(itemDescriptions.itemDescription[i].id, itemDescriptions.itemDescription[i].description);
+            }
         }
         else
         {
@@ -127,22 +134,22 @@ public class Player_InventoryController : MonoBehaviour
     private void SelectedItem()
     {
         // Outline & Description 
-        index = y_Index * 5 + x_Index;
 
-        for (int i = 0; i < curSlotCount; i++)
+        slots[index].GetComponent<Outline>().enabled = false;
+
+        if (y_Index * 5 + x_Index >= curSlotCount)
         {
-            Outline outline = slots[i].GetComponent<Outline>();
-
-            if (i == index)
-            {
-                outline.enabled = true;
-                descritionText.text = itemDescriptions.itemDescription[i].description;
-            }
-            else
-            {
-                outline.enabled = false;
-            }
+            index = curSlotCount - 1;
+            x_Index = index - y_Index * 5;
         }
+        else
+        {
+            index = y_Index * 5 + x_Index;
+        }
+
+        slots[index].GetComponent<Outline>().enabled = true;
+        itemDescriptDict.TryGetValue(index, out string str);
+        descritionText.text = str;
     }
     #endregion
 
