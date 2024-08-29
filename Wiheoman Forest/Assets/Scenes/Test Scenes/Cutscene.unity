@@ -12865,12 +12865,15 @@ PlayableDirector:
   - key: {fileID: -1993933067400423667, guid: 5a09ed1bc1195974380273ea4b509ac4, type: 2}
     value: {fileID: 1361248024}
   - key: {fileID: 715222079751339749, guid: 5a09ed1bc1195974380273ea4b509ac4, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1684686716}
+  - key: {fileID: -1049952016580558738, guid: 5a09ed1bc1195974380273ea4b509ac4, type: 2}
+    value: {fileID: 1684686717}
   m_ExposedReferences:
     m_References:
     - c71a6630aeac9e04989d2639eeb512cf: {fileID: 1011467275}
     - 881aaeaaba333ab4486136b47f7070bc: {fileID: 1011467275}
     - 945e9eb4a9b837e4ca9058651d7bafce: {fileID: 965302473}
+    - 10339d3f61812ba459afe020d4029028: {fileID: 1011467275}
 --- !u!1001 &1720039324
 PrefabInstance:
   m_ObjectHideFlags: 0
