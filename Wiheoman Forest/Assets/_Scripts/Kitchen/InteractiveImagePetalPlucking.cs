@@ -50,7 +50,8 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
             canvasComponent.worldCamera,
             out resultPosition);
 
-        myRectTransform.position = resultPosition + mouseToUiOffset;
+        //myRectTransform.position = resultPosition + mouseToUiOffset;
+        myRectTransform.position = resultPosition;
 
         //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = worldPosition;
