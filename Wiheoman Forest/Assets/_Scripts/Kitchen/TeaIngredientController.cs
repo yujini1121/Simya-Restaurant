@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TeaIngredientController : MonoBehaviour
 {
+    public static TeaIngredientController instance;
+
     int petalCount = 0;
     [SerializeField] GameObject petalBasketGameobject;
     [SerializeField] GameObject waterBottleGameobject;
@@ -18,6 +20,7 @@ public class TeaIngredientController : MonoBehaviour
         {
             petalBasketGameobject.SetActive(false);
             waterBottleGameobject.SetActive(true);
+            InteractiveImageTeapot.instance.AddPetal();
         }
     }
 
@@ -35,15 +38,30 @@ public class TeaIngredientController : MonoBehaviour
 
         if (term < 3.0f)
         {
-            Debug.Log("Bad");
+            Debug.Log($"{term} -> Bad");
         }
         else if (term < 5.0f)
         {
-            Debug.Log("Moderate");
+            Debug.Log($"{term} -> Moderate");
+        }
+        else if (term < 7.0f)
+        {
+            Debug.Log($"{term} -> Good");
         }
         else
         {
-            Debug.Log("Good");
+            Debug.Log($"{term} -> Bad");
         }
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        waterBottleGameobject.SetActive(false);
+        finishButtonGameobject.SetActive(false);
     }
 }

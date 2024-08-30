@@ -15,41 +15,41 @@ public class InteractiveImageBase : MonoBehaviour,
 {
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer entered the UI element.");
+        Debug.Log($"{gameObject.name} : Pointer entered the UI element.");
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer exited the UI element.");
+        Debug.Log($"{gameObject.name} : Pointer exited the UI element.");
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("UI element clicked.");
+        Debug.Log($"{gameObject.name} : UI element clicked.");
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pointer down on the UI element.");
+        Debug.Log($"{gameObject.name} : Pointer down on the UI element.");
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("Pointer up on the UI element.");
+        Debug.Log($"{gameObject.name} : Pointer up on the UI element.");
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin dragging the UI element.");
+        Debug.Log($"{gameObject.name} : Begin dragging the UI element.");
     }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging the UI element.");
+        Debug.Log($"{gameObject.name} : Dragging the UI element.");
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("End dragging the UI element.");
+        Debug.Log($"{gameObject.name} : End dragging the UI element.");
     }
 }

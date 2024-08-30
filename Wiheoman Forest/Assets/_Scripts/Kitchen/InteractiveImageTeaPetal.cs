@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
-public class InteractiveImagePetalPlucking : InteractiveImageBase
+public class InteractiveImageTeaPetal : InteractiveImageBase
 {
-    Vector3 startPosition;
     Vector3 startRectPosition;
     Vector2 mouseToUiOffset;
     GameObject canvas;
@@ -14,12 +12,10 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
     RectTransform myRectTransform;
     RectTransform canvasRectTransform;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         myRectTransform = GetComponent<RectTransform>();
-
-        startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        
         startRectPosition = myRectTransform.localPosition;
 
 
@@ -50,8 +46,7 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
             canvasComponent.worldCamera,
             out resultPosition);
 
-        //myRectTransform.position = resultPosition + mouseToUiOffset;
-        myRectTransform.position = resultPosition;
+        myRectTransform.position = resultPosition + mouseToUiOffset;
 
         //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = worldPosition;
@@ -59,17 +54,10 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        if (InteractiveImagePetalBasket.isEntered)
+        if (InteractiveImageTeapotLid.isEntered)
         {
-            Debug.Log("꽃잎을 담았습니다.");
-
-            Destroy(gameObject);
+            TeaIngredientController.instance.PutPetal();
         }
-        else
-        {
-            myRectTransform.localPosition = startRectPosition;
-
-            Debug.Log("바구니 밖입니다.");
-        }
+        myRectTransform.localPosition = startRectPosition;
     }
 }

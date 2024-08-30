@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
-public class InteractiveImagePetalPlucking : InteractiveImageBase
+public class InteractiveImageTartFruit : InteractiveImageBase
 {
+    static public InteractiveImageTartFruit instance;
+
+    public InteractiveImageTartFruitCollider targetCollider;
+
     Vector3 startPosition;
     Vector3 startRectPosition;
     Vector2 mouseToUiOffset;
@@ -14,6 +17,10 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
     RectTransform myRectTransform;
     RectTransform canvasRectTransform;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -50,8 +57,8 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
             canvasComponent.worldCamera,
             out resultPosition);
 
-        //myRectTransform.position = resultPosition + mouseToUiOffset;
-        myRectTransform.position = resultPosition;
+        myRectTransform.position = resultPosition + mouseToUiOffset;
+        //myRectTransform.position = resultPosition;
 
         //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //transform.position = worldPosition;
@@ -59,17 +66,10 @@ public class InteractiveImagePetalPlucking : InteractiveImageBase
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        if (InteractiveImagePetalBasket.isEntered)
+        if (targetCollider != null)
         {
-            Debug.Log("꽃잎을 담았습니다.");
-
-            Destroy(gameObject);
+            targetCollider.PlaceFruit();
         }
-        else
-        {
-            myRectTransform.localPosition = startRectPosition;
-
-            Debug.Log("바구니 밖입니다.");
-        }
+        transform.position = startPosition;
     }
 }
