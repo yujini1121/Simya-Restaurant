@@ -21,7 +21,7 @@ public class Chest_InventoryMain : Chest_InventoryBase
 
 
     // 아이템 등록
-    public void AcquireItem(TestItem item, int count = 1)
+    public void AcquireItem(ItemAttribute item, int count = 1)
     {       
         if (item.CanOverlap)
         {

@@ -7,7 +7,7 @@ using TMPro;
 public class ItemShopSlot : MonoBehaviour
 {
     [Header("판매할 아이템")]
-    [SerializeField] public TestItem sellItem;
+    [SerializeField] public ItemAttribute sellItem;
 
     [Header("거래 당 아이템 비용")]
     [SerializeField] public int itemCost;
