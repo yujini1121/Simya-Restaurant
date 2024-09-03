@@ -243,6 +243,16 @@ MonoBehaviour:
   UI_SaveAndLoad: {fileID: 39474586}
   UI_PlayerInventory: {fileID: 1725128132}
   UI_TimeSwitching: {fileID: 1279262649}
+  UIElements:
+  - UIObject: {fileID: 1279262649}
+    isActive: 0
+    toggleKey: 113
+  - UIObject: {fileID: 39474586}
+    isActive: 0
+    toggleKey: 119
+  - UIObject: {fileID: 1725128132}
+    isActive: 0
+    toggleKey: 101
 --- !u!1 &34440371
 GameObject:
   m_ObjectHideFlags: 0
