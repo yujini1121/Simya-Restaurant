@@ -240,17 +240,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197830a50c16cc14a896937805c116b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI_SaveAndLoad: {fileID: 39474586}
-  UI_PlayerInventory: {fileID: 1725128132}
-  UI_TimeSwitching: {fileID: 1279262649}
-  UIElements:
-  - UIObject: {fileID: 1279262649}
+  UI_Elements:
+  - uiObject: {fileID: 1279262649}
     isActive: 0
     toggleKey: 113
-  - UIObject: {fileID: 39474586}
+  - uiObject: {fileID: 39474586}
     isActive: 0
     toggleKey: 119
-  - UIObject: {fileID: 1725128132}
+  - uiObject: {fileID: 1725128132}
     isActive: 0
     toggleKey: 101
 --- !u!1 &34440371

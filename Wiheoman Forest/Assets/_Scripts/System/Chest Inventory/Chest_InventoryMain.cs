@@ -16,7 +16,7 @@ public class Chest_InventoryMain : Chest_InventoryBase
 
     void Update()
     {
-        OpenInventory();
+        //OpenInventory();
     }
 
 
@@ -25,7 +25,7 @@ public class Chest_InventoryMain : Chest_InventoryBase
     {       
         if (item.CanOverlap)
         {
-            for(int i = 0; i < mSlots.Length; i++)
+            for (int i = 0; i < mSlots.Length; i++)
             {
                 if (mSlots[i].Item != null && mSlots[i].Item.ItemID == item.ItemID)
                 {
@@ -47,26 +47,26 @@ public class Chest_InventoryMain : Chest_InventoryBase
         }
     }
 
-    private void OpenInventory()
-    {
-        if(Input.GetKeyUp(KeyCode.D))
-        {
-            if(!isInventoryActive)
-            {
-                inventoryBase.SetActive(true);
-                isInventoryActive = true;
+    //private void OpenInventory()
+    //{
+    //    if(Input.GetKeyUp(KeyCode.D))
+    //    {
+    //        if(!isInventoryActive)
+    //        {
+    //            inventoryBase.SetActive(true);
+    //            isInventoryActive = true;
 
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                inventoryBase.SetActive(false);
-                isInventoryActive = false;
+    //            Cursor.lockState = CursorLockMode.None;
+    //            Cursor.visible = true;
+    //        }
+    //        else
+    //        {
+    //            inventoryBase.SetActive(false);
+    //            isInventoryActive = false;
 
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
-    }
+    //            Cursor.lockState = CursorLockMode.Locked;
+    //            Cursor.visible = false;
+    //        }
+    //    }
+    //}
 }
