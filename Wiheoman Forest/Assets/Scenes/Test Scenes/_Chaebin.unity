@@ -2763,6 +2763,7 @@ MonoBehaviour:
   storeUIParent: {fileID: 872146597}
   itemDescriptionText: {fileID: 132936055}
   playerGoldText: {fileID: 2078614875}
+  totalPayAmountText: {fileID: 1196800695}
 --- !u!1 &356991938
 GameObject:
   m_ObjectHideFlags: 0
