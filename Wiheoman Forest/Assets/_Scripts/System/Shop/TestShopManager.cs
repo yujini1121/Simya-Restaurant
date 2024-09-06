@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class TestShopManager : MonoBehaviour
 {
     [Header("판매할 아이템")]
-    [SerializeField] private TestItem[] sellItem;
+    [SerializeField] private ItemAttribute[] sellItem;
 
     [Header("상점 ui")]
     [SerializeField] private GameObject storeUI;
@@ -25,15 +25,26 @@ public class TestShopManager : MonoBehaviour
     [Header("플레이어 소지금 Text UI")]
     [SerializeField] private TextMeshProUGUI playerGoldText;
 
+    [Header("구매 금액 합계 Text UI")]
+    [SerializeField] private TextMeshProUGUI totalPayAmountText;
+
     private int playerGold;
-    private bool isStoreActive = false;
     private int selectedIndex = 0;
+    private int sumPayAmount = 0;
+    private bool isStoreActive = false;
+
+    private int buyCount = 0;
+    private int buyAmount = 0;
+    private TextMeshProUGUI buyCountText;
+    private TextMeshProUGUI buyAmountText;
+    private Dictionary<int, int> itemBuyCount = new Dictionary<int, int>();
+    private Dictionary<int, int> itemBuyAmount = new Dictionary<int, int>();
+
     private GameObject selectedItemUI;
-    private TestItem selectedItem;
+    private ItemAttribute selectedItem;
     private GameObject newItemUI;
     private ItemInformationList itemInfo;
     private PlayerData playerGoldData;
-
     private DataController dataController;
 
     [System.Serializable]
@@ -72,6 +83,11 @@ public class TestShopManager : MonoBehaviour
                 SetItemInfo();
             }
         }
+        else if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            isStoreActive = false;
+            storeUI.SetActive(isStoreActive);
+        }
 
         if (isStoreActive)
         {
@@ -85,8 +101,11 @@ public class TestShopManager : MonoBehaviour
     {
         itemInfo = JsonUtility.FromJson<ItemInformationList>(Resources.Load<TextAsset>("Json Files/TestItemDescription").text);
         playerGoldData = JsonUtility.FromJson<PlayerData>(Resources.Load<TextAsset>("Json Files/PlayerData").text);
+        
         playerGold = playerGoldData.gold;
+
         playerGoldText.text = playerGold.ToString() + " $";
+        totalPayAmountText.text = sumPayAmount.ToString() + " $";        
     }
 
     private void SelectInput()
@@ -98,6 +117,18 @@ public class TestShopManager : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             ChangeSelection(1);
+        }
+    }
+
+    private void UpdateItemImage()
+    {
+        if(selectedItem != null)
+        {
+            Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
+            Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
+
+            Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
+            itemImage.sprite = selectedItem.ItemImage;
         }
     }
 
@@ -116,10 +147,11 @@ public class TestShopManager : MonoBehaviour
         selectedItemUI = itemUI;
 
         selectedItem = sellItem[selectedIndex];
-        Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
-        Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
-        Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
-        itemImage.sprite = selectedItem.ItemImage;
+        
+        buyCountText = selectedItemUI.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
+        buyAmountText = selectedItemUI.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
+
+        UpdateItemImage();
 
         SetItemInfo();
     }
@@ -140,6 +172,7 @@ public class TestShopManager : MonoBehaviour
             selectedIndex = Mathf.Clamp(index, 0, storeUIParent.childCount - 1);
             selectedItemUI = storeUIParent.GetChild(selectedIndex).gameObject;
             ToggleOutline(selectedItemUI, true);
+            selectedItem = sellItem[selectedIndex];
         }
     }
 
@@ -160,10 +193,23 @@ public class TestShopManager : MonoBehaviour
                 newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
                 newItemUI.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price.ToString();
             }
+            
+            buyCountText = newItemUI.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
+            buyAmountText = newItemUI.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
+
+            buyCountText.text = buyCount.ToString() + " 개";
+            buyAmountText.text = buyAmount.ToString() + " $";
+        }
+
+        if(sellItem.Length > 0)
+        {
+            SelectItem(0);
+            SetItemInfo();
+            UpdateItemImage();
         }
     }    
 
-    private void BuyItem() // 수정..
+    private void BuyItem()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -171,14 +217,31 @@ public class TestShopManager : MonoBehaviour
             if (playerGold >= itemData.Price)
             {
                 playerGold -= itemData.Price;
+                sumPayAmount += itemData.Price;
+
+                if(!itemBuyCount.ContainsKey(selectedItem.ItemID))
+                {
+                    itemBuyCount[selectedItem.ItemID] = 0;
+                    itemBuyAmount[selectedItem.ItemID] = 0;
+                }
+
+                itemBuyCount[selectedItem.ItemID]++;
+                itemBuyAmount[selectedItem.ItemID] += itemData.Price;
+                
+                totalPayAmountText.text = sumPayAmount.ToString() + " $";
                 playerGoldText.text = playerGold.ToString() + " $";
+
+                buyCountText.text = itemBuyCount[selectedItem.ItemID].ToString() + " 개";
+                buyAmountText.text = itemBuyAmount[selectedItem.ItemID].ToString() + " $";
 
                 playerGoldData.gold = playerGold;
 
                 dataController.SaveData();
             }
             else
-                Debug.Log("소지금 부족!!");
+            {
+                Debug.Log("소지금 부족!!");        
+            }
         }
     }
 

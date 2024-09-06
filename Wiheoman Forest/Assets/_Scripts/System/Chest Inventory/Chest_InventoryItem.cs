@@ -9,7 +9,7 @@ public class Chest_InventoryItem : MonoBehaviour
     [SerializeField] private Chest_InventoryMain mInventoryMain;
 
     [Header("획득할 아이템")]
-    [SerializeField] private TestItem item1, item2, item3;
+    [SerializeField] private ItemAttribute item1, item2, item3;
 
     [Header("UI 버튼")]
     [SerializeField] private Button item1Button;
@@ -24,7 +24,7 @@ public class Chest_InventoryItem : MonoBehaviour
         item3Button.onClick.AddListener(() => AcquireItem(item3, "3번"));
     }
 
-    private void AcquireItem(TestItem item, string debugMessage)
+    private void AcquireItem(ItemAttribute item, string debugMessage)
     {
         mInventoryMain.AcquireItem(item);
         Debug.Log(debugMessage);

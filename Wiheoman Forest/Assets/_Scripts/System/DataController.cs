@@ -41,6 +41,7 @@ public class DataController : MonoBehaviour
         string json = JsonUtility.ToJson(playerData, true);
         string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
         File.WriteAllText(path, json);
+        Debug.Log("되냐");
     }
 
     public void LoadData()
