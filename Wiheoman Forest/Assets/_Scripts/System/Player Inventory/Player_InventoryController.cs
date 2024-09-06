@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
+
 
 [System.Serializable]
 public class ItemDescriptions
@@ -29,7 +28,7 @@ public class Player_InventoryController : MonoBehaviour
 {
     #region Variables
     [Header("Items")]
-    [SerializeField] private TestItem[] items = new TestItem[7];
+    [SerializeField] private ItemAttribute[] items = new ItemAttribute[7];
     [SerializeField] private TextMeshProUGUI descritionText;
 
     [Header("Slots")]
@@ -216,7 +215,7 @@ public class Player_InventoryController : MonoBehaviour
         }
     }
 
-    public void AcquireItem(TestItem item, int count = 1)
+    public void AcquireItem(ItemAttribute item, int count = 1)
     {
         if (item.CanOverlap)
         {

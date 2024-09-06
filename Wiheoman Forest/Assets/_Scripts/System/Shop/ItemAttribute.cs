@@ -4,7 +4,7 @@ using Unity.Properties;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Add/Item")]
-public class TestItem : ScriptableObject
+public class ItemAttribute : ScriptableObject
 {
     [Header("아이템 고유 ID(중복불가)")]
     [SerializeField] private int mItemID;

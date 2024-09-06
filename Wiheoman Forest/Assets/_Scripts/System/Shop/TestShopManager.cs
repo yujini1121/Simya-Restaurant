@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class TestShopManager : MonoBehaviour
 {
     [Header("판매할 아이템")]
-    [SerializeField] private TestItem[] sellItem;
+    [SerializeField] private ItemAttribute[] sellItem;
 
     [Header("상점 ui")]
     [SerializeField] private GameObject storeUI;
@@ -41,7 +41,7 @@ public class TestShopManager : MonoBehaviour
     private Dictionary<int, int> itemBuyAmount = new Dictionary<int, int>();
 
     private GameObject selectedItemUI;
-    private TestItem selectedItem;
+    private ItemAttribute selectedItem;
     private GameObject newItemUI;
     private ItemInformationList itemInfo;
     private PlayerData playerGoldData;

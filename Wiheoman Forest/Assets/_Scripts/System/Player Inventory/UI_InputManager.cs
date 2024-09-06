@@ -2,69 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class UI_Element
+{
+    public static UI_Element instance; 
+
+    public GameObject uiObject;
+    public bool isActive;
+    public KeyCode toggleKey;
+
+    public UI_Element() { instance = this; }
+}
+
 public class UI_InputManager : MonoBehaviour
 {
-    [SerializeField] private GameObject UI_SaveAndLoad;
-    [SerializeField] private GameObject UI_PlayerInventory;
-    [SerializeField] private GameObject UI_TimeSwitching;
+    [SerializeField] private UI_Element[] UI_Elements;
 
-    private bool Active_SaveAndLoad = false;
-    private bool Active_PlayerInventory = false;
-    private bool Active_TimeSwitching = false;
-
-
-    void Start()
+    void Awake()
     {
-        UI_SaveAndLoad.SetActive(false);
-        UI_PlayerInventory.SetActive(false);
-        UI_TimeSwitching.SetActive(false);
+        foreach (var element in UI_Elements)
+        {
+            element.uiObject.SetActive(false);
+        }    
     }
 
-    /// <summary>
-    /// switch - case문으로 구현하고 싶었으나, 
-    /// 대문자 / 소문자 구별하여 케이스를 작성해야 한다고 하여 임시로 if문으로 작성했습니다.
-    /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (!Active_SaveAndLoad)
-            {
-                UI_SaveAndLoad.SetActive(true);
-                Active_SaveAndLoad = true;
-            }
-            else
-            {
-                UI_SaveAndLoad.SetActive(false);
-                Active_SaveAndLoad = false;
-            }
-        }
+        InputGetKey();
+    }
 
-        else if (Input.GetKeyDown(KeyCode.B))
+    void InputGetKey()
+    {
+        foreach (var element in UI_Elements)
         {
-            if (!Active_PlayerInventory)
+            if (Input.GetKeyDown(element.toggleKey))
             {
-                UI_PlayerInventory.SetActive(true);
-                Active_PlayerInventory = true;
-            }
-            else
-            {
-                UI_PlayerInventory.SetActive(false);
-                Active_PlayerInventory = false;
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            if (!Active_TimeSwitching)
-            {
-                UI_TimeSwitching.SetActive(true);
-                Active_TimeSwitching = true;
-            }
-            else
-            {
-                UI_TimeSwitching.SetActive(false);
-                Active_TimeSwitching = false;
+                element.isActive = !element.isActive;
+                element.uiObject.SetActive(!element.uiObject.activeSelf);
             }
         }
     }
