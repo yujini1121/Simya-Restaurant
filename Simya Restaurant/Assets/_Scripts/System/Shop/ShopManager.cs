@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
 
-public class TestShopManager : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
     [Header("판매할 아이템")]
     [SerializeField] private ItemAttribute[] sellItem;

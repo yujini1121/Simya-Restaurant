@@ -2742,6 +2742,8 @@ MonoBehaviour:
   itemCostText: {fileID: 774281134}
   itemDescriptionText: {fileID: 132936055}
   buyButton: {fileID: 0}
+  isStoreActive: 0
+  totalCost: 0
 --- !u!114 &355844753
 MonoBehaviour:
   m_ObjectHideFlags: 0
