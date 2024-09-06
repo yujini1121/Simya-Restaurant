@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2036643034388670734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7029041500260922254}
+  - component: {fileID: 5090392141548236717}
+  - component: {fileID: 4900188028676499329}
+  - component: {fileID: 6809642023918041197}
+  - component: {fileID: 6494960327363205062}
+  - component: {fileID: 4623934008586321544}
+  m_Layer: 0
+  m_Name: BossChapter1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7029041500260922254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+--- !u!65 &5090392141548236717
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 1, z: 10}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!23 &4900188028676499329
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: bad7ef8dba1aa644280aeb5a0aebcda0, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &6809642023918041197
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &6494960327363205062
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &4623934008586321544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036643034388670734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3dc2174cb580da4990a192a7f42638c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  dropRate: []
+  range: 0
+  stat:
+    health: 0
+    guardGauge: 0
+    rank: 0
+  maxHealth: 500
+  subHealth: 0
+  thresholdHealthRateSummon: 0.9
+  thresholdHealthRateHealing: 0
+  healthRateHealed: 0.3
+  attackBeginTime: 1
+  attackPeriod: 3
+  timeForFlowerSpawning: 3
+  timeForHealing: 10
+  timeForBerryMove: 2
+  timeForAttackInterval: 2
+  chanceOfRootAttack: 0.5
+  chanceOfLeavesAttack: 0.3
+  chanceOfBerryBomb: 0.2
+  heightOfLeavesAttack: 3
+  prefabRoot: {fileID: 3756904208457183791, guid: 9691d8d6f62ed1544a4c10dae0eb4d16,
+    type: 3}
+  prefabBerryBomb: {fileID: 6280397613393638542, guid: e851b888f98cc824ea4ee608793ceca8,
+    type: 3}
+  prefabFallingFlower: {fileID: 8593889425993261212, guid: 4a961246b0c47054dab2a203eac3bb2e,
+    type: 3}
+  prefabFlowerMonMelee: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288,
+    type: 3}
+  prefabFlowerMonRanged: {fileID: 8262294788424877761, guid: 82f427b3bd1647e4ab191a686d59b288,
+    type: 3}
+  prefabLeavesAttackWarning: {fileID: 1553023000297302007, guid: 705aa76f91b206942a0ce0d2a37524b3,
+    type: 3}
+  prefabLeavesAttackHitBox: {fileID: 6798844009843498755, guid: c08598f784f25984eac1204220ae00a0,
+    type: 3}
+  flowerMonSpawnPositionMaxX: -10
+  flowerMonSpawnPositionMinX: 4
+  positionTopYofFlowerCenter: 15
+  positionTopYofBerryCenter: 10
+  positionYBeyondCamera: 15
+  positionMinOfFlowerSpawn: {x: 12, y: 4, z: 0}
+  positionMaxOfFlowerSpawn: {x: 8, y: 6, z: 0}
+  positionMinOfBerrySpawn: {x: 8, y: 5, z: 0}
+  positionMaxOfBerrySpawn: {x: 12, y: 5, z: 0}
+  positionMinOfBerryDestination: {x: -8, y: 1, z: 0}
+  positionMaxOfBerryDestination: {x: 3, y: 1, z: 0}
+  countOfSpawningFlowerMonMelee: 3
+  countOfSpawningFlowerMonRanged: 3
+  countOfBerries: 3
