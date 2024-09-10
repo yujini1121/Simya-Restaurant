@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1167845113103200137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8629523545086536687}
+  m_Layer: 5
+  m_Name: TartFruits
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8629523545086536687
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167845113103200137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3981958166644413520}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1681748356868181899
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +70,7 @@ RectTransform:
   - {fileID: 881217216496182390}
   - {fileID: 2838871897099661926}
   - {fileID: 5976036356079379807}
+  - {fileID: 8629523545086536687}
   - {fileID: 4926733456975995345}
   - {fileID: 5453882289632648888}
   - {fileID: 5827112169737027521}
@@ -1656,6 +1692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCollider: {fileID: 0}
+  fruitImagePrefab: {fileID: 0}
 --- !u!224 &4926733456975995345 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3151293924809013413, guid: 5d53aa941bff53a4bb6c0be2102e9dfd,

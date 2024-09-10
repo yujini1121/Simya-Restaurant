@@ -84,15 +84,25 @@ public class TartMakingController : MonoBehaviour
         {
             fillingResult = 0;
         }
-        else if (filledTime / fillingTime <= 0.7f)
+        else if (filledTime / fillingTime < 0.9f)
         {
             fillingResult = 1;
         }
-        else
+        else if (filledTime / fillingTime <= 1.0f)
         {
             fillingResult = 2;
         }
-        
+        else if (filledTime / fillingTime <= 1.2f)
+        {
+            fillingResult = 1;
+        }
+
+        int fruitResult = 0;
+        if (fruitCount <= 1)
+        {
+            fruitResult = 0;
+        }
+
         if (fillingResult == 0 & fruitCount < 2)
         {
             return EFoodRank.Bad;
@@ -113,7 +123,7 @@ public class TartMakingController : MonoBehaviour
             filledTime = Time.time - filledStartTime;
 
             Debug.Log(filledTime);
-            if (filledTime > fillingTime) filledTime = fillingTime;
+            if (filledTime > fillingTime * 2) filledTime = fillingTime;
 
             fillingCreamGameObject.transform.localScale =
                 Vector3.Lerp(new Vector3(0.1f, 0.1f, 0.1f), new Vector3(creamSize, creamSize, 1.0f), filledTime / fillingTime);
