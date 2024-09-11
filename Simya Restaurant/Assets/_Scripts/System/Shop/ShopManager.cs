@@ -79,6 +79,8 @@ public class ShopManager : MonoBehaviour
             isStoreActive = !isStoreActive;
             storeUI.SetActive(isStoreActive);
 
+            FirstSetting();
+
             if (isStoreActive)
             {
                 InitSlot();
@@ -109,6 +111,18 @@ public class ShopManager : MonoBehaviour
 
         playerGoldText.text = playerGold.ToString() + " $";
         totalPayAmountText.text = sumPayAmount.ToString() + " $";        
+    }
+
+    private void FirstSetting()
+    {
+        Transform imagePanelTransform = storeUI.transform.Find("Store_BackGroundPanel/Item_ImagePanel");
+        Transform descriptionPanelTransform = storeUI.transform.Find("Store_BackGroundPanel/Item_DescriptionPanel");
+        Transform shopNPCImageTransform = storeUI.transform.Find("Store_BackGroundPanel/ShopNPC_Image");
+
+
+        imagePanelTransform.gameObject.SetActive(false);
+        descriptionPanelTransform.gameObject.SetActive(false);
+        shopNPCImageTransform.gameObject.SetActive(true);
     }
 
     private void SelectInput()
@@ -318,23 +332,20 @@ public class ShopManager : MonoBehaviour
 
     private void ScrollPosition()
     {
-        // 선택된 아이템이 스크롤 뷰의 마지막 부분에 도달했을 때 스크롤을 이동
         float selectedItemYPos = selectedIndex / (float)(storeUIParent.childCount - 1);
 
-        // 마지막 아이템에 도달할 때만 스크롤을 내림
         if (selectedIndex == storeUIParent.childCount - 1)
         {
-            scrollRect.verticalNormalizedPosition = 0f;  // 가장 아래로 스크롤
+            scrollRect.verticalNormalizedPosition = 0f;
         }
         else if(selectedIndex == 0)
         {
             scrollRect.verticalNormalizedPosition = 1f;
         }
-        else if (selectedItemYPos > 0.9f)  // 하단 20% 근처에 도달했을 때 스크롤
+        else if (selectedItemYPos > 0.9f)
         {
             scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
         }
-        // 상단 20% 근처에 도달했을 때 스크롤을 올림
         else if (selectedItemYPos < 0.1f)
         {
             scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
