@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InteractiveImageFruitButtonSliceBegin : MonoBehaviour
+public class InteractiveImageFruitButtonSliceBegin : InteractiveImageBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnPointerDown(PointerEventData eventData)
     {
-        
+        if (FruitGatheringController.instance.isKnifeHolding)
+        {
+            FruitGatheringController.instance.BeginSlice();
+            FruitGatheringController.instance.buttonToKnifeOffset =
+                FruitGatheringController.instance.GetKnifePosiiton() - transform.position;
+        }
     }
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

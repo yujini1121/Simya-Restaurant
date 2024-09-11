@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +10,14 @@ public class TartMakingController : MonoBehaviour
     [SerializeField] GameObject emptyTartGameObject;
     [SerializeField] GameObject filledTartGameObject;
     [SerializeField] GameObject fillingStartGameObject;
-    [SerializeField] GameObject fillingGameObject;
     [SerializeField] GameObject fillingClickAreaGameObject;
     [SerializeField] GameObject[] fruitColliderGameObject;
     [SerializeField] GameObject fillingCreamGameObject;
+    [SerializeField] GameObject tartFruitGameObject;
+    [SerializeField] GameObject finishGameObject;
     InteractiveImageTartFruitCollider collider = null;
     [SerializeField] float fillingTime;
-    float filledTime;
+    float filledTime = 0.0f;
     float filledStartTime;
     float creamSize = 0.7f;
     int fruitCount = 0;
@@ -27,24 +29,32 @@ public class TartMakingController : MonoBehaviour
     }
     public void ReadyFilling()
     {
-        fillingStartGameObject.SetActive(false);
-        fillingGameObject.SetActive(true);
+        //fillingStartGameObject.SetActive(false);
         fillingClickAreaGameObject.SetActive(true);
     }
     public void StartFilling()
     {
-        filledTime = 0.0f;
-        filledStartTime = Time.time;
+        filledStartTime = Time.time - filledTime;
         fillingCreamGameObject.SetActive(true);
         coroutine = StartCoroutine(FillingCreamCoroutine());
     }
-    public void EndFillingAndNext()
+    public void PauseFilling()
     {
         StopCoroutine(coroutine);
-        fillingGameObject.SetActive(false);
+    }
+
+    public void EndFillingAndNext()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+
         fillingClickAreaGameObject.SetActive(false);
         emptyTartGameObject.SetActive(false);
         filledTartGameObject.SetActive(true);
+        tartFruitGameObject.SetActive(true);
+        finishGameObject.SetActive(true);
         foreach (GameObject go in fruitColliderGameObject)
         {
             go.SetActive(true);
@@ -64,7 +74,8 @@ public class TartMakingController : MonoBehaviour
     void Start()
     {
         fillingClickAreaGameObject.SetActive(false);
-        fillingGameObject.SetActive(false);
+        tartFruitGameObject.SetActive(false);
+        finishGameObject.SetActive(false);
         foreach (GameObject go in fruitColliderGameObject)
         {
             go.SetActive(false);
@@ -77,7 +88,7 @@ public class TartMakingController : MonoBehaviour
         
     }
     
-    EFoodRank GetRank()
+    public EFoodRank GetRank()
     {
         int fillingResult = 0;
         if (filledTime / fillingTime <= 0.5f)
@@ -102,18 +113,26 @@ public class TartMakingController : MonoBehaviour
         {
             fruitResult = 0;
         }
-
-        if (fillingResult == 0 & fruitCount < 2)
+        else if (fruitCount <= 2)
         {
-            return EFoodRank.Bad;
+            fruitResult = 1;
         }
-        else if (fillingResult == 2 && fruitCount == 3)
+        else
         {
-            return EFoodRank.Good;
+            fruitResult = 2;
         }
 
-
-        return EFoodRank.Standard;
+        switch (Math.Min(fillingResult, fruitResult))
+        {
+            case 0:
+                return EFoodRank.Bad;
+            case 1:
+                return EFoodRank.Standard;
+            case 2:
+                return EFoodRank.Good;
+            default:
+                return EFoodRank.None;
+        }
     }
 
     IEnumerator FillingCreamCoroutine()

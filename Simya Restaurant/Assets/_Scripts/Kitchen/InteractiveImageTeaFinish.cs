@@ -7,6 +7,8 @@ public class InteractiveImageTeaFinish : InteractiveImageBase
 {
     public override void OnPointerClick(PointerEventData eventData)
     {
-        TeaIngredientController.instance.Finish();
+        Debug.Log($"InteractiveImageTeaFinish.OnPointerClick() : {TartMakingController.instance.GetRank()}");
+
+        
     }
 }
