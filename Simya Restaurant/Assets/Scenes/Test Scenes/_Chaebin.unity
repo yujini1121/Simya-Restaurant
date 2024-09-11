@@ -929,7 +929,7 @@ MonoBehaviour:
     \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34
     \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\uC544\uBB34 \uB9D0\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -994,7 +994,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 25.011902, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &132936056
@@ -2649,7 +2649,6 @@ GameObject:
   - component: {fileID: 355844749}
   - component: {fileID: 355844750}
   - component: {fileID: 355844751}
-  - component: {fileID: 355844752}
   - component: {fileID: 355844753}
   m_Layer: 0
   m_Name: UI_Canvers
@@ -2721,29 +2720,6 @@ MonoBehaviour:
   - {fileID: 1372637821}
   - {fileID: 187212133}
   - {fileID: 1735712495}
---- !u!114 &355844752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355844748}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aff29bbd61e101489a871ec85ab00e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sellItem: {fileID: 0}
-  itemCost: 1000
-  buyItemCount: 1
-  storeUI: {fileID: 875194548}
-  itemImage: {fileID: 0}
-  itemNameText: {fileID: 1282476470}
-  itemCostText: {fileID: 774281134}
-  itemDescriptionText: {fileID: 132936055}
-  buyButton: {fileID: 0}
-  isStoreActive: 0
-  totalCost: 0
 --- !u!114 &355844753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2771,6 +2747,7 @@ MonoBehaviour:
   itemDescriptionText: {fileID: 132936055}
   playerGoldText: {fileID: 2078614875}
   totalPayAmountText: {fileID: 1196800695}
+  scrollRect: {fileID: 1124974221}
 --- !u!1 &356991938
 GameObject:
   m_ObjectHideFlags: 0
@@ -5581,18 +5558,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772680685}
   m_CullTransparentMesh: 1
---- !u!114 &774281134 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8849509953047840400, guid: ac19d1e9e6510e24496f75d8a4240ff3,
-    type: 3}
-  m_PrefabInstance: {fileID: 5059014469861524129}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &798619592
 GameObject:
   m_ObjectHideFlags: 0
@@ -8039,7 +8004,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC804\uCCB4 \uAD6C\uB9E4 \uAE08\uC561"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -8104,7 +8069,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1196800696
@@ -8878,18 +8843,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258921755}
   m_CullTransparentMesh: 1
---- !u!114 &1282476470 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5661218944914190523, guid: ac19d1e9e6510e24496f75d8a4240ff3,
-    type: 3}
-  m_PrefabInstance: {fileID: 5059014469861524129}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1285761499
 GameObject:
   m_ObjectHideFlags: 0
@@ -10932,7 +10885,7 @@ MonoBehaviour:
   m_text: "\u2191/\u2193\uC774\uB3D9   \u2190 / \u2192 \uAC1C\uC218 \uBCC0\uACBD  
     F \uAD6C\uB9E4"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -10997,7 +10950,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1685991041
@@ -12724,7 +12677,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB0B4 \uC18C\uC9C0\uAE08"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -12789,7 +12742,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2078614876
@@ -12934,7 +12887,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "ESC \uB098\uAC00\uAE30\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -12999,7 +12952,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2118520256
