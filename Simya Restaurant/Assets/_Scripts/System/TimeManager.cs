@@ -11,98 +11,7 @@ public enum TimeOfDay
 
 public class TimeManager : MonoBehaviour
 {
-    #region 아 다시 짜야지
-    //[SerializeField] private TimeOfDay current;
-    //[SerializeField] private TextMeshProUGUI timeText;
-
-    //[Space(20)]
-    //[Tooltip("현실 시간과 게임 시간 간의 변환 비율")]
-    //[SerializeField] private float realTimeToGameTimeMultiplier;
-
-    //[SerializeField] private float initGameTime;
-    //[SerializeField] private float sunriseHour;
-    //[SerializeField] private float sunsetHour;
-
-    //private DateTime currentTime;
-    //private TimeSpan dayTimeSpan;
-    //private TimeSpan nightTimeSpan;
-
-    //[SerializeField] private Color dayAmbientLight;
-    //[SerializeField] private Color nightAmbientLight;
-    //[SerializeField] private Color dawnAmbientLight;
-
-    //[SerializeField] private AnimationCurve lightChangeCurve;
-
-
-    //private void Start()
-    //{
-    //    currentTime = DateTime.Now.Date + TimeSpan.FromHours(initGameTime);
-
-    //    dayTimeSpan = TimeSpan.FromHours(sunriseHour);
-    //    nightTimeSpan = TimeSpan.FromHours(sunsetHour);
-    //}
-
-    //private void Update()
-    //{
-    //    if (current == TimeOfDay.Night)
-    //    {
-    //        timeText.enabled = true;
-    //        UpdateTime();
-    //    }
-    //    else
-    //    {
-    //        timeText.enabled = false;
-    //    }
-    //}
-
-    //private void UpdateTime()
-    //{
-    //    currentTime = currentTime.AddSeconds(Time.deltaTime * realTimeToGameTimeMultiplier);
-
-    //    if (timeText != null)
-    //    {
-    //        timeText.text = currentTime.ToString("HH:mm");
-    //    }
-    //}
-
-    ///// <summary>
-    ///// case 1. 새벽 -> 낮 ///
-    ///// case 2. 낮 -> 밤
-    ///// </summary>
-    //private void SkipToNextTime(TimeOfDay current)
-    //{
-    //    if      (current == TimeOfDay.Dawn)
-    //    {
-
-    //    }
-    //    else if (current == TimeOfDay.Day)
-    //    {
-
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("SkipToNextTime() - Not Found Current Time");
-    //        return;
-    //    }
-    //}
-
-    ///// <summary>
-    ///// 밤 -> 새벽 
-    ///// </summary>
-    //private void DurationToNextTime(TimeOfDay current)
-    //{
-    //    if (current == TimeOfDay.Night)
-    //    {
-
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("DurationToNextTime() - Not Found Current Time");
-    //        return;
-    //    }
-    //}
-    #endregion
-    //IEnumerator ChangeNextTime()
+     //IEnumerator ChangeNextTime()
     //{
     //    switch (current)
     //    {
@@ -146,17 +55,17 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentTime.ToString());
         if (current == TimeOfDay.Dawn && currentTime <= endDawnTime)
         {
-            timeText.enabled = true;
-
             currentTime = currentTime.AddSeconds(Time.deltaTime * realTimeToGameTimeMultiplier);
+            timeText.enabled = true;
+            timeText.text = currentTime.ToString("HH:mm");
 
-            if (timeText != null)
-            {
-                timeText.text = currentTime.ToString("HH:mm");
-            }
+            float t = Mathf.InverseLerp(initDawnTime, 5f, (float)currentTime.TimeOfDay.TotalHours);
+
+            light.color = Color.Lerp(new Color(0f, 0f, 0f), new Color(1f, 0.7f, 1f), t);
+            light.colorTemperature = Mathf.Lerp(20000f, 1500f, t);
+            light.intensity = Mathf.Lerp(0f, 0.8f, t);
         }
         else
         {
@@ -173,7 +82,7 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Dawn To Day");
         current = TimeOfDay.Day;
 
-        filter = new Color(1f, 1f, 0.8f);           // (원하는 색상 RGB 값) / 255 
+        filter = new Color(1f, 1f, 0.8f);           // (원하는 색상 RGB 값) / 255 계산기로 계산함 ㅎㅎ..
         temperature = 6500f;
         intensity = 1f;
 
@@ -206,13 +115,5 @@ public class TimeManager : MonoBehaviour
     {
         Debug.Log("Night To Dawn");
         current = TimeOfDay.Dawn;
-
-        filter = new Color(1f, 0.7f, 1f);
-        temperature = 1500f;
-        intensity = 0.8f;
-
-        light.color = filter;
-        light.colorTemperature = temperature;
-        light.intensity = intensity;
     }
 }
