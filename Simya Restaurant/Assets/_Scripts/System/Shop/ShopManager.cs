@@ -99,6 +99,11 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // Json 파일에서 아이템 설명 및 플레이어 데이터 로드,
+    // 플레이어 골드 값 초기화
+    // =========================================================
     private void JsonFileReadAndGoldSet()
     {
         itemInfo = JsonUtility.FromJson<ItemInformationList>(Resources.Load<TextAsset>("Json Files/TestItemDescription").text);
@@ -110,6 +115,9 @@ public class ShopManager : MonoBehaviour
         totalPayAmountText.text = sumPayAmount.ToString() + " $";        
     }
 
+    // =========================================================
+    // 방향키 눌렀을 때 선택 변경 처리 
+    // =========================================================
     private void SelectInput()
     {
         if(Input.GetKeyDown(KeyCode.UpArrow))
@@ -122,6 +130,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 선택된 아이템 이미지 ui 업데이트 
+    // =========================================================
     private void UpdateImage()
     {
         if(selectedItem != null)
@@ -134,6 +145,10 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 선택된 아이템 슬롯 변경
+    // 아웃라인 처리와 아이템 이미지, 설명을 업데이트
+    // =========================================================
     private void ChangeSelection(int direction)
     {
         selectedIndex = Mathf.Clamp(selectedIndex + direction, 0, storeUIParent.childCount - 1);
@@ -160,6 +175,9 @@ public class ShopManager : MonoBehaviour
         ScrollPosition();
     }
 
+    // =========================================================
+    // 아이템 슬롯 아웃라인을 활성화 / 비활성화
+    // =========================================================
     private void ToggleOutline(GameObject itemUI, bool enable)
     {
         var outline = itemUI.GetComponent<Outline>();
@@ -169,6 +187,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // ==========================================================================================
+    // 아이템 슬롯 선택, 선택된 슬롯의 아웃라인을 활성화하고 선택된 아이템 데이터를 selectedItem에 저장
+    // ==========================================================================================
     private void SelectItem(int index)
     {
         if (storeUIParent != null && storeUIParent.childCount > 0)
@@ -180,6 +201,10 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 상점 슬롯을 초기화 하고 슬롯들을 생성
+    // 아이템 이름, 가격, 구매 금액, 구매 갯수 등 표시
+    // =========================================================
     private void InitSlot()
     {
         sumPayAmount = 0;
@@ -216,12 +241,22 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 구매를 선택한 아이템의 구매 수량과 금액 업데이트
+    // =========================================================
     private void UiUpdate()
     {
         buyCountText.text = itemBuyCount[selectedItem.ItemID].ToString() + " 개";
         buyAmountText.text = itemBuyAmount[selectedItem.ItemID].ToString() + " $";
     }
 
+    // =========================================================
+    // 아이템 구매 처리
+    // 오른쪽 방향키로 구매 갯수를 늘리고
+    // 왼쪽 방향키로 구매 갯수를 줄임
+    // F 키로 선택된 아이템 모두 구매
+    // 구매 후 수량 및 금액 초기화, 플레이어 데이터 저장
+    // =========================================================
     private void BuyItem()
     {
         var itemData = FindItemData(selectedItem.ItemID);
@@ -281,6 +316,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 선택된 아이템 설명을 ui에 띄움
+    // =========================================================
     private void SetItemInfo()
     {
         int currentSelectedItemId = selectedItem.ItemID;
@@ -292,6 +330,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    // =========================================================
+    // 아이템 ID와 일치하는 아이템 데이터를 찾아 반환
+    // =========================================================
     private ItemInfomation FindItemData(int itemID)
     {
         foreach (var item in itemInfo.ItemDescription)
@@ -304,6 +345,9 @@ public class ShopManager : MonoBehaviour
         return null;
     }
 
+    // =========================================================
+    // 선택된 슬롯에 위치에 맞춰 스크롤 위치 조정
+    // =========================================================
     private void ScrollPosition()
     {
         float selectedItemYPos = selectedIndex / (float)(storeUIParent.childCount - 1);
