@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class InteractiveImageTartFruitCollider : InteractiveImageBase
 {
     [SerializeField] GameObject fruitGameObject;
+    bool isPlaced = false;
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
@@ -20,9 +21,15 @@ public class InteractiveImageTartFruitCollider : InteractiveImageBase
     }
     public void PlaceFruit()
     {
-        fruitGameObject.SetActive(true);
-        TartMakingController.instance.AddFruit();
+        //fruitGameObject.SetActive(true);
+        if (isPlaced == false)
+        {
+            TartMakingController.instance.AddFruit();
+        }
+        isPlaced = true;
 
-        Destroy(gameObject);
+
+
+        //Destroy(gameObject);
     }
 }

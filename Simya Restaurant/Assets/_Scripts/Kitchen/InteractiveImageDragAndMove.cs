@@ -33,13 +33,7 @@ public class InteractiveImageDragAndMove : InteractiveImageBase
 
     public override void OnDrag(PointerEventData eventData)
     {
-        Vector3 m_resultPosition = new Vector3();
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            canvasRectTransform,
-            Input.mousePosition,
-            canvasComponent.worldCamera,
-            out m_resultPosition);
-        transform.position = m_resultPosition - mouseToUiOffsetVector3;
+        transform.position = GetNewFramePosition() + mouseToUiOffsetVector3 * 2;
     }
 
     public override void OnEndDrag(PointerEventData eventData)
@@ -77,6 +71,22 @@ public class InteractiveImageDragAndMove : InteractiveImageBase
         canvasGameObject = CanvasController.instance.GetCanvas();
         canvasRectTransform = canvasGameObject.GetComponent<RectTransform>();
         canvasComponent = canvasGameObject.GetComponent<Canvas>();
+    }
+
+    protected Vector3 GetMousePosition()
+    {
+        Vector3 m_resultPosition = new Vector3();
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            canvasRectTransform,
+            Input.mousePosition,
+            canvasComponent.worldCamera,
+            out m_resultPosition);
+        return m_resultPosition;
+    }
+
+    protected Vector3 GetNewFramePosition()
+    {
+        return GetMousePosition() - mouseToUiOffsetVector3;
     }
 
     // Start is called before the first frame update

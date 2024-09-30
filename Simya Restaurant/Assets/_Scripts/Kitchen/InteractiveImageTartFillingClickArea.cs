@@ -7,9 +7,20 @@ public class InteractiveImageTartFillingClickArea : InteractiveImageBase
 {
     float startTime;
 
-    public override void OnPointerDown(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
-        TartMakingController.instance.StartFilling();
+        if (InteractiveImageTartFillingStart.isHoldingFiller)
+        {
+            TartMakingController.instance.StartFilling();
+        }
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        if (InteractiveImageTartFillingStart.isHoldingFiller)
+        {
+            TartMakingController.instance.PauseFilling();
+        }
     }
 
     public override void OnPointerUp(PointerEventData eventData)
