@@ -7,6 +7,8 @@ public class InteractiveImageFruitButtonKnifeReady : InteractiveImageBase
 {
     public override void OnPointerClick(PointerEventData eventData)
     {
+        Cursor.visible = false;
         FruitGatheringController.instance.PickKnife();
+        gameObject.SetActive(false);
     }
 }

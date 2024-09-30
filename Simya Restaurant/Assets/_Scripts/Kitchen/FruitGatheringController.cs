@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FruitGatheringController : MonoBehaviour
@@ -5,13 +6,17 @@ public class FruitGatheringController : MonoBehaviour
     static public FruitGatheringController instance;
     public bool isKnifeHolding = false;
     public bool isKnifeSlicing = false;
-    public Vector3 buttonToKnifeOffset;
 
     [SerializeField] GameObject fruitGameObjectSide;
     [SerializeField] GameObject fruitGameObjectTop;
     [SerializeField] GameObject fruitGameObjectPeeled;
     [SerializeField] GameObject knifeGameObject;
     [SerializeField] GameObject middleGameObject;
+    [SerializeField] GameObject positionKnifeHandleGameObject;
+    [SerializeField] GameObject cuttingEndGameObject;
+    [SerializeField] GameObject buttonSliceStartGameObject;
+    [SerializeField] GameObject spinAreaGameObject;
+
     //[SerializeField] GameObject buttonKnifeReadyGameObject;
     [SerializeField] GameObject guideSliceGameObject;
     private Vector3 knifeStartPosition;
@@ -21,6 +26,7 @@ public class FruitGatheringController : MonoBehaviour
     private Canvas canvasComponent;
     private RectTransform knifeRectTransform;
     private RectTransform canvasRectTransform;
+    private bool isSliceDone = false;
 
 
     public void PickKnife()
@@ -34,7 +40,7 @@ public class FruitGatheringController : MonoBehaviour
             Input.mousePosition,
             canvasComponent.worldCamera,
             out m_resultPosition);
-        mouseToUiOffsetVector3 = knifeGameObject.transform.position - m_resultPosition;
+        mouseToUiOffsetVector3 = knifeGameObject.transform.position - m_resultPosition + m_resultPosition - positionKnifeHandleGameObject.transform.position;
     }
 
     public void BeginSlice()
@@ -48,9 +54,38 @@ public class FruitGatheringController : MonoBehaviour
         }
 
     }
+    public bool IsEndSlice()
+    {
+        return knifeGameObject.transform.position.y < cuttingEndGameObject.transform.position.y;
+    }
+
+    public void EndSlice()
+    {
+        fruitGameObjectSide.SetActive(false);
+        fruitGameObjectTop.SetActive(true);
+
+        knifeGameObject.SetActive(false);
+        cuttingEndGameObject.SetActive(false);
+        buttonSliceStartGameObject.SetActive(false);
+
+        spinAreaGameObject.SetActive(true);
+
+        isSliceDone = true;
+    }
+
     public Vector3 GetKnifePosiiton()
     {
         return knifeGameObject.transform.position;
+    }
+
+
+    public void EndGetFruit()
+    {
+        Debug.Log("MEOW!");
+
+        fruitGameObjectTop.SetActive(false);
+        spinAreaGameObject.SetActive(false);
+        fruitGameObjectPeeled.SetActive(true);
     }
 
     private void Awake()
@@ -63,6 +98,7 @@ public class FruitGatheringController : MonoBehaviour
     {
         fruitGameObjectTop.SetActive(false);
         fruitGameObjectPeeled.SetActive(false);
+        spinAreaGameObject.SetActive(false);
 
         knifeRectTransform = knifeGameObject.GetComponent<RectTransform>();
         knifeStartPosition = knifeGameObject.transform.position;
@@ -83,11 +119,24 @@ public class FruitGatheringController : MonoBehaviour
                 Input.mousePosition,
                 canvasComponent.worldCamera,
                 out m_resultPosition);
-            knifeGameObject.transform.position = m_resultPosition - mouseToUiOffsetVector3;
+            knifeGameObject.transform.position = m_resultPosition + mouseToUiOffsetVector3;
         }
-        if (isKnifeSlicing)
-        {
+        //if (isKnifeSlicing && (isSliceDone == false))
+        //{
+        //    if (knifeGameObject.transform.position.y < cuttingEndGameObject.transform.position.y)
+        //    {
+        //        // ½ä±â ¿Ï·á
+        //        fruitGameObjectSide.SetActive(false);
+        //        fruitGameObjectTop.SetActive(true);
 
-        }
+        //        knifeGameObject.SetActive(false);
+        //        cuttingEndGameObject.SetActive(false);
+        //        buttonSliceStartGameObject.SetActive(false);
+
+        //        spinAreaGameObject.SetActive(true);
+
+        //        isSliceDone = true;
+        //    }
+        //}
     }
 }

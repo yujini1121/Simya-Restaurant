@@ -41,6 +41,12 @@ public class InteractiveImageTartFruit : InteractiveImageDragAndMove
         //canvasComponent = canvas.GetComponent<Canvas>();
     }
 
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        Cursor.visible = false;
+        base.OnPointerDown(eventData);
+    }
+
     //public override void OnBeginDrag(PointerEventData eventData)
     //{
     //    Vector2 resultPosition = new Vector2();
@@ -81,6 +87,8 @@ public class InteractiveImageTartFruit : InteractiveImageDragAndMove
 
     protected override void DoAfterDragSuccess()
     {
+        Cursor.visible = true;
+
         // 타르트 열매 소모
         if (targetCollider != null)
         {

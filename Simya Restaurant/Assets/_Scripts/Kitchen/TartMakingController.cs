@@ -15,6 +15,7 @@ public class TartMakingController : MonoBehaviour
     [SerializeField] GameObject fillingCreamGameObject;
     [SerializeField] GameObject tartFruitGameObject;
     [SerializeField] GameObject finishGameObject;
+    [SerializeField] GameObject fillingHandleGameObject;
     InteractiveImageTartFruitCollider collider = null;
     [SerializeField] float fillingTime;
     float filledTime = 0.0f;
