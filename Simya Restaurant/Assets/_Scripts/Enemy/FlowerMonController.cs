@@ -173,12 +173,12 @@ public class FlowerMonController : EnemyBase
     }
 
 
-    void TurnObject()
-    {
-        Vector3 reverse = transform.localScale;
-        reverse.x = -transform.localScale.x;
-        transform.localScale = reverse;
-    }
+    //void TurnObject()
+    //{
+    //    Vector3 reverse = transform.localScale;
+    //    reverse.x = -transform.localScale.x;
+    //    transform.localScale = reverse;
+    //}
 
 
     IEnumerator Roaming(int action, float moveT, float waitT = 0.0f)
