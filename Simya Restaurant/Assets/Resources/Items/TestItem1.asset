@@ -18,3 +18,5 @@ MonoBehaviour:
   mIsInteractivity: 1
   mIsConsumable: 1
   mItemImage: {fileID: 21300000, guid: 455ce5edfd7c6cc4dac6f262d9980fc3, type: 3}
+  mItemPrefab: {fileID: 386036048524269203, guid: 47c9825097d57f14cbb4144fbd5167e9,
+    type: 3}

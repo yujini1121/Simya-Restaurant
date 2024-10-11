@@ -29,7 +29,7 @@ public class ItemAttribute : ScriptableObject
 
     [Header("아이템 중첩이 가능한가?")]
     [SerializeField] private bool mCanOverlap;
-    // 아이템 중첩 가능 여부a
+    // 아이템 중첩 가능 여부
     public bool CanOverlap
     {
         get
@@ -69,18 +69,6 @@ public class ItemAttribute : ScriptableObject
             return mItemImage;
         }
     }
-
-    /*
-    [Header("아이템 설명")]
-    [SerializeField] private string mItemDescription;
-    public string ItemDescription
-    {
-        get
-        {
-            return mItemDescription;
-        }
-    }
-
     
     [Header("씬에서 오브젝트로 보여질 아이템 프리팹")]
     [SerializeField] private GameObject mItemPrefab;
@@ -91,5 +79,4 @@ public class ItemAttribute : ScriptableObject
             return mItemPrefab;
         }
     }
-    */
 }

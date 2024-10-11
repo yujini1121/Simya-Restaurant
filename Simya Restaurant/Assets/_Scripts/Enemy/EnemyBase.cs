@@ -34,7 +34,7 @@ public struct DropTuple
 public abstract class EnemyBase : MonoBehaviour
 {
     [Header("Items")]
-    [SerializeField] protected GameObject[] items;
+    [SerializeField] protected ItemAttribute[] items;
     [SerializeField] protected List<DropTuple> dropRate;
 
     [Header("Set Value")]
@@ -102,6 +102,8 @@ public abstract class EnemyBase : MonoBehaviour
         {
             DoDeathHandle();
             isDead = true;
+
+            DropItems();
         }
         if (enemyRigidbody != null)
         {
@@ -167,13 +169,22 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected void DropItems()
     {
-        gameObject.SetActive(false);            // 임의로 비활성화 해둔 것, Die()를 구현하면 삭제해도 상관 없음
+        // gameObject.SetActive(false);            // 임의로 비활성화 해둔 것, Die()를 구현하면 삭제해도 상관 없음
         int itemsToDrop = DetermineItemsCount();
+        float randomXDir = Random.Range(-1f, 1);
+
+        Vector3 force = new Vector3(randomXDir, 1f, 0f) * 5; // 아이템 날라가는 힘은 임의로 설정해둠.
 
         for (int i = 0; i < itemsToDrop; i++)
         {
             int itemIndex = Random.Range(0, items.Length);
-            Instantiate(items[itemIndex], transform.position, Quaternion.identity);
+            GameObject droppedItem = Instantiate(items[itemIndex].ItemPrefab, transform.position, Quaternion.identity);
+        
+            Rigidbody droppedItemRb = droppedItem.GetComponent<Rigidbody>();
+            if(droppedItemRb != null)
+            {
+                droppedItemRb.AddForce(force, ForceMode.Impulse);
+            }
         }
     }
 
