@@ -40,30 +40,47 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
-    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
+    [SerializeField] private float fowardCheckDistance;
+    [SerializeField] private bool isFowardBlocked;
     private float playerInput;
+    private Vector3 fowardCheckTop;
+    private Vector3 fowardCheckBottom;
     private Rigidbody playerRb;
+
+    [System.Serializable]
+    public class JumpAndGravity
+    {
+        public float jumpForce = 10f;
+        public float gravity;
+        public float verticalVelocity;
+
+        [HideInInspector] public bool jumpInput;
+    }
+    [Header("Jump And Gravity")]
+    [SerializeField] private JumpAndGravity _jumpAndGravity = new JumpAndGravity();
+    private JumpAndGravity JumpGravity => _jumpAndGravity;
 
     // 지면 체크 및 경사면 변수
     [System.Serializable]
-    public class SlopeVariable
+    public class GroundAndSlope
     {
         public bool isGround = true;
+        public bool slopeIsSteep;
         public float slopeAngle;
         public float slopeAngleLimit;
-        public float gravity;
-        public float verticalVelocity;
-        public float groundCastRadius;
-        public float groundCheckDistance;
+        public float castRadius;
+        public float checkDistance;
+        public float CurGroundDistance;
         public float groundCheckThreshold;
         public LayerMask groundLayer;
         public Vector3 groundCross;
 
         [HideInInspector]public float capsuleRadiusDiff;
     }
-    [Header("Slope")]
-    [SerializeField] private SlopeVariable _slopeVariable = new SlopeVariable();
-    private SlopeVariable SV => _slopeVariable;
+    [Header("Ground And Slope")]
+    [SerializeField] private GroundAndSlope _groundAndSlope = new GroundAndSlope();
+    private GroundAndSlope GroundSlope => _groundAndSlope;
 
     // 플레이어 상태 변수
     private EPlayerStatus currentPlayerStatus;
@@ -161,7 +178,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         approchableInteractives = new List<InteractiveObjectBase>(32);
-
     }
 
     void Start()
@@ -178,18 +194,23 @@ public class PlayerController : MonoBehaviour
 
         EnemyBase.SetPlayer(gameObject);
         //animatorController = transform.Find("Armature").GetComponent<Animator>();
-        
+
         // 함수 정상 진행 조건
         Debug.Assert(playerRb != null);
         //Debug.Assert(animatorController != null);
 
-        SV.capsuleRadiusDiff = GetComponent<CapsuleCollider>().radius - SV.groundCastRadius + 0.05f;
+        CapsuleCollider capsule = GetComponent<CapsuleCollider>();
+
+        GroundSlope.castRadius = capsule.radius;
+        GroundSlope.capsuleRadiusDiff = capsule.radius - GroundSlope.castRadius + 0.05f;
+
+        fowardCheckTop = new Vector3(0f, capsule.center.y + (capsule.height / 2), 0f);
+        fowardCheckBottom = new Vector3(0f, capsule.center.y - (capsule.height / 2) + stepOffset, 0f);
     }
 
     void Update()
     {
-        Move();
-        Jump();
+        InputObserver();
 
         //DoAttackLight();
         //DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
@@ -201,82 +222,127 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheck();
+        CheckFoward();
         Gravity();
+
+        Movement();
     }
 
-    void Move()
+    void InputObserver()
+    {
+        playerInput = Input.GetAxis("Horizontal");
+        if (GroundSlope.isGround && Input.GetKeyDown(KeyCode.Space))
+        {
+            JumpGravity.jumpInput = true;
+        }
+    }
+
+    void Movement()
     {
         if (IsDead)
         {
             return;
         }
 
-        playerInput = Input.GetAxis("Horizontal");
-        Vector3 currentVelocity = playerRb.velocity;
-        Vector3 targetVelocity = Vector3.zero;
-        targetVelocity.x = playerInput * moveSpeed;
+        if (playerInput > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            playerLookingDirection = 1;
+        }
+        else if (playerInput < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            playerLookingDirection = -1;
+        }
 
+        //Vector3 currentVelocity = playerRb.velocity;
+        //Vector3 targetVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
         Vector3 horizontalVelocity = Vector3.zero;
 
-        //Vector3 horizontalVelocity = Quaternion.AngleAxis(-SV.slopeAngle, SV.groundCross)    //경사면 움직임 코드
-        //                                * Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-
-        if (SV.slopeAngle < SV.slopeAngleLimit)
+        // 가파를 때 미끄러지기
+        if (GroundSlope.slopeIsSteep && GroundSlope.CurGroundDistance < 0.1f)
         {
-            horizontalVelocity = Quaternion.AngleAxis(-SV.slopeAngle, SV.groundCross) * targetVelocity;
+            horizontalVelocity = Quaternion.AngleAxis(90f - GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
+            playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
+
+            return;
         }
-        playerRb.velocity = horizontalVelocity + Vector3.up * SV.verticalVelocity;
+
+        // 점프
+        if (JumpGravity.jumpInput && GroundSlope.isGround)
+        {
+            JumpGravity.verticalVelocity = JumpGravity.jumpForce;
+            GroundSlope.isGround = false;
+            JumpGravity.jumpInput = false;
+        }
+
+        if (!isFowardBlocked)
+        {
+            horizontalVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
+        }
+
+        //경사면 움직임 코드
+        if (GroundSlope.isGround || GroundSlope.CurGroundDistance < GroundSlope.checkDistance)
+        {
+            if (!isFowardBlocked)
+            {
+                horizontalVelocity = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
+                //horizontalVelocity = Quaternion.AngleAxis(-SV.slopeAngle, SV.groundCross)    
+                //                    * Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
+            }
+        }
+
+        playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
     }
 
     void GroundCheck()
     {
-        float groundDistance = float.MaxValue;
+        GroundSlope.CurGroundDistance = float.MaxValue;
         Vector3 groundNormal = Vector3.up;
-        SV.slopeAngle = 0f;
-        SV.isGround = false;
+        GroundSlope.slopeAngle = 0f;
+        GroundSlope.isGround = false;
+        GroundSlope.slopeIsSteep = false;
 
-        Vector3 groundCastPos = transform.position + new Vector3(0f, SV.groundCastRadius + 0.05f, 0f);
+        Vector3 groundCastPos = transform.position + new Vector3(0f, GroundSlope.castRadius + 0.05f, 0f);
 
-        bool cast = Physics.SphereCast(groundCastPos, SV.groundCastRadius, Vector3.down, out var hit, SV.groundCheckDistance, SV.groundLayer);
-        if (cast)
+        bool groundCast = Physics.SphereCast(groundCastPos, GroundSlope.castRadius, Vector3.down, out var groundHit,
+                                                GroundSlope.checkDistance, GroundSlope.groundLayer);
+        if (groundCast)
         {
-            groundNormal = hit.normal;
-            groundDistance = Mathf.Max(hit.distance - SV.capsuleRadiusDiff - SV.groundCheckThreshold, -10f);
-            Debug.Log(hit.distance + " / " + groundDistance);
-            SV.isGround = groundDistance <= 0.0001f;
+            groundNormal = groundHit.normal;
+            GroundSlope.CurGroundDistance = Mathf.Max(groundHit.distance - GroundSlope.capsuleRadiusDiff - GroundSlope.groundCheckThreshold, -10f);
+            GroundSlope.slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
+            GroundSlope.slopeIsSteep = GroundSlope.slopeAngle >= GroundSlope.slopeAngleLimit;
+            GroundSlope.isGround = GroundSlope.CurGroundDistance <= 0.0001f && !GroundSlope.slopeIsSteep;
 
-            if (SV.isGround)
-            {
-                SV.slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
-            }
+            //Debug.Log(groundHit.distance + " / " + SV.CurGroundDistance);
         }
 
-        SV.groundCross = Vector3.Cross(groundNormal, Vector3.up);
+        GroundSlope.groundCross = Vector3.Cross(groundNormal, Vector3.up);
+    }
+
+    private void CheckFoward()
+    {
+        bool cast = Physics.CapsuleCast(transform.position + fowardCheckBottom, transform.position + fowardCheckTop, GroundSlope.castRadius,
+                                            new Vector3(playerLookingDirection, 0, 0), out var hit, fowardCheckDistance, GroundSlope.groundLayer);
+
+        isFowardBlocked = false;
+        if (cast)
+        {
+            float forwardObstacleAngle = Vector3.Angle(hit.normal, Vector3.up);
+            isFowardBlocked = forwardObstacleAngle >= GroundSlope.slopeAngleLimit;
+        }
     }
 
     private void Gravity()
     {
-        if (SV.isGround)
+        if (GroundSlope.isGround)
         {
-            SV.verticalVelocity = 0f;
+            JumpGravity.verticalVelocity = 0f;
         }
         else
         {
-            SV.verticalVelocity += Time.fixedDeltaTime * SV.gravity;
-        }
-    }
-
-    void Jump()
-    {
-        if (IsDead)
-        {
-            return;
-        }
-        if(Input.GetKeyDown(KeyCode.Space) && SV.isGround) 
-        {
-            playerRb.velocity = Vector3.zero;
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            SV.isGround = false;
+            JumpGravity.verticalVelocity += Time.fixedDeltaTime * JumpGravity.gravity;
         }
     }
 
