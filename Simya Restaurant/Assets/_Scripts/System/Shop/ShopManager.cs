@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
+using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class ShopManager : MonoBehaviour
     [Header("스크롤 컴포넌트")]
     [SerializeField] private ScrollRect scrollRect;
 
+    [SerializeField] private GameObject storeParentGameObject;
+
     private int playerGold;
     private int selectedIndex = 0;
     private int sumPayAmount = 0;
@@ -50,6 +53,10 @@ public class ShopManager : MonoBehaviour
     private PlayerData playerGoldData;
     private DataController dataController;
 
+    private Color enabledSlotColor;
+    private Color disabledSlotColor;
+    private bool isShopShowLazyTriggered;
+
     [System.Serializable]
     public class ItemInfomation
     {
@@ -63,16 +70,39 @@ public class ShopManager : MonoBehaviour
     {
         public ItemInfomation[] ItemDescription;
     }
-
+    
     void Start()
     {
         JsonFileReadAndGoldSet();
         GameObject dataControllerObject = GameObject.Find("Data Controller");
         dataController = dataControllerObject.GetComponent<DataController>();
+
+        enabledSlotColor = new Color()
+        {
+            a = 197,
+            b = 130,
+            g = 180,
+            r = 255,
+        };
+        disabledSlotColor = new Color()
+        {
+            a = 128,
+            b = 12,
+            g = 60,
+            r = 132
+        };
     }
 
     void Update()
     {
+        if (isShopShowLazyTriggered == true)
+        {
+            SelectItem(0);
+            ChangeSelection(-1);
+            isShopShowLazyTriggered = false;
+        }
+        TEMP_ShopSlotTestCode();
+
         if (Input.GetKeyDown(KeyCode.D))
         {
             isStoreActive = !isStoreActive;
@@ -81,9 +111,11 @@ public class ShopManager : MonoBehaviour
             if (isStoreActive)
             {
                 InitSlot();
-                SelectItem(0);
+                //SelectItem(0);
                 SetItemInfo();
             }
+
+            isShopShowLazyTriggered = true;
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -97,6 +129,8 @@ public class ShopManager : MonoBehaviour
 
             BuyItem();
         }
+        
+
     }
 
 
@@ -180,10 +214,15 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void ToggleOutline(GameObject itemUI, bool enable)
     {
+        Image itemImage = itemUI.GetComponent<Image>();
+        //itemImage.color = enable ? enabledSlotColor : disabledSlotColor;
+        //Debug.Log($"슬롯 색상 : ({itemImage.color.r} , {itemImage.color.g} , {itemImage.color.b} , {itemImage.color.a})");
+
         var outline = itemUI.GetComponent<Outline>();
         if(outline != null)
         {
             outline.enabled = enable;
+            Debug.Log($"outline.enabled = {enable}");
         }
     }
 
@@ -210,11 +249,13 @@ public class ShopManager : MonoBehaviour
         sumPayAmount = 0;
         totalPayAmountText.text = sumPayAmount.ToString() + " $";
 
+        // 자식 게임오브젝트 전부 제거
         foreach (Transform child in storeUIParent)
         {
             Destroy(child.gameObject);
         }
 
+        // 각 판매할 아이템의 정보들을 저장하는 슬롯을 만듭니다.
         foreach(var item in sellItem)
         {
             newItemUI = Instantiate(storeUIPrefab, storeUIParent);
@@ -282,6 +323,8 @@ public class ShopManager : MonoBehaviour
                 UiUpdate();
             }
         }
+
+        // 아이템 구매 순간
         else if (Input.GetKeyDown(KeyCode.F))
         {
             int totalPurchaseCost = 0;
@@ -303,16 +346,42 @@ public class ShopManager : MonoBehaviour
                 playerGoldData.gold = playerGold;
                 dataController.SaveData();
 
-                foreach (var itemID in itemBuyCount.Keys)
+                int[] m_keys = itemBuyCount.Keys.ToArray<int>();
+
+                foreach (var itemID in m_keys)
                 {
                     itemBuyCount[itemID] = 0;
                     itemBuyAmount[itemID] = 0;
                 }
+
+                ////InitSlot();
+
+
+                //for (int index = 0; index < sellItem.Length; ++index)
+                //{
+                //    //GameObject m_one = storeUIParent.GetChild(index).gameObject;
+                //    GameObject m_one = storeParentGameObject;
+
+
+                //    ItemAttribute m_item = sellItem[index];
+                //    itemData = FindItemData(m_item.ItemID);
+                //    if (itemData != null)
+                //    {
+                //        m_one.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = m_item.ItemName;
+                //        m_one.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price.ToString();
+                //    }
+                //    buyCountText = m_one.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
+                //    buyAmountText = m_one.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
+                //    buyCountText.text = buyCount.ToString() + " 개";
+                //    buyAmountText.text = buyAmount.ToString() + " $";
+                //}
             }
             else
             {
                 Debug.Log("소지금 부족!!");
             }
+
+            // UI 업데이트
         }
     }
 
@@ -367,6 +436,14 @@ public class ShopManager : MonoBehaviour
         else if (selectedItemYPos < 0.1f)
         {
             scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
+        }
+    }
+
+    private void TEMP_ShopSlotTestCode()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SelectItem(1);
         }
     }
 }
