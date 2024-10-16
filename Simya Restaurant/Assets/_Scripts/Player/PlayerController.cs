@@ -296,7 +296,7 @@ public class PlayerController : MonoBehaviour
 
         if (!isFowardBlocked)
         {
-            horizontalVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
+            horizontalVelocity = new Vector3(0f, 0f, playerInput * moveSpeed);
         }
 
         //경사면 움직임 코드

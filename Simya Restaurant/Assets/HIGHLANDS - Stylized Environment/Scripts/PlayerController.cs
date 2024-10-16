@@ -133,7 +133,6 @@ namespace Highlands
 
             _velocity.y += gravity * Time.deltaTime;
             _characterController.Move(_velocity * Time.deltaTime);
-
         }
 
         private void MouseLook()
