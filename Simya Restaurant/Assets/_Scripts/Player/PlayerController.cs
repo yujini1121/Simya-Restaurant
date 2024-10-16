@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     private bool isHeavyAttackReady = false;
 
     // 플레이어 애니메이션
-    private Animator animatorController;
+    [SerializeField] private Animator animatorController;
 
     // 플레이어 체력 정보
     [SerializeField] public float health;
@@ -234,7 +234,25 @@ public class PlayerController : MonoBehaviour
         if (GroundSlope.isGround && Input.GetKeyDown(KeyCode.Space))
         {
             JumpGravity.jumpInput = true;
+            animatorController.SetTrigger("isJump");
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animatorController.SetTrigger("Combo1");
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            animatorController.SetTrigger("Combo2");
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            animatorController.SetTrigger("Combo3");
+        }
+        //else if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    animatorController.SetTrigger("Combo2");
+        //}
     }
 
     void Movement()
