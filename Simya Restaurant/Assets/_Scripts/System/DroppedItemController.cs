@@ -44,11 +44,6 @@ public class DroppedItemController : MonoBehaviour
     private string itemTestPath;
     private string playerInventoryItemPath;
 
-    void Start()
-    {
-        ReadJsonFile();        
-    }
-
     private void ReadJsonFile()
     {
         itemTestPath = Application.dataPath + "/Resources/Json Files/ItemTest.json";
@@ -72,7 +67,6 @@ public class DroppedItemController : MonoBehaviour
         }
         else
         {
-            // 파일이 없을 경우 새로운 리스트를 생성
             inventoryList = new InventoryItemList();
         }
     }
@@ -80,29 +74,22 @@ public class DroppedItemController : MonoBehaviour
     private void UpdateJson()
     {
         Item matchedItem = null;
-        Debug.Log("왜 안되냐 죽을ㄷ래");
         foreach (var item in itemDataList.Item)
         {
-            Debug.Log("반복문");
             if (itemAttribute.ItemID == item.itemID)
             {
-                Debug.Log("if문");
                 matchedItem = item;
                 break;
             }
         }
 
-        if(matchedItem != null)
+        if (matchedItem != null)
         {
             ID = matchedItem.itemID;
-            Debug.Log("ItemId : " + ID);
-            Debug.Log("ItemId2 : " + matchedItem.itemID);
 
             if (itemAttribute.ItemID == ID)
             {
                 Description = matchedItem.itemDescription;
-                Debug.Log("ItemDescription : " + Description);
-                Debug.Log("ItemDescription2 : " + matchedItem.itemDescription);
 
                 ItemDescription newItem = new ItemDescription
                 {
@@ -125,12 +112,12 @@ public class DroppedItemController : MonoBehaviour
         {
             return;
         }
-
         Debug.Log("플레이어랑 충돌!");
+        ReadJsonFile();
 
 #warning 나중에 플레이어 인벤토리 접근해서 그곳에 아이템 추가할 것
         UpdateJson();
-        Debug.Log($"여기서 아이템을 수집했습니다");
+        Debug.Log($"아이템을 수집했습니다");
 
         Destroy(gameObject);
     }
