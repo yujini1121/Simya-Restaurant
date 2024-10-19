@@ -4041,6 +4041,7 @@ MonoBehaviour:
   playerGoldText: {fileID: 2078614875}
   totalPayAmountText: {fileID: 1196800695}
   scrollRect: {fileID: 1124974221}
+  storeParentGameObject: {fileID: 0}
 --- !u!114 &355844754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5948,15 +5949,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   acceleration: 2
-  jumpForce: 10
-  _slopeVariable:
-    isGround: 1
-    slopeAngle: 0
-    slopeAngleLimit: 0
+  stepOffset: 0
+  fowardCheckDistance: 0
+  isFowardBlocked: 0
+  _jumpAndGravity:
+    jumpForce: 10
     gravity: 0
     verticalVelocity: 0
-    groundCastRadius: 0
-    groundCheckDistance: 0
+    jumpInput: 0
+  _groundAndSlope:
+    isGround: 1
+    slopeIsSteep: 0
+    slopeAngle: 0
+    slopeAngleLimit: 0
+    castRadius: 0
+    checkDistance: 0
+    CurGroundDistance: 0
     groundCheckThreshold: 0
     groundLayer:
       serializedVersion: 2
@@ -5984,6 +5992,7 @@ MonoBehaviour:
     attackPos: {x: 1.5, y: 0, z: 0}
     actionTime: 2
   heavyAttackChargeTime: 2
+  animatorController: {fileID: 0}
   health: 100
   prePressAllowTime: 0.5
 --- !u!95 &566855313
@@ -10512,7 +10521,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 072d3498407bf2c419c42bf929981364, type: 3}
   m_Name: 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+// =========================================================
+// 아이템 정보 Json 파일 
+// =========================================================
 [System.Serializable]
 public class Item
 {
@@ -18,6 +21,9 @@ public class ItemDataList
     public List<Item> Item;
 }
 
+// =========================================================
+// 플레이어 인벤토리 정보 Json 파일 
+// =========================================================
 [System.Serializable]
 public class ItemDescription
 {
@@ -25,10 +31,23 @@ public class ItemDescription
     public string description;
 }
 
-[System.Serializable]
+[System.Serializable]  
 public class InventoryItemList
 {
     public List<ItemDescription> itemDescription;
+}
+
+// =========================================================
+// 플레이어 정보 Json 파일 
+// =========================================================
+[System.Serializable]
+public class GamePlayerData
+{
+    public bool isDead;
+    public string name;
+    public int level;
+    public int gold;
+    public List<string> items;
 }
 
 public class DroppedItemController : MonoBehaviour
@@ -37,32 +56,39 @@ public class DroppedItemController : MonoBehaviour
 
     private ItemDataList itemDataList;
     private InventoryItemList inventoryList;
+    private GamePlayerData playerData;
+
+    private DataController dataController;
 
     private int ID;
     private string Description;
 
-    private string itemTestPath;
+    private string itemDataPath;
     private string playerInventoryItemPath;
+    private string playerDataPath;
 
-    void Start()
+    private void Start()
     {
-        ReadJsonFile();        
+        GameObject dataControllerObject = GameObject.Find("Data Controller");
+        dataController = dataControllerObject.GetComponent<DataController>();
     }
 
     private void ReadJsonFile()
     {
-        itemTestPath = Application.dataPath + "/Resources/Json Files/ItemTest.json";
+        itemDataPath = Application.dataPath + "/Resources/Json Files/ItemTest.json";
         playerInventoryItemPath = Application.dataPath + "/Resources/Json Files/PlayerInventoryItems.json";
+        playerDataPath = Application.dataPath + "/Resources/Json Files/PlayerData.json";
 
-        if (File.Exists(itemTestPath))
+
+        if (File.Exists(itemDataPath))
         {
-            string itemJson = File.ReadAllText(itemTestPath);
+            string itemJson = File.ReadAllText(itemDataPath);
             itemDataList = JsonUtility.FromJson<ItemDataList>(itemJson);
         }
         else
         {
             Debug.Log("ItemTest.json을 찾지 못 함");
-            return;
+            itemDataList = new ItemDataList();
         }
 
         if (File.Exists(playerInventoryItemPath))
@@ -72,37 +98,43 @@ public class DroppedItemController : MonoBehaviour
         }
         else
         {
-            // 파일이 없을 경우 새로운 리스트를 생성
+            Debug.Log("PlayerInventoryItems.json을 찾지 못 함");
             inventoryList = new InventoryItemList();
+        }
+
+        if(File.Exists(playerDataPath))
+        {
+            string playerDataJson = File.ReadAllText(playerDataPath);
+            playerData = JsonUtility.FromJson<GamePlayerData>(playerDataJson);
+        }
+        else
+        {
+            Debug.Log("PlayerData.json을 찾지 못 함");
+            playerData = new GamePlayerData();
+            playerData.items = new List<string>();
         }
     }
 
-    private void UpdateJson()
+    private void AddInventory()
     {
         Item matchedItem = null;
-        Debug.Log("왜 안되냐 죽을ㄷ래");
+
         foreach (var item in itemDataList.Item)
         {
-            Debug.Log("반복문");
             if (itemAttribute.ItemID == item.itemID)
             {
-                Debug.Log("if문");
                 matchedItem = item;
                 break;
             }
         }
 
-        if(matchedItem != null)
+        if (matchedItem != null)
         {
             ID = matchedItem.itemID;
-            Debug.Log("ItemId : " + ID);
-            Debug.Log("ItemId2 : " + matchedItem.itemID);
 
             if (itemAttribute.ItemID == ID)
             {
                 Description = matchedItem.itemDescription;
-                Debug.Log("ItemDescription : " + Description);
-                Debug.Log("ItemDescription2 : " + matchedItem.itemDescription);
 
                 ItemDescription newItem = new ItemDescription
                 {
@@ -115,7 +147,25 @@ public class DroppedItemController : MonoBehaviour
                 string updateInventoryJson = JsonUtility.ToJson(inventoryList, true);
                 File.WriteAllText(playerInventoryItemPath, updateInventoryJson);
                 Debug.Log("PlayerInventoryItems.json 파일 업데이트");
+
+                AddPlayerData();
             }
+        }
+    }
+
+    private void AddPlayerData()
+    {
+        string newItem = itemAttribute.ItemName;
+
+        if(!playerData.items.Contains(newItem))
+        {
+            playerData.items.Add(newItem);
+
+            // SaveData 호출..
+            /*string updatePlayerDataJson = JsonUtility.ToJson(playerData, true);
+            File.WriteAllText(playerDataPath, updatePlayerDataJson);*/
+            dataController.SaveData();
+            Debug.Log("PlayerData.json 파일 업데이트");
         }
     }
 
@@ -125,12 +175,12 @@ public class DroppedItemController : MonoBehaviour
         {
             return;
         }
-
         Debug.Log("플레이어랑 충돌!");
+        ReadJsonFile();
 
 #warning 나중에 플레이어 인벤토리 접근해서 그곳에 아이템 추가할 것
-        UpdateJson();
-        Debug.Log($"여기서 아이템을 수집했습니다");
+        AddInventory();
+        Debug.Log($"아이템을 수집했습니다");
 
         Destroy(gameObject);
     }
