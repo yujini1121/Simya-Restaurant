@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static UnityEditor.Progress;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class ShopManager : MonoBehaviour
 {
@@ -32,7 +33,11 @@ public class ShopManager : MonoBehaviour
     [Header("스크롤 컴포넌트")]
     [SerializeField] private ScrollRect scrollRect;
 
+    [Header("상점 아이템 슬롯의 부모 게임오브젝트")]
     [SerializeField] private GameObject storeParentGameObject;
+    [Header("디버깅 버튼")]
+    [SerializeField] private bool isDebugFunctionCall;
+    [SerializeField] private bool isDebugToggleOutline;
 
     private int playerGold;
     private int selectedIndex = 0;
@@ -52,10 +57,10 @@ public class ShopManager : MonoBehaviour
     private ItemInformationList itemInfo;
     private PlayerData playerGoldData;
     private DataController dataController;
-
-    private Color enabledSlotColor;
-    private Color disabledSlotColor;
+    
     private bool isShopShowLazyTriggered;
+
+    private List<GameObject> shopItemSlot;
 
     [System.Serializable]
     public class ItemInfomation
@@ -76,48 +81,32 @@ public class ShopManager : MonoBehaviour
         JsonFileReadAndGoldSet();
         GameObject dataControllerObject = GameObject.Find("Data Controller");
         dataController = dataControllerObject.GetComponent<DataController>();
+        dataController.LoadData();
 
-        enabledSlotColor = new Color()
-        {
-            a = 197,
-            b = 130,
-            g = 180,
-            r = 255,
-        };
-        disabledSlotColor = new Color()
-        {
-            a = 128,
-            b = 12,
-            g = 60,
-            r = 132
-        };
+        shopItemSlot = new List<GameObject>();
+
+        UI_InputManager uiInputManager = GetComponent<UI_InputManager>();
+        uiInputManager.AddInitializeFunction("shop", OpenShop);
+        uiInputManager.AddCloseFunction("shop", CloseShop);
+
     }
 
     void Update()
     {
         if (isShopShowLazyTriggered == true)
         {
+            if (isDebugFunctionCall)
+            {
+                Debug.Log("ShopManager.Update() -> if (isShopShowLazyTriggered == true)");
+            }
+
             SelectItem(0);
             ChangeSelection(-1);
             isShopShowLazyTriggered = false;
         }
         TEMP_ShopSlotTestCode();
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            isStoreActive = !isStoreActive;
-            storeUI.SetActive(isStoreActive);
-
-            if (isStoreActive)
-            {
-                InitSlot();
-                //SelectItem(0);
-                SetItemInfo();
-            }
-
-            isShopShowLazyTriggered = true;
-        }
-        else if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             isStoreActive = false;
             storeUI.SetActive(isStoreActive);
@@ -131,6 +120,34 @@ public class ShopManager : MonoBehaviour
         }
         
 
+    }
+
+    private void OpenShop()
+    {
+        if (isDebugFunctionCall)
+        {
+            Debug.Log("ShopManager.OpenShop()");
+        }
+        
+
+        isStoreActive = true;
+        storeUI.SetActive(isStoreActive);
+
+        InitSlot();
+        SetItemInfo();
+        isShopShowLazyTriggered = true;
+
+        if (isDebugFunctionCall)
+        {
+            Debug.Log("<finish> ShopManager.OpenShop()");
+        }
+    }
+    
+    private void CloseShop()
+    {
+        M_ResetShoppingCart();
+        isStoreActive = false;
+        storeUI.SetActive(isStoreActive);
     }
 
 
@@ -222,7 +239,10 @@ public class ShopManager : MonoBehaviour
         if(outline != null)
         {
             outline.enabled = enable;
-            Debug.Log($"outline.enabled = {enable}");
+            if (isDebugToggleOutline)
+            {
+                Debug.Log($"outline.enabled = {enable}");
+            }
         }
     }
 
@@ -246,6 +266,11 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void InitSlot()
     {
+        if (isDebugFunctionCall)
+        {
+            Debug.Log("ShopManager.InitSlot()");
+        }
+
         sumPayAmount = 0;
         totalPayAmountText.text = sumPayAmount.ToString() + " $";
 
@@ -256,7 +281,8 @@ public class ShopManager : MonoBehaviour
         }
 
         // 각 판매할 아이템의 정보들을 저장하는 슬롯을 만듭니다.
-        foreach(var item in sellItem)
+        shopItemSlot = new List<GameObject>();
+        foreach (var item in sellItem)
         {
             newItemUI = Instantiate(storeUIPrefab, storeUIParent);
 
@@ -271,7 +297,9 @@ public class ShopManager : MonoBehaviour
             buyAmountText = newItemUI.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
 
             buyCountText.text = buyCount.ToString() + " 개";
-            buyAmountText.text = buyAmount.ToString() + " $";            
+            buyAmountText.text = buyAmount.ToString() + " $";
+
+            shopItemSlot.Add(newItemUI);
         }
 
         if(sellItem.Length > 0)
@@ -312,6 +340,7 @@ public class ShopManager : MonoBehaviour
         {
             itemBuyCount[selectedItem.ItemID]++;
             itemBuyAmount[selectedItem.ItemID] += itemData.Price;
+            M_ChangeTotalPurchase(itemData.Price);
             UiUpdate();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -320,6 +349,7 @@ public class ShopManager : MonoBehaviour
             {
                 itemBuyCount[selectedItem.ItemID]--;
                 itemBuyAmount[selectedItem.ItemID] -= itemData.Price;
+                M_ChangeTotalPurchase(-itemData.Price);
                 UiUpdate();
             }
         }
@@ -335,53 +365,21 @@ public class ShopManager : MonoBehaviour
                 totalPurchaseCost += itemCount * FindItemData(itemID).Price;
             }
 
-            if (playerGold >= totalPurchaseCost)
+            bool canPlayerPurchase = M_TryDecreaseMoney(totalPurchaseCost);
+
+            if (canPlayerPurchase)
             {
-                playerGold -= totalPurchaseCost;
-                sumPayAmount += totalPurchaseCost;
-
-                totalPayAmountText.text = sumPayAmount.ToString() + " $";
-                playerGoldText.text = playerGold.ToString() + " $";
-
-                playerGoldData.gold = playerGold;
+                M_ChangeTotalPurchase();
+                
                 dataController.SaveData();
 
-                int[] m_keys = itemBuyCount.Keys.ToArray<int>();
-
-                foreach (var itemID in m_keys)
-                {
-                    itemBuyCount[itemID] = 0;
-                    itemBuyAmount[itemID] = 0;
-                }
-
-                ////InitSlot();
-
-
-                //for (int index = 0; index < sellItem.Length; ++index)
-                //{
-                //    //GameObject m_one = storeUIParent.GetChild(index).gameObject;
-                //    GameObject m_one = storeParentGameObject;
-
-
-                //    ItemAttribute m_item = sellItem[index];
-                //    itemData = FindItemData(m_item.ItemID);
-                //    if (itemData != null)
-                //    {
-                //        m_one.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = m_item.ItemName;
-                //        m_one.transform.Find("ItemAmount_Text").GetComponent<TextMeshProUGUI>().text = itemData.Price.ToString();
-                //    }
-                //    buyCountText = m_one.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
-                //    buyAmountText = m_one.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
-                //    buyCountText.text = buyCount.ToString() + " 개";
-                //    buyAmountText.text = buyAmount.ToString() + " $";
-                //}
+                M_ResetShoppingCart();
+                M_ResetShoppingCartUI();
             }
             else
             {
                 Debug.Log("소지금 부족!!");
             }
-
-            // UI 업데이트
         }
     }
 
@@ -437,6 +435,51 @@ public class ShopManager : MonoBehaviour
         {
             scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
         }
+    }
+
+    private bool M_TryDecreaseMoney(int amount)
+    {
+        if (playerGold < amount)
+        {
+            return false;
+        }
+
+        playerGold -= amount;
+        playerGoldText.text = $"{playerGold} $";
+        playerGoldData.gold = playerGold;
+
+        return true;
+    }
+    
+    private void M_ResetShoppingCart()
+    {
+        int[] m_keys = itemBuyCount.Keys.ToArray<int>();
+
+        foreach (var itemID in m_keys)
+        {
+            itemBuyCount[itemID] = 0;
+            itemBuyAmount[itemID] = 0;
+        }
+    }
+
+    private void M_ResetShoppingCartUI()
+    {
+        for (int index = 0; index < shopItemSlot.Count; ++index)
+        {
+            GameObject oneSlot = shopItemSlot[index];
+            oneSlot.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>().text = "0 개";
+            oneSlot.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>().text = "0 $";
+        }
+    }
+
+    private void M_ChangeTotalPurchase(int delta)
+    {
+        sumPayAmount += delta;
+        totalPayAmountText.text = $"{sumPayAmount} $";
+    }
+    private void M_ChangeTotalPurchase()
+    {
+        M_ChangeTotalPurchase(-sumPayAmount);
     }
 
     private void TEMP_ShopSlotTestCode()
