@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8fd154e7c210a41833d586c33bc673, type: 3}
   m_Name: TestItem1
   m_EditorClassIdentifier: 
-  mItemID: 0
+  mItemID: 10
   mItemName: TestItem1
   mCanOverlap: 1
   mIsInteractivity: 1
