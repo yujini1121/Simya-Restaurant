@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         public float slopeAngleLimit;
         public float castRadius;
         public float checkDistance;
-        public float CurGroundDistance;
+        public float curGroundDistance;
         public float groundCheckThreshold;
         public LayerMask groundLayer;
         public Vector3 groundCross;
@@ -129,6 +129,8 @@ public class PlayerController : MonoBehaviour
     // 상호 작용 변수
     List<InteractiveObjectBase> approchableInteractives;
     int index = 0;
+
+    [SerializeField] private Collider collider;
 
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
@@ -206,6 +208,9 @@ public class PlayerController : MonoBehaviour
 
         fowardCheckTop = new Vector3(0f, capsule.center.y + (capsule.height / 2), 0f);
         fowardCheckBottom = new Vector3(0f, capsule.center.y - (capsule.height / 2) + stepOffset, 0f);
+
+
+        //Time.timeScale = 0.2f;
     }
 
     void Update()
@@ -235,6 +240,9 @@ public class PlayerController : MonoBehaviour
         {
             JumpGravity.jumpInput = true;
             animatorController.SetTrigger("isJump");
+            //collider.contactOffset
+
+            //collider.center = new Vector3(collider.center.x, jumpCenterY, playerCollider.center.z);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -278,7 +286,7 @@ public class PlayerController : MonoBehaviour
         Vector3 horizontalVelocity = Vector3.zero;
 
         // 가파를 때 미끄러지기
-        if (GroundSlope.slopeIsSteep && GroundSlope.CurGroundDistance < 0.1f)
+        if (GroundSlope.slopeIsSteep && GroundSlope.curGroundDistance < 0.1f)
         {
             horizontalVelocity = Quaternion.AngleAxis(90f - GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
             playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
@@ -300,7 +308,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //경사면 움직임 코드
-        if (GroundSlope.isGround || GroundSlope.CurGroundDistance < GroundSlope.checkDistance)
+        if (GroundSlope.isGround || GroundSlope.curGroundDistance < GroundSlope.checkDistance)
         {
             if (!isFowardBlocked)
             {
@@ -315,7 +323,7 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        GroundSlope.CurGroundDistance = float.MaxValue;
+        GroundSlope.curGroundDistance = float.MaxValue;
         Vector3 groundNormal = Vector3.up;
         GroundSlope.slopeAngle = 0f;
         GroundSlope.isGround = false;
@@ -328,12 +336,12 @@ public class PlayerController : MonoBehaviour
         if (groundCast)
         {
             groundNormal = groundHit.normal;
-            GroundSlope.CurGroundDistance = Mathf.Max(groundHit.distance - GroundSlope.capsuleRadiusDiff - GroundSlope.groundCheckThreshold, -10f);
+            GroundSlope.curGroundDistance = Mathf.Max(groundHit.distance - GroundSlope.capsuleRadiusDiff - GroundSlope.groundCheckThreshold, -10f);
             GroundSlope.slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
             GroundSlope.slopeIsSteep = GroundSlope.slopeAngle >= GroundSlope.slopeAngleLimit;
-            GroundSlope.isGround = GroundSlope.CurGroundDistance <= 0.0001f && !GroundSlope.slopeIsSteep;
+            GroundSlope.isGround = GroundSlope.curGroundDistance <= 0.0001f && !GroundSlope.slopeIsSteep;
 
-            //Debug.Log(groundHit.distance + " / " + SV.CurGroundDistance);
+            //Debug.Log(groundHit.distance + " / " + SV.curGroundDistance);
         }
 
         GroundSlope.groundCross = Vector3.Cross(groundNormal, Vector3.up);

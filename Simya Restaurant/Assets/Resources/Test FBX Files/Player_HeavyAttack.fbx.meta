@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b8e9415e380b784449b78784e1da8e70
+guid: 436ac5eb54c51d245b9bf5bfb39c20b4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -19,14 +19,61 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 472.487579 mm\n\t'mixamorig:LeftLeg' : position error =
-      1694.898926 mm\n\t'mixamorig:LeftFoot' : position error = 1877.465576 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 1008.005371 mm\n\t'mixamorig:RightUpLeg' : position error
-      = 472.427979 mm\n\t'mixamorig:RightLeg' : position error = 1695.233154 mm\n\t'mixamorig:RightFoot'
-      : position error = 1877.432007 mm\n\t'mixamorig:RightToeBase' : position error
-      = 1004.693848 mm\n"
+      : position error = 7.325938 mm\n\t'mixamorig:LeftLeg' : position error = 7.954364
+      mm\n\t'mixamorig:LeftFoot' : position error = 22.746056 mm\n\t'mixamorig:LeftToeBase'
+      : position error = 1.249288 mm\n\t'mixamorig:RightUpLeg' : position error =
+      7.319610 mm\n\t'mixamorig:RightLeg' : position error = 7.862935 mm\n\t'mixamorig:RightFoot'
+      : position error = 22.967031 mm\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Armature|mixamo.com|Layer0' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'mixamorig:Hips' has scale
+      animation that will be discarded.\n\t'mixamorig:Spine' has scale animation
+      that will be discarded.\n\t'mixamorig:Spine1' has scale animation that will
+      be discarded.\n\t'mixamorig:Spine2' has scale animation that will be discarded.\n\t'mixamorig:RightShoulder'
+      has scale animation that will be discarded.\n\t'mixamorig:RightArm' has scale
+      animation that will be discarded.\n\t'mixamorig:RightForeArm' has scale animation
+      that will be discarded.\n\t'mixamorig:RightHand' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandThumb1' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandThumb2' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandThumb3' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandIndex1' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandIndex2' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandIndex3' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandMiddle1' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandMiddle2' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandMiddle3' has scale animation that will
+      be discarded.\n\t'mixamorig:RightHandRing1' has scale animation that will be
+      discarded.\n\t'mixamorig:RightHandRing2' has scale animation that will be discarded.\n\t'mixamorig:RightHandRing3'
+      has scale animation that will be discarded.\n\t'mixamorig:RightHandPinky1'
+      has scale animation that will be discarded.\n\t'mixamorig:RightHandPinky2'
+      has scale animation that will be discarded.\n\t'mixamorig:RightHandPinky3'
+      has scale animation that will be discarded.\n\t'mixamorig:Neck' has scale animation
+      that will be discarded.\n\t'mixamorig:Head' has scale animation that will be
+      discarded.\n\t'mixamorig:LeftShoulder' has scale animation that will be discarded.\n\t'mixamorig:LeftArm'
+      has scale animation that will be discarded.\n\t'mixamorig:LeftForeArm' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHand' has scale animation
+      that will be discarded.\n\t'mixamorig:LeftHandThumb1' has scale animation that
+      will be discarded.\n\t'mixamorig:LeftHandThumb2' has scale animation that will
+      be discarded.\n\t'mixamorig:LeftHandThumb3' has scale animation that will be
+      discarded.\n\t'mixamorig:LeftHandIndex1' has scale animation that will be discarded.\n\t'mixamorig:LeftHandIndex2'
+      has scale animation that will be discarded.\n\t'mixamorig:LeftHandIndex3' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHandMiddle1' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHandMiddle2' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHandMiddle3' has
+      scale animation that will be discarded.\n\t'mixamorig:LeftHandRing1' has scale
+      animation that will be discarded.\n\t'mixamorig:LeftHandRing2' has scale animation
+      that will be discarded.\n\t'mixamorig:LeftHandRing3' has scale animation that
+      will be discarded.\n\t'mixamorig:LeftHandPinky1' has scale animation that will
+      be discarded.\n\t'mixamorig:LeftHandPinky2' has scale animation that will be
+      discarded.\n\t'mixamorig:LeftHandPinky3' has scale animation that will be discarded.\n\t'mixamorig:LeftUpLeg'
+      has scale animation that will be discarded.\n\t'mixamorig:LeftLeg' has scale
+      animation that will be discarded.\n\t'mixamorig:LeftFoot' has scale animation
+      that will be discarded.\n\t'mixamorig:LeftToeBase' has scale animation that
+      will be discarded.\n\t'mixamorig:RightUpLeg' has scale animation that will
+      be discarded.\n\t'mixamorig:RightLeg' has scale animation that will be discarded.\n\t'mixamorig:RightFoot'
+      has scale animation that will be discarded.\n\t'mixamorig:RightToeBase' has
+      scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -44,21 +91,21 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 114
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000

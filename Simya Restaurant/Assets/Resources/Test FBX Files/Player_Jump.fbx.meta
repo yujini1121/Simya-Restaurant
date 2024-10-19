@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f8f2ed983e3c955439448d5de3c3c64f
+guid: 7bbfad38dcf022f41bca228c9316ac6f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -19,19 +19,18 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 472.487579 mm\n\t'mixamorig:LeftLeg' : position error =
-      1694.898926 mm\n\t'mixamorig:LeftFoot' : position error = 1877.465576 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 1008.005371 mm\n\t'mixamorig:RightUpLeg' : position error
-      = 472.427979 mm\n\t'mixamorig:RightLeg' : position error = 1695.233154 mm\n\t'mixamorig:RightFoot'
-      : position error = 1877.432007 mm\n\t'mixamorig:RightToeBase' : position error
-      = 1004.693848 mm\n"
+      : position error = 7.325236 mm\n\t'mixamorig:LeftLeg' : position error = 7.953415
+      mm\n\t'mixamorig:LeftFoot' : position error = 22.738155 mm\n\t'mixamorig:LeftToeBase'
+      : position error = 1.246275 mm\n\t'mixamorig:RightUpLeg' : position error =
+      7.318146 mm\n\t'mixamorig:RightLeg' : position error = 7.865763 mm\n\t'mixamorig:RightFoot'
+      : position error = 22.960369 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -44,7 +43,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -53,8 +52,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
