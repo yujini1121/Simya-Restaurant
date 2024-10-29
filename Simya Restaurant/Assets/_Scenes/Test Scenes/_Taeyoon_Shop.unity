@@ -9067,6 +9067,7 @@ GameObject:
   - component: {fileID: 875194552}
   - component: {fileID: 875194551}
   - component: {fileID: 875194550}
+  - component: {fileID: 875194553}
   m_Layer: 0
   m_Name: Store_UI
   m_TagString: Untagged
@@ -9157,6 +9158,37 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &875194553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875194548}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b180d8561324947901cdf659bc16cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sellItem:
+  - {fileID: 11400000, guid: 248d40e9144740e47a39a65e053f6ea3, type: 2}
+  - {fileID: 11400000, guid: 510face83c162ba42bff408f10393efa, type: 2}
+  - {fileID: 11400000, guid: 3bed5d1619c4b32419ba5e641124a117, type: 2}
+  - {fileID: 11400000, guid: 3bed5d1619c4b32419ba5e641124a117, type: 2}
+  - {fileID: 11400000, guid: 510face83c162ba42bff408f10393efa, type: 2}
+  - {fileID: 11400000, guid: 248d40e9144740e47a39a65e053f6ea3, type: 2}
+  - {fileID: 11400000, guid: 3bed5d1619c4b32419ba5e641124a117, type: 2}
+  storeUI: {fileID: 875194548}
+  storeUIPrefab: {fileID: 5970776138901495469, guid: ac19d1e9e6510e24496f75d8a4240ff3,
+    type: 3}
+  storeUIParent: {fileID: 872146597}
+  itemDescriptionText: {fileID: 132936055}
+  playerGoldText: {fileID: 2078614875}
+  totalPayAmountText: {fileID: 1196800695}
+  scrollRect: {fileID: 1124974221}
+  storeParentGameObject: {fileID: 872146596}
+  isDebugFunctionCall: 1
+  isDebugToggleOutline: 0
 --- !u!1 &878062409
 GameObject:
   m_ObjectHideFlags: 0
