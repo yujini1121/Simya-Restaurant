@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 [System.Serializable]
 public class PlayerData
@@ -29,6 +30,7 @@ public class PlayerData
 public class DataController : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private bool isDebugging;
 
     private void Awake()
     {
@@ -46,7 +48,14 @@ public class DataController : MonoBehaviour
 
     public void LoadData()
     {
+
+
         string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
+
+        if (isDebugging)
+        {
+            Console.WriteLine($"LoadData() : File.Exists(path) == {File.Exists(path)}");
+        }
 
         if (File.Exists(path))
         {
