@@ -17,8 +17,8 @@ public class Customer : MonoBehaviour
     [SerializeField] private Image orderImage;
     [SerializeField] private ItemAttribute[] menus;
 
-    [Space(10)][Header("Quality")]
-    [SerializeField] private string quality;
+    [Space(10)][Header("Food Rank")]
+    [SerializeField] private EFoodRank foodRank;
 
 
     private void Start()
@@ -29,7 +29,7 @@ public class Customer : MonoBehaviour
 
     private void Enter()
     {
-        string[] entryLines = { "안녕하세요~", "으.. 배고파 죽을뻔 했네요" };
+        string[] entryLines = { "안녕하세요~", "으.. 배고파 죽을뻔 했네요.." };
         string random = entryLines[Random.Range(0, entryLines.Length)];
         orderText.text = random;
 
@@ -65,28 +65,26 @@ public class Customer : MonoBehaviour
 
         orderText.text = menuType[random].ItemName + "(으)로 주세요!";
         orderImage.sprite = menuType[random].ItemImage;
-
-        //string[] menuLines = { menus[0].ItemName, menus[1].ItemName, menus[2].ItemName };
-        //string random = menuLines[Random.Range(0, menuLines.Length)];
-        //orderText.text = random + "(으)로 주세요!";
-        //orderImage.sprite = random
     }
 
     public void ServeMenu()
     {
-        switch (quality)
+        switch (foodRank)
         {
-            case "good":
+            case EFoodRank.Good:
                 tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
                 GiveTip();
                 break;
-            case "normal":
+            case EFoodRank.Standard:
                 tipPercentage = 0f;
                 GiveTip();
                 break;
-            case "bad":
+            case EFoodRank.Bad:
                 tipPercentage = -0.5f * tipModifier;
                 GiveTip();
+                break;
+            case EFoodRank.None:
+                Debug.LogError("EFoodRank가 설정되지 않았습니다");
                 break;
         }
 
@@ -107,16 +105,19 @@ public class Customer : MonoBehaviour
     {
         string exitLine = "";
 
-        switch (quality)
+        switch (foodRank)
         {
-            case "good":
+            case EFoodRank.Good:
                 exitLine = "최고의 식사였어요!";
                 break;
-            case "normal":
+            case EFoodRank.Standard:
                 exitLine = "수고하세요~";
                 break;
-            case "bad":
+            case EFoodRank.Bad:
                 exitLine = "별점 테러할게요;;";
+                break;
+            case EFoodRank.None:
+                Debug.LogError("EFoodRank가 설정되지 않았습니다");
                 break;
         }
         orderText.text = exitLine;
