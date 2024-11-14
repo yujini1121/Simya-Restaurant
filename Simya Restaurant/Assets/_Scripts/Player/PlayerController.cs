@@ -245,22 +245,22 @@ public class PlayerController : MonoBehaviour
             //collider.center = new Vector3(collider.center.x, jumpCenterY, playerCollider.center.z);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            animatorController.SetTrigger("Combo1");
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            animatorController.SetTrigger("Combo2");
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            animatorController.SetTrigger("Combo3");
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            animatorController.SetTrigger("HeavyAttack");
-        }
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    animatorController.SetTrigger("Combo1");
+        //}
+        //else if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    animatorController.SetTrigger("Combo2");
+        //}
+        //else if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    animatorController.SetTrigger("Combo3");
+        //}
+        //else if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    animatorController.SetTrigger("HeavyAttack");
+        //}
     }
 
     void Movement()
