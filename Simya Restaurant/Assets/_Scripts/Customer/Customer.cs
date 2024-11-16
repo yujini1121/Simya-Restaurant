@@ -17,7 +17,6 @@ public class Customer : MonoBehaviour
 
 	[Space(10)] 
 	[Header("Order")]
-	[SerializeField] private GameObject orderBubble;
 	[SerializeField] private Image orderImage;
 	[SerializeField] private TextMeshProUGUI orderText;
 	[SerializeField] private TextMeshProUGUI reactionText;
@@ -33,13 +32,30 @@ public class Customer : MonoBehaviour
 	[SerializeField] private string[] standardExitLines = { "수고하세요", "잘 먹었습니다" };
 	[SerializeField] private string[] badExitLines = { "별점 테러할게요", "장사 이렇게 하지마세요", "퉤퉷, 여길 다신 오나 봐라" };
 
-	private void Start()
-	{
-		Enter();
-		StartCoroutine(DecreaseHappiness());
-	}
 
-	private void Enter()
+    private void OnEnable()
+    {
+        Debug.Log("Customer 오브젝트 활성화됨");
+    }
+
+    private void OnDisable()
+    {
+        Debug.LogWarning($"Customer 오브젝트가 비활성화되었습니다. 호출 위치: {System.Environment.StackTrace}");
+    }
+
+
+    private void Start()
+	{
+        Debug.Log($"Start: 활성 상태 = {gameObject.activeSelf}");
+
+        Enter();
+		StartCoroutine(DecreaseHappiness());
+
+        StartCoroutine(TestCoroutine());
+
+    }
+
+    private void Enter()
 	{
 		string[] entryLines = { "안녕하세요~", "배고파 죽을뻔 했어요..", "늘 먹던걸로... 네? 모르겠다구요?" };
 		orderText.text = entryLines[Random.Range(0, entryLines.Length)];
@@ -47,7 +63,14 @@ public class Customer : MonoBehaviour
 		Invoke("OrderMenu", Random.Range(2f, 10f));
 	}
 
-	private IEnumerator DecreaseHappiness()
+    private IEnumerator TestCoroutine()
+    {
+        Debug.Log("TestCoroutine 시작됨");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("TestCoroutine 완료");
+    }
+
+    private IEnumerator DecreaseHappiness()
 	{
 		while (isWaiting && happiness > 0)
 		{
@@ -68,20 +91,59 @@ public class Customer : MonoBehaviour
 		orderImage.sprite = menus[random].ItemImage;
 	}
 
-	public void ServeMenu()
-	{
-		if (foodRank == EFoodRank.None)
-		{
-			Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
-			foodRank = EFoodRank.Bad;
-		}
+    private bool isExiting = false;
 
-		StartCoroutine(Eating());
-	}
+    public void ServeMenu()
+    {
+        if (foodRank == EFoodRank.None)
+        {
+            Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
+            foodRank = EFoodRank.Bad;
+        }
 
-	private IEnumerator Eating()
+        switch (foodRank)
+        {
+            case EFoodRank.Good:
+                tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
+                break;
+            case EFoodRank.Standard:
+                tipPercentage = 0f;
+                break;
+            case EFoodRank.Bad:
+                tipPercentage = -0.5f * tipModifier;
+                break;
+        }
+
+        Debug.Log($"ServeMenu: 활성 상태 = {gameObject.activeSelf}, Hierarchy 상태 = {gameObject.activeInHierarchy}");
+
+        if (gameObject.activeSelf && gameObject.activeInHierarchy)
+        {
+            Debug.Log("ServeMenu: StartCoroutine 실행 준비됨");
+
+            // 강제 비활성화 및 재활성화
+            gameObject.SetActive(false);
+            StartCoroutine(ReenableAndStartEating());
+        }
+        else
+        {
+            Debug.LogError("ServeMenu: 오브젝트 활성화 상태가 비정상적입니다.");
+        }
+    }
+
+    private IEnumerator ReenableAndStartEating()
+    {
+        yield return new WaitForEndOfFrame(); // 한 프레임 대기
+        gameObject.SetActive(true);          // 강제로 재활성화
+        Debug.Log("ReenableAndStartEating: 재활성화 완료");
+        StartCoroutine(nameof(Eating));     // Eating 코루틴 호출
+    }
+
+
+    private IEnumerator Eating()
 	{
-		string[] reactions = { "냠냠..", "쩝쩝..", "음.." };
+        Debug.Log($"Eating 시작: 활성 상태 = {gameObject.activeSelf}");
+
+        string[] reactions = { "냠냠..", "쩝쩝..", "음.." };
 		Vector3[] positions =
 		{
 			new Vector3(-200f, -50f, 0f),
@@ -94,7 +156,6 @@ public class Customer : MonoBehaviour
 		int reactionIndex = 0;
 
 		orderImage.gameObject.SetActive(false);
-		orderBubble.gameObject.SetActive(false);
 		reactionText.gameObject.SetActive(true);
 
 		while (elapsedTime < eatingTime)
@@ -105,9 +166,9 @@ public class Customer : MonoBehaviour
 
 			yield return new WaitForSeconds(1f);
 			elapsedTime += 1f;
-		}
+            Debug.Log($"Eating 진행 중: 활성 상태 = {gameObject.activeSelf}");
+        }
 
-		orderBubble.gameObject.SetActive(true);
 		reactionText.gameObject.SetActive(false);
 		StartCoroutine(Exit());
 	}
@@ -128,22 +189,26 @@ public class Customer : MonoBehaviour
 		}
 	}
 
-	private IEnumerator Exit()
-	{
-		SetTipPercentage();
+    private IEnumerator Exit()
+    {
+        if (isExiting) yield break;
+        isExiting = true;
 
-		float finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
-		orderText.text = $"여기요! +{finalPrice}";
-		yield return new WaitForSeconds(3f);
+        SetTipPercentage();
 
-		ShowExitReaction();
-		yield return new WaitForSeconds(3f);
+        float finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
+        orderText.text = $"여기요! +{finalPrice}";
+        yield return new WaitForSeconds(3f);
 
-		Debug.Log("손님이 떠났습니다.");
-		gameObject.SetActive(false);
-	}
+        ShowExitReaction();
+        yield return new WaitForSeconds(3f);
 
-	private void ShowExitReaction()
+        Debug.Log("손님이 떠났습니다.");
+        gameObject.SetActive(false);
+        isExiting = false;
+    }
+
+    private void ShowExitReaction()
 	{
 		string[] exitLines = foodRank switch
 		{
