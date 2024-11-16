@@ -38,6 +38,8 @@ public class ShopManager : MonoBehaviour
     [Header("디버깅 버튼")]
     [SerializeField] private bool isDebugFunctionCall;
     [SerializeField] private bool isDebugToggleOutline;
+    [SerializeField] private bool isDebugBuyItem;
+    [SerializeField] private bool isTrackValueItemBuyAmount;
 
     private int playerGold;
     private int selectedIndex = 0;
@@ -52,7 +54,7 @@ public class ShopManager : MonoBehaviour
     private Dictionary<int, int> itemBuyAmount = new Dictionary<int, int>();
 
     private GameObject selectedItemUI;
-    private ItemAttribute selectedItem;
+    private ItemAttribute currentSelectedItem;
     private GameObject newItemUI;
     private ItemInformationList itemInfo;
     private PlayerData playerGoldData;
@@ -186,13 +188,13 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void UpdateImage()
     {
-        if(selectedItem != null)
+        if(currentSelectedItem != null)
         {
             Transform backgroundPanel = storeUI.transform.Find("Store_BackGroundPanel");
             Transform itemImagePanel = backgroundPanel.transform.Find("Item_ImagePanel");
             Image itemImage = itemImagePanel.transform.Find("Image").GetComponent<Image>();
 
-            itemImage.sprite = selectedItem.ItemImage;
+            itemImage.sprite = currentSelectedItem.ItemImage;
         }
     }
 
@@ -214,7 +216,7 @@ public class ShopManager : MonoBehaviour
         ToggleOutline(itemUI, true);
         selectedItemUI = itemUI;
 
-        selectedItem = sellItem[selectedIndex];
+        currentSelectedItem = sellItem[selectedIndex];
         
         buyCountText = selectedItemUI.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
         buyAmountText = selectedItemUI.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
@@ -256,7 +258,7 @@ public class ShopManager : MonoBehaviour
             selectedIndex = Mathf.Clamp(index, 0, storeUIParent.childCount - 1);
             selectedItemUI = storeUIParent.GetChild(selectedIndex).gameObject;
             ToggleOutline(selectedItemUI, true);
-            selectedItem = sellItem[selectedIndex];
+            currentSelectedItem = sellItem[selectedIndex];
         }
     }
 
@@ -286,7 +288,7 @@ public class ShopManager : MonoBehaviour
         {
             newItemUI = Instantiate(storeUIPrefab, storeUIParent);
 
-            var itemData = FindItemData(item.ItemID);
+            var itemData = FindItemDataOrNull(item.ItemID);
             if (itemData != null)
             {
                 newItemUI.transform.Find("ItemName_Text").GetComponent<TextMeshProUGUI>().text = item.ItemName;
@@ -315,8 +317,13 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void UiUpdate()
     {
-        buyCountText.text = itemBuyCount[selectedItem.ItemID].ToString() + " 개";
-        buyAmountText.text = itemBuyAmount[selectedItem.ItemID].ToString() + " $";
+        if (isTrackValueItemBuyAmount && itemBuyAmount == null)
+        {
+            System.Console.WriteLine("itemBuyAmount이 null입니다!");
+        }
+
+        buyCountText.text = itemBuyCount[currentSelectedItem.ItemID].ToString() + " 개";
+        buyAmountText.text = itemBuyAmount[currentSelectedItem.ItemID].ToString() + " $";
     }
 
     // =========================================================
@@ -328,28 +335,58 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void BuyItem()
     {
-        var itemData = FindItemData(selectedItem.ItemID);
-
-        if (!itemBuyCount.ContainsKey(selectedItem.ItemID))
+        // 전제조건 확인
+        if (isDebugFunctionCall)
         {
-            itemBuyCount[selectedItem.ItemID] = 0;
-            itemBuyAmount[selectedItem.ItemID] = 0;
+            Debug.Log("ShopManager.BuyItem() : 호출됨");
+            Debug.Log($"ShopManager.BuyItem() : isDebugBuyItem = {isDebugBuyItem}");
+        }
+
+        var m_itemData = FindItemDataOrNull(currentSelectedItem.ItemID);
+
+        if (isTrackValueItemBuyAmount && itemBuyAmount == null)
+        {
+            Debug.LogWarning("ShopManager.BuyItem() : itemBuyAmount이 null입니다!");
+        }
+        if (isDebugBuyItem && currentSelectedItem == null)
+        {
+            Debug.LogWarning("ShopManager.BuyItem() : selectedItem이 null입니다!");
+        }
+        if (isDebugBuyItem && m_itemData == null)
+        {
+            Debug.LogWarning("ShopManager.BuyItem() : m_itemData이 null입니다!");
+        }
+        if (isDebugBuyItem && m_itemData == null && currentSelectedItem != null)
+        {
+            Debug.LogWarning($"ShopManager.BuyItem() : m_itemData이 찾으려는 아이템 정보 : {currentSelectedItem.ItemID}");
+        }
+        if (isDebugBuyItem && m_itemData != null)
+        {
+            Debug.Log($"ShopManager.BuyItem() : m_itemData = {m_itemData.Description} {m_itemData.itemID} {m_itemData.Price}");
+        }
+
+
+
+        if (!itemBuyCount.ContainsKey(currentSelectedItem.ItemID))
+        {
+            itemBuyCount[currentSelectedItem.ItemID] = 0;
+            itemBuyAmount[currentSelectedItem.ItemID] = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            itemBuyCount[selectedItem.ItemID]++;
-            itemBuyAmount[selectedItem.ItemID] += itemData.Price;
-            M_ChangeTotalPurchase(itemData.Price);
+            itemBuyCount[currentSelectedItem.ItemID]++;
+            itemBuyAmount[currentSelectedItem.ItemID] += m_itemData.Price;
+            M_ChangeTotalPurchase(m_itemData.Price);
             UiUpdate();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (itemBuyCount[selectedItem.ItemID] > 0)
+            if (itemBuyCount[currentSelectedItem.ItemID] > 0)
             {
-                itemBuyCount[selectedItem.ItemID]--;
-                itemBuyAmount[selectedItem.ItemID] -= itemData.Price;
-                M_ChangeTotalPurchase(-itemData.Price);
+                itemBuyCount[currentSelectedItem.ItemID]--;
+                itemBuyAmount[currentSelectedItem.ItemID] -= m_itemData.Price;
+                M_ChangeTotalPurchase(-m_itemData.Price);
                 UiUpdate();
             }
         }
@@ -362,7 +399,7 @@ public class ShopManager : MonoBehaviour
             {
                 int itemID = item.Key;
                 int itemCount = item.Value;
-                totalPurchaseCost += itemCount * FindItemData(itemID).Price;
+                totalPurchaseCost += itemCount * FindItemDataOrNull(itemID).Price;
             }
 
             bool canPlayerPurchase = M_TryDecreaseMoney(totalPurchaseCost);
@@ -370,11 +407,12 @@ public class ShopManager : MonoBehaviour
             if (canPlayerPurchase)
             {
                 M_ChangeTotalPurchase();
-                
-                dataController.SaveData();
+                M_SyncsPlayerData();
 
                 M_ResetShoppingCart();
                 M_ResetShoppingCartUI();
+
+                dataController.SaveData();
             }
             else
             {
@@ -388,8 +426,8 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void SetItemInfo()
     {
-        int currentSelectedItemId = selectedItem.ItemID;
-        var itemData = FindItemData(currentSelectedItemId);
+        int currentSelectedItemId = currentSelectedItem.ItemID;
+        var itemData = FindItemDataOrNull(currentSelectedItemId);
 
         if (itemData != null)
         {
@@ -400,7 +438,7 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     // 아이템 ID와 일치하는 아이템 데이터를 찾아 반환
     // =========================================================
-    private ItemInfomation FindItemData(int itemID)
+    private ItemInfomation FindItemDataOrNull(int itemID)
     {
         foreach (var item in itemInfo.ItemDescription)
         {
@@ -457,6 +495,7 @@ public class ShopManager : MonoBehaviour
 
         foreach (var itemID in m_keys)
         {
+            dataController.AddItem(itemID, itemBuyCount[itemID]);
             itemBuyCount[itemID] = 0;
             itemBuyAmount[itemID] = 0;
         }
@@ -488,5 +527,16 @@ public class ShopManager : MonoBehaviour
         {
             SelectItem(1);
         }
+    }
+
+    private void M_SyncsPlayerData()
+    {
+        if (dataController == null)
+        {
+            Debug.LogError("SyncsPlayerData() : dataController를 찾을 수 없습니다!");
+            return;
+        }
+
+        dataController.Access().gold = playerGold;
     }
 }

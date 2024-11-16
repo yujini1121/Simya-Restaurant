@@ -2,7 +2,8 @@
     "isDead": false,
     "name": "Yujin",
     "level": 99999,
-    "gold": 9000000,
+    "gold": 897925011,
+    "health": 100,
     "items": [
         "1_Strawberry",
         "2_Peach",
@@ -11,5 +12,19 @@
         "5_Blueberry",
         "6_Pasnip",
         "7_Starfruit"
+    ],
+    "itemsData": [
+        {
+            "id": 10,
+            "count": 8
+        },
+        {
+            "id": 11,
+            "count": 9
+        },
+        {
+            "id": 12,
+            "count": 14
+        }
     ]
 }
