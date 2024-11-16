@@ -9,13 +9,14 @@ public class PlayerData
 {
     public static PlayerData instance;
 
-    [Header ("Status")]
+    [Header("Status")]
     public bool isDead;
     public string name;
     public int level;
     public int gold;
 
-    [Space(30)][Header ("Inventory")]
+    [Space(30)]
+    [Header("Inventory")]
     public string[] items;
 
 

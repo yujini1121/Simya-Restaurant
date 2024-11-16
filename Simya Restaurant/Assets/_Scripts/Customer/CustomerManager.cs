@@ -18,7 +18,7 @@ public class Seat
 
 public class CustomerManager : MonoBehaviour
 {
-    [Header("Seats")]
+    [Header("Seats State")]
     [SerializeField] private List<Seat> seats = new List<Seat>();
     private Queue<GameObject> customerQueue = new Queue<GameObject>();
 
@@ -31,22 +31,16 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private int maxCustomers = 3;
 
     [Space(10)]
-    [Header("Customer List")]
+    [Header("Get Customer List")]
     [SerializeField] private List<GameObject> customerList = new List<GameObject>();
 
     [Space(10)]
     [Header("Others")]
     [SerializeField] private GameObject servingButton;
-    [SerializeField] private TimeManager timeManager;
 
 
     private void Start()
     {
-        //if (!timeManager.NightToDawn())
-        //{
-        //    return;
-        //}
-
         InitializeSeats();
         InvokeRepeating(nameof(SpawnCustomer), 0f, 10f);
     }
@@ -66,7 +60,7 @@ public class CustomerManager : MonoBehaviour
         GameObject newCustomer = Instantiate(customerPrefab, lineStartPosition.position, Quaternion.identity);
         customerQueue.Enqueue(newCustomer);
 
-        GameObject.Find("Serving Button").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
+        servingButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
         {
             foreach (var v in customerList)
             {
