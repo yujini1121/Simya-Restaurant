@@ -17,7 +17,7 @@ public class PlayerData
 {
     public static PlayerData instance;
 
-    [Header ("Status")]
+    [Header("Status")]
     public bool isDead;
     public string name;
     public int level;
@@ -25,7 +25,8 @@ public class PlayerData
     public int potionsRemain;
     public float health;
 
-    [Space(30)][Header ("Inventory")]
+    [Space(30)]
+    [Header("Inventory")]
     public string[] items;
     public PlayerItemSingle[] itemsData;
 

@@ -5,53 +5,74 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
+    public static Customer instance;
+
     [Header("Customer State")]
     [SerializeField] private bool isWaiting = true;
     [SerializeField] private int happiness = 100;
     [SerializeField] private float tipPercentage;
     [SerializeField] private float tipModifier = 1f;
 
-    [Space(10)][Header("Order")]
-    [SerializeField] private GameObject orderBubble;
-    [SerializeField] private TextMeshProUGUI orderText;
+    [Space(10)]
+    [Header("Food Rank")]
+    [SerializeField] private EFoodRank foodRank;
+
+    [Space(10)]
+    [Header("Order")]
     [SerializeField] private Image orderImage;
+    [SerializeField] private TextMeshProUGUI orderText;
+    [SerializeField] private TextMeshProUGUI reactionText;
+
+    [Space(10)]
+    [Header("Menu")]
+    [SerializeField] private float menuPrice = 3000f;
     [SerializeField] private ItemAttribute[] menus;
 
-    [Space(10)][Header("Quality")]
-    [SerializeField] private string quality;
+    [Space(10)]
+    [Header("Set Exit Lines")]
+    public float finalPrice = 0f;
+    public float totalPrice = 0f;
 
+    [Space(10)]
+    [SerializeField] private string[] goodExitLines = { "최고의 식사였어요!", "칭찬스티커 100개 드릴게요!" };
+    [SerializeField] private string[] standardExitLines = { "수고하세요", "잘 먹었습니다" };
+    [SerializeField] private string[] badExitLines = { "별점 테러할게요", "장사 이렇게 하지마세요", "퉤퉷, 여길 다신 오나 봐라" };
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Customer instance가 이미 초기화되어 있습니다.");
+        }
+    }
 
     private void Start()
     {
         Enter();
-        StartCoroutine(DecreaseHappinessOverTime());
+        StartCoroutine(DecreaseHappiness());
     }
 
     private void Enter()
     {
-        string[] entryLines = { "안녕하세요~", "으.. 배고파 죽을뻔 했네요" };
-        string random = entryLines[Random.Range(0, entryLines.Length)];
-        orderText.text = random;
+        string[] entryLines = { "안녕하세요~", "배고파 죽을뻔 했어요..", "늘 먹던걸로... 네? 모르겠다구요?" };
+        orderText.text = entryLines[Random.Range(0, entryLines.Length)];
 
-        float randomCount = Random.Range(2, 10);
-        Invoke("OrderMenu", randomCount);
+        Invoke("OrderMenu", Random.Range(2f, 10f));
     }
 
-    /// <summary>
-    /// 기획 문서와 다름, 우선 빠른 구현을 위해 행복도가 50 미만이면 기존보다 50%의 돈만 받는 것으로 함 
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator DecreaseHappinessOverTime()
+    private IEnumerator DecreaseHappiness()
     {
         while (isWaiting && happiness > 0)
         {
             yield return new WaitForSeconds(1f);
-            happiness -= 1;
+            happiness--;
 
-            if (happiness <= 50)
-            {
-                tipModifier = 0.5f;
-            }
+            if (happiness <= 50) tipModifier = 0.5f;
         }
     }
 
@@ -60,74 +81,124 @@ public class Customer : MonoBehaviour
         isWaiting = false;
         orderImage.gameObject.SetActive(true);
 
-        ItemAttribute[] menuType = { menus[0], menus[1], menus[2] };
-        int random = Random.Range(0, 3);
-
-        orderText.text = menuType[random].ItemName + "(으)로 주세요!";
-        orderImage.sprite = menuType[random].ItemImage;
-
-        //string[] menuLines = { menus[0].ItemName, menus[1].ItemName, menus[2].ItemName };
-        //string random = menuLines[Random.Range(0, menuLines.Length)];
-        //orderText.text = random + "(으)로 주세요!";
-        //orderImage.sprite = random
+        int random = Random.Range(0, menus.Length);
+        orderText.text = $"{menus[random].ItemName}(으)로 주세요!";
+        orderImage.sprite = menus[random].ItemImage;
     }
 
+
+    /// <summary>
+    /// Serve Menu 버튼으로 연결되어 있음. case문에 EFoodRank.None도 넣고 싶었지만, 그렇게 하게 되면 계산이 정확히 이루어지지 않음. 안전성을 고려해 if문 하나 더 달았음.
+    /// </summary>
     public void ServeMenu()
     {
-        switch (quality)
+        if (foodRank == EFoodRank.None)
         {
-            case "good":
+            Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
+            foodRank = EFoodRank.Bad;
+        }
+
+        switch (foodRank)
+        {
+            case EFoodRank.Good:
                 tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
-                GiveTip();
                 break;
-            case "normal":
+            case EFoodRank.Standard:
                 tipPercentage = 0f;
-                GiveTip();
                 break;
-            case "bad":
+            case EFoodRank.Bad:
                 tipPercentage = -0.5f * tipModifier;
-                GiveTip();
                 break;
         }
 
-        Invoke("Exit", 3f);
+        StartCoroutine(Eating());
     }
 
-    private void GiveTip()
+    private IEnumerator Eating()
     {
-        float menuPrice = 3000f;
-        float tip = menuPrice * tipPercentage;
-        int clampTip = Mathf.FloorToInt(tip);
-        float finalPrice = clampTip + menuPrice;
-
-        orderText.text = "여기요! +" + finalPrice;
-    }
-
-    private void Exit()
-    {
-        string exitLine = "";
-
-        switch (quality)
+        string[] reactions = { "냠냠..", "쩝쩝..", "음.." };
+        Vector3[] positions =
         {
-            case "good":
-                exitLine = "최고의 식사였어요!";
-                break;
-            case "normal":
-                exitLine = "수고하세요~";
-                break;
-            case "bad":
-                exitLine = "별점 테러할게요;;";
-                break;
-        }
-        orderText.text = exitLine;
+            new Vector3(150f, -50f, 0f),
+            new Vector3(-50f, -100f, 0f),
+            new Vector3(150f, -160f, 0f)
+        };
 
-        StartCoroutine(LeaveAfterServing());
+        float eatingTime = Random.Range(10f, 20f);
+        float elapsedTime = 0f;
+        int reactionIndex = 0;
+
+        orderImage.gameObject.SetActive(false);
+        orderText.gameObject.SetActive(false);
+        reactionText.gameObject.SetActive(true);
+
+        while (elapsedTime < eatingTime)
+        {
+            reactionText.text = reactions[reactionIndex];
+            reactionText.transform.localPosition = positions[reactionIndex];
+            reactionIndex = (reactionIndex + 1) % reactions.Length;
+
+            yield return new WaitForSeconds(1f);
+            elapsedTime += 1f;
+        }
+
+        reactionText.gameObject.SetActive(false);
+        StartCoroutine(Exit());
     }
 
-    private IEnumerator LeaveAfterServing()
+    private void SetTipPercentage()
     {
+        if (foodRank == EFoodRank.None)
+        {
+            Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
+            foodRank = EFoodRank.Bad;
+        }
+
+        switch (foodRank)
+        {
+            case EFoodRank.Good:
+                tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
+                break;
+            case EFoodRank.Standard:
+                tipPercentage = 0f;
+                break;
+            case EFoodRank.Bad:
+                tipPercentage = -0.5f * tipModifier;
+                break;
+        }
+    }
+
+    private IEnumerator Exit()
+    {
+        SetTipPercentage();
+
+        orderText.gameObject.SetActive(true);
+
+        finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
+        orderText.text = $"여기요! +{finalPrice}";
+        totalPrice += finalPrice;
+        print(finalPrice);
+        print(totalPrice);
+
         yield return new WaitForSeconds(3f);
+
+        ShowExitReaction();
+        yield return new WaitForSeconds(3f);
+
         Debug.Log("손님이 떠났습니다.");
         gameObject.SetActive(false);
+    }
+
+    private void ShowExitReaction()
+    {
+        string[] exitLines = foodRank switch
+        {
+            EFoodRank.Good => goodExitLines,
+            EFoodRank.Standard => standardExitLines,
+            EFoodRank.Bad => badExitLines,
+            _ => throw new System.Exception("EFoodRank가 제대로 설정되어있지 않습니다.")
+        };
+
+        orderText.text = exitLines[Random.Range(0, exitLines.Length)];
     }
 }

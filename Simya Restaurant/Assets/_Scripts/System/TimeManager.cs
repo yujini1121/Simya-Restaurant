@@ -25,7 +25,6 @@ public class TimeManager : MonoBehaviour
 
     [Header("Current")]
     [SerializeField] private TimeOfDay current;
-
     [SerializeField] private Light light;
     [SerializeField] private Color filter;
     [SerializeField] private float temperature;
@@ -82,7 +81,8 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Dawn To Day");
         current = TimeOfDay.Day;
 
-        filter = new Color(1f, 1f, 0.8f);           // (원하는 색상 RGB 값) / 255 계산기로 계산함 ㅎㅎ..
+        // (원하는 색상 RGB 값) / 255 계산기로 계산함 ㅎㅎ..
+        filter = new Color(1f, 1f, 0.8f);      
         temperature = 6500f;
         intensity = 1f;
 
