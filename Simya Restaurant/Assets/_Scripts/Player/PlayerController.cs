@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 {
     static public PlayerController instance;
 
+    public int PotionCount;
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
 
     // 플레이어 체력 정보
     [SerializeField] public float health;
+    [SerializeField] public float maxHealth;
     public bool IsDead { get; private set; }
 
     // 임시 변수
@@ -131,6 +133,12 @@ public class PlayerController : MonoBehaviour
     int index = 0;
 
     [SerializeField] private Collider collider;
+
+    // 외부 게임오브젝트 컴포넌트
+    DataController dataController;
+    int potionId = 14;
+    float potionHealAmount = 50.0f;
+
 
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
@@ -169,25 +177,48 @@ public class PlayerController : MonoBehaviour
         approchableInteractives.RemoveAt(index);
     }
 
+    public void CallWhenSceneEnd()
+    {
+
+    }
+
+    public void CallWhenSceneStart()
+    {
+
+    }
+
     private void DoDeathHandle()
     {
         // 나중에 여기 구현하세요.
         IsDead = true;
         currentPlayerStatus = EPlayerStatus.dead;
-        animatorController.CrossFade($"Dead", 0.15f);
+        
+        if (animatorController != null)
+        {
+            animatorController.CrossFade($"Dead", 0.15f);
+        }
+        else
+        {
+            Debug.Log("DoDeathHandle()가 존재하지 않습니다!");
+        }
+        dataController.Access().isDead = true;
     }
 
     private void Awake()
     {
         approchableInteractives = new List<InteractiveObjectBase>(32);
-    }
 
-    void Start()
-    {
         if (instance == null)
         {
             instance = this;
         }
+
+        maxHealth = 100.0f;
+    }
+
+    void Start()
+    {
+
 
         if (playerRb == null)
         {
@@ -209,13 +240,17 @@ public class PlayerController : MonoBehaviour
         fowardCheckTop = new Vector3(0f, capsule.center.y + (capsule.height / 2), 0f);
         fowardCheckBottom = new Vector3(0f, capsule.center.y - (capsule.height / 2) + stepOffset, 0f);
 
-
+        dataController = GameObject.Find("Data Controller").GetComponent<DataController>();
         //Time.timeScale = 0.2f;
     }
 
     void Update()
     {
         InputObserver();
+
+        m_AddPotion();
+        m_UsePotion();
+        m_ReduceHP();
 
         //DoAttackLight();
         //DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
@@ -648,5 +683,60 @@ public class PlayerController : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private void m_UsePotion()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) == false)
+        {
+            return;
+        }
+        if (dataController == null)
+        {
+            Debug.LogError("Data Controller가 존재하지 않습니다! 하이어라키에 Data Controller이라는 이름의 게임오브젝트를 만들고, 해당 게임오브젝트에 DataController 컴포넌트를 어테치하세요!");
+            return;
+        }
+        //if (dataController.Access().potionsRemain < 1)
+        //{
+        //    return;
+        //}
+
+        if (dataController.GetItem(potionId, 1) == false)
+        {
+            return;
+        }
+
+        dataController.TryRemoveItem(potionId, 1);
+        health = Mathf.Min(maxHealth, health + potionHealAmount);
+
+        Debug.Log("m_UsePotion()");
+    }
+
+    private void m_AddPotion()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0) == false)
+        {
+            return;
+        }
+        if (dataController == null)
+        {
+            Debug.LogError("Data Controller가 존재하지 않습니다! 하이어라키에 Data Controller이라는 이름의 게임오브젝트를 만들고, 해당 게임오브젝트에 DataController 컴포넌트를 어테치하세요!");
+            return;
+        }
+        dataController.AddItem(potionId, 1);
+
+        Debug.Log($"m_AddPotion() : {dataController.GetItem(potionId)}");
+    }
+
+    private void m_ReduceHP()
+    {
+        if (Input.GetKeyDown(KeyCode.Semicolon) == false)
+        {
+            return;
+        }
+
+        health = Mathf.Max(0.0f, health - 10.0f);
+
+        Debug.Log("m_ReduceHP()");
     }
 }

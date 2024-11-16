@@ -1,19 +1,24 @@
 {
     "ItemDescription" : [
         {
-            "itemID" : 0,
+            "itemID" : 10,
             "Description" : "땅 파기 도구 다이아몬드 짱 ㅋ",
             "Price" : 10000
         },
         {
-            "itemID" : 1,
+            "itemID" : 11,
             "Description" : "부자가 되는 방법 첫 번째 다이아몬드 파러 지하 -54로 내려가기",
             "Price" : 25000
         
         },
         {
-            "itemID" : 2,
+            "itemID" : 12,
             "Description" : "운이 좋다면 에메랄드를 발견할 것",
+            "Price" : 100000
+        },
+        {
+            "itemID" : 14,
+            "Description" : "포션",
             "Price" : 100000
         }
     ]
