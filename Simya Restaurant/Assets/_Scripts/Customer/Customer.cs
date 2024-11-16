@@ -3,6 +3,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class FoodType 
+{
+    public float price;
+}
+
+
 public class Customer : MonoBehaviour
 {
     public static Customer instance;
@@ -26,14 +33,15 @@ public class Customer : MonoBehaviour
     [Space(10)]
     [Header("Menu")]
     [SerializeField] private float menuPrice = 3000f;
-    [SerializeField] private ItemAttribute[] menus;
+    [SerializeField] private MenuAttribute[] menus;
 
     [Space(10)]
-    [Header("Set Exit Lines")]
+    [Header("Price")]
     public float finalPrice = 0f;
     public float totalPrice = 0f;
 
     [Space(10)]
+    [Header("Set Exit Lines")]
     [SerializeField] private string[] goodExitLines = { "최고의 식사였어요!", "칭찬스티커 100개 드릴게요!" };
     [SerializeField] private string[] standardExitLines = { "수고하세요", "잘 먹었습니다" };
     [SerializeField] private string[] badExitLines = { "별점 테러할게요", "장사 이렇게 하지마세요", "퉤퉷, 여길 다신 오나 봐라" };
@@ -44,10 +52,6 @@ public class Customer : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        }
-        else
-        {
-            Debug.LogWarning("Customer instance가 이미 초기화되어 있습니다.");
         }
     }
 

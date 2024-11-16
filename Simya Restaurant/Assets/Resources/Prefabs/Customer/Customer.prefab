@@ -131,9 +131,11 @@ MonoBehaviour:
   reactionText: {fileID: 5717350853270514708}
   menuPrice: 3000
   menus:
-  - {fileID: 11400000, guid: 8762c88c37b041e48a00ad06adf33232, type: 2}
-  - {fileID: 11400000, guid: 7585f5d4d1de52a418c537baee1a8c01, type: 2}
-  - {fileID: 11400000, guid: 03aaf44a83fda3d42bb9482fe6b2470b, type: 2}
+  - {fileID: 11400000, guid: dc01764a72112574588b9ac6067b35f2, type: 2}
+  - {fileID: 11400000, guid: 918bb87bc35881c42a473bf0b817eb62, type: 2}
+  - {fileID: 11400000, guid: 0321aa715230b734e939ee71051c8eda, type: 2}
+  finalPrice: 0
+  totalPrice: 0
   goodExitLines:
   - "\uCD5C\uACE0\uC758 \uC2DD\uC0AC\uC600\uC5B4\uC694!"
   - "\uCE6D\uCC2C\uC2A4\uD2F0\uCEE4 100\uAC1C \uB4DC\uB9B4\uAC8C\uC694!"

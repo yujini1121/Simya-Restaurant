@@ -1783,6 +1783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98404c68c7c503047b8b1545e29690d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PotionCount: 0
   moveSpeed: 5
   acceleration: 2
   stepOffset: 0.3
@@ -1830,6 +1831,7 @@ MonoBehaviour:
   heavyAttackChargeTime: 2
   animatorController: {fileID: 0}
   health: 100
+  maxHealth: 0
   prePressAllowTime: 0.2
   collider: {fileID: 0}
 --- !u!54 &143511165
@@ -3133,6 +3135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98404c68c7c503047b8b1545e29690d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PotionCount: 0
   moveSpeed: 11
   acceleration: 3
   stepOffset: 0
@@ -3167,6 +3170,7 @@ MonoBehaviour:
   heavyAttackChargeTime: 0
   animatorController: {fileID: 0}
   health: 0
+  maxHealth: 0
   prePressAllowTime: 0.5
   collider: {fileID: 0}
 --- !u!54 &250937474
@@ -9472,7 +9476,6 @@ MonoBehaviour:
   closeButton: {fileID: 4180239}
   TotalPanel: {fileID: 1916929384}
   totalPriceText: {fileID: 1631569923}
-  totalPrice: 0
 --- !u!1001 &765772839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10200,7 +10203,10 @@ MonoBehaviour:
     name: 
     level: 0
     gold: 0
+    potionsRemain: 0
+    health: 0
     items: []
+    itemsData: []
   isDebugging: 0
 --- !u!1001 &876956521
 PrefabInstance:
