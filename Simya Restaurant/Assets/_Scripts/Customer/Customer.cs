@@ -17,7 +17,6 @@ public class Customer : MonoBehaviour
 
 	[Space(10)] 
 	[Header("Order")]
-	[SerializeField] private GameObject orderBubble;
 	[SerializeField] private Image orderImage;
 	[SerializeField] private TextMeshProUGUI orderText;
 	[SerializeField] private TextMeshProUGUI reactionText;
@@ -76,7 +75,20 @@ public class Customer : MonoBehaviour
 			foodRank = EFoodRank.Bad;
 		}
 
-		StartCoroutine(Eating());
+        switch (foodRank)
+        {
+            case EFoodRank.Good:
+                tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
+                break;
+            case EFoodRank.Standard:
+                tipPercentage = 0f;
+                break;
+            case EFoodRank.Bad:
+                tipPercentage = -0.5f * tipModifier;
+                break;
+        }
+
+        StartCoroutine(Eating());
 	}
 
 	private IEnumerator Eating()
@@ -84,9 +96,9 @@ public class Customer : MonoBehaviour
 		string[] reactions = { "냠냠..", "쩝쩝..", "음.." };
 		Vector3[] positions =
 		{
-			new Vector3(-200f, -50f, 0f),
-			new Vector3(-400f, -100f, 0f),
-			new Vector3(-200f, -160f, 0f)
+			new Vector3(150f, -50f, 0f),
+			new Vector3(-50f, -100f, 0f),
+			new Vector3(150f, -160f, 0f)
 		};
 
 		float eatingTime = Random.Range(10f, 20f);
@@ -94,7 +106,7 @@ public class Customer : MonoBehaviour
 		int reactionIndex = 0;
 
 		orderImage.gameObject.SetActive(false);
-		orderBubble.gameObject.SetActive(false);
+		orderText.gameObject.SetActive(false);
 		reactionText.gameObject.SetActive(true);
 
 		while (elapsedTime < eatingTime)
@@ -107,14 +119,19 @@ public class Customer : MonoBehaviour
 			elapsedTime += 1f;
 		}
 
-		orderBubble.gameObject.SetActive(true);
 		reactionText.gameObject.SetActive(false);
 		StartCoroutine(Exit());
 	}
 
 	private void SetTipPercentage()
 	{
-		switch (foodRank)
+        if (foodRank == EFoodRank.None)
+        {
+            Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
+            foodRank = EFoodRank.Bad;
+        }
+
+        switch (foodRank)
 		{
 			case EFoodRank.Good:
 				tipPercentage = Random.Range(0.2f, 0.3f) * tipModifier;
@@ -131,6 +148,8 @@ public class Customer : MonoBehaviour
 	private IEnumerator Exit()
 	{
 		SetTipPercentage();
+
+		orderText.gameObject.SetActive(true);
 
 		float finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
 		orderText.text = $"여기요! +{finalPrice}";
@@ -150,7 +169,7 @@ public class Customer : MonoBehaviour
 			EFoodRank.Good => goodExitLines,
 			EFoodRank.Standard => standardExitLines,
 			EFoodRank.Bad => badExitLines,
-			_ => throw new System.Exception("Unknown food rank")
+			_ => throw new System.Exception("EFoodRank가 제대로 설정되어있지 않습니다.")
 		};
 
 		orderText.text = exitLines[Random.Range(0, exitLines.Length)];
