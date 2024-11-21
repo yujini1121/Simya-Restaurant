@@ -3,7 +3,8 @@
     "name": "Yujin",
     "level": 99999,
     "gold": 897925011,
-    "health": 100,
+    "potionsRemain": 0,
+    "health": 100.0,
     "items": [
         "1_Strawberry",
         "2_Peach",

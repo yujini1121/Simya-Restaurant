@@ -4282,7 +4282,6 @@ GameObject:
   - component: {fileID: 355844751}
   - component: {fileID: 355844753}
   - component: {fileID: 355844754}
-  - component: {fileID: 355844755}
   m_Layer: 0
   m_Name: UI_Canvers
   m_TagString: Untagged
@@ -4386,36 +4385,9 @@ MonoBehaviour:
   storeParentGameObject: {fileID: 0}
   isDebugFunctionCall: 0
   isDebugToggleOutline: 0
+  isDebugBuyItem: 0
+  isTrackValueItemBuyAmount: 0
 --- !u!114 &355844754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355844748}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521f7168f780af8458d8eeae63deaa0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UI_Elements:
-  - identificationName: 
-    uiObject: {fileID: 0}
-    isActive: 0
-    toggleKey: 113
-    hasInitializationFunction: 0
-  - identificationName: 
-    uiObject: {fileID: 1136498437}
-    isActive: 0
-    toggleKey: 119
-    hasInitializationFunction: 0
-  - identificationName: 
-    uiObject: {fileID: 2019519255}
-    isActive: 0
-    toggleKey: 277
-    hasInitializationFunction: 0
-  isDebugGameObjectNotExist: 0
---- !u!114 &355844755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4424,16 +4396,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 355844748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18331db5aef2f4d439a3b8fca0382a71, type: 3}
+  m_Script: {fileID: 11500000, guid: 521f7168f780af8458d8eeae63deaa0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVol: {fileID: 1522170908}
-  musicVol: {fileID: 1799199705}
-  sfxVol: {fileID: 1300866642}
-  TestAudioMixer: {fileID: 24100000, guid: 06bc30611337d714b95c7896eddfc42c, type: 2}
-  masterVolImage: {fileID: 0}
-  musicVolImage: {fileID: 0}
-  sfxVolImage: {fileID: 0}
+  UI_Elements:
+  - identificationName: 
+    uiObject: {fileID: 2019519255}
+    isActive: 0
+    toggleKey: 27
+    hasInitializationFunction: 0
+  isDebugGameObjectNotExist: 0
 --- !u!1 &356991938
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,6 +4590,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemImage: {fileID: 1604520514}
   mItemCountText: {fileID: 61624631}
+--- !u!1 &383652522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 383652524}
+  - component: {fileID: 383652523}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &383652523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383652522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbfd22222a1671446bb5b0575f20e5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 06bc30611337d714b95c7896eddfc42c, type: 2}
+  bgmMixer: {fileID: 988425434781857060, guid: 06bc30611337d714b95c7896eddfc42c, type: 2}
+  sfxMixer: {fileID: -1692126223051611775, guid: 06bc30611337d714b95c7896eddfc42c,
+    type: 2}
+  bgmClip: {fileID: 8300000, guid: bbd99b33cb28218479fd2b5939157a97, type: 3}
+  bgmVolume: 0.6
+  sfxClips:
+  - {fileID: 8300000, guid: 92c8b0283f51f3f4a9574eb2a183807f, type: 3}
+  - {fileID: 8300000, guid: c849634bef5baad43a683c26bd2f690f, type: 3}
+  - {fileID: 8300000, guid: 70fbb7a027dcf4649a0954104b16a50f, type: 3}
+  - {fileID: 8300000, guid: 63ed58acf4f7c65468f23b548a114fd0, type: 3}
+  sfxVolume: 0.8
+  sfxChannels: 5
+  masterVolSlider: {fileID: 1522170908}
+  bgmVolSlider: {fileID: 1799199705}
+  sfxVolSlider: {fileID: 1300866642}
+--- !u!4 &383652524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383652522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &390650382
 GameObject:
   m_ObjectHideFlags: 0
@@ -6526,6 +6558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98404c68c7c503047b8b1545e29690d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PotionCount: 0
   moveSpeed: 3
   acceleration: 2
   stepOffset: 0
@@ -6573,6 +6606,7 @@ MonoBehaviour:
   heavyAttackChargeTime: 2
   animatorController: {fileID: 0}
   health: 100
+  maxHealth: 0
   prePressAllowTime: 0.5
   collider: {fileID: 0}
 --- !u!95 &566855313
@@ -14796,7 +14830,7 @@ GameObject:
   - component: {fileID: 1257017712}
   - component: {fileID: 1257017711}
   m_Layer: 0
-  m_Name: MusicVolume_Text
+  m_Name: BGMVolume_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15184,135 +15218,6 @@ MonoBehaviour:
     toggleKey: 101
     hasInitializationFunction: 0
   isDebugGameObjectNotExist: 0
---- !u!1 &1281770462
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1281770464}
-  - component: {fileID: 1281770463}
-  m_Layer: 0
-  m_Name: Music
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1281770463
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281770462}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 988425434781857060, guid: 06bc30611337d714b95c7896eddfc42c,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: bbd99b33cb28218479fd2b5939157a97, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &1281770464
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281770462}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1285761499
 GameObject:
   m_ObjectHideFlags: 0
@@ -15580,14 +15485,14 @@ MonoBehaviour:
   m_FillRect: {fileID: 803831555}
   m_HandleRect: {fileID: 266942578}
   m_Direction: 0
-  m_MinValue: -40
-  m_MaxValue: 0
+  m_MinValue: 0
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 355844755}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionController, Assembly-CSharp
         m_MethodName: ControllerSFXVolume
         m_Mode: 1
@@ -15978,7 +15883,10 @@ MonoBehaviour:
     name: 
     level: 0
     gold: 0
+    potionsRemain: 0
+    health: 0
     items: []
+    itemsData: []
   isDebugging: 0
 --- !u!1 &1372637816
 GameObject:
@@ -16089,7 +15997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1375899759
 Transform:
   m_ObjectHideFlags: 0
@@ -17980,14 +17888,14 @@ MonoBehaviour:
   m_FillRect: {fileID: 1789089542}
   m_HandleRect: {fileID: 2060550222}
   m_Direction: 0
-  m_MinValue: -40
-  m_MaxValue: 0
+  m_MinValue: 0
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 355844755}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionController, Assembly-CSharp
         m_MethodName: ControllerMasterVolume
         m_Mode: 1
@@ -20340,7 +20248,7 @@ GameObject:
   - component: {fileID: 1799199704}
   - component: {fileID: 1799199705}
   m_Layer: 0
-  m_Name: MusicVolumeSlider
+  m_Name: BGMVolumeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20412,14 +20320,14 @@ MonoBehaviour:
   m_FillRect: {fileID: 193010070}
   m_HandleRect: {fileID: 696045965}
   m_Direction: 0
-  m_MinValue: -40
-  m_MaxValue: 0
+  m_MinValue: 0
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 355844755}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionController, Assembly-CSharp
         m_MethodName: ControllerMusicVolume
         m_Mode: 1
@@ -21128,7 +21036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1852690294
 Transform:
   m_ObjectHideFlags: 0
@@ -24629,7 +24537,7 @@ SceneRoots:
   - {fileID: 824505766}
   - {fileID: 793526958}
   - {fileID: 914398884}
-  - {fileID: 1281770464}
   - {fileID: 1375899759}
   - {fileID: 1852690294}
   - {fileID: 164475396}
+  - {fileID: 383652524}

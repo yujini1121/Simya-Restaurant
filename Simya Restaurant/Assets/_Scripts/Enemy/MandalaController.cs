@@ -105,6 +105,8 @@ public class MandalaController : MonoBehaviour
 
         yield return new WaitForSeconds(explosionDelay);
 
+        AudioManager.instance.PlaySfx(AudioManager.SFX.TestSFX_1);
+
         if (Physics.CheckSphere(transform.position, mandalaExplosionRange, playerLayer))
         {
             player.GetComponent<Test_PlayerMove>().dameged = true;
