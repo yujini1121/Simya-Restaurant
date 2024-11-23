@@ -15,3 +15,4 @@ MonoBehaviour:
   mMenuID: 1
   mMenuName: "\uB2E8\uAC70\uC5F4\uB9E4 \uD0C0\uB974\uD2B8"
   mMenuImage: {fileID: 21300000, guid: 617a514b70e4f7e428129b982b0b91d3, type: 3}
+  mMenuPrice: 3500

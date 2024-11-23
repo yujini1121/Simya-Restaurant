@@ -6,14 +6,19 @@ using UnityEngine.UI;
 
 public class RestaurantManager : MonoBehaviour
 {
-    [SerializeField] Button closeButton;
-    [SerializeField] Image TotalPanel;
-    [SerializeField] TextMeshProUGUI totalPriceText;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private Image totalPanel;
+    [SerializeField] private TextMeshProUGUI totalPriceText;
 
+    private float totalPrice;
 
     public void CloseRestaurant()
     {
-        totalPriceText.text = $"Total: {Customer.instance.totalPrice}원";
-        print($"Total Price: {Customer.instance.totalPrice}원");
+        totalPrice = CustomerManager.instance.totalPrice;
+
+        totalPriceText.text = $"Total: {totalPrice}원";
+        print($"Total Price: {totalPrice}원");
+
+        totalPanel.gameObject.SetActive(!totalPanel.gameObject.activeSelf);
     }
 }

@@ -7,7 +7,7 @@ public class MenuAttribute : ScriptableObject
 {
     [Header("메뉴 ID (중복 X)")]
     [SerializeField] private int mMenuID;
-    public int ItemID
+    public int MenuID
     {
         get
         {
@@ -17,7 +17,7 @@ public class MenuAttribute : ScriptableObject
 
     [Header("메뉴 이름")]
     [SerializeField] private string mMenuName;
-    public string ItemName
+    public string MenuName
     {
         get
         {
@@ -27,11 +27,21 @@ public class MenuAttribute : ScriptableObject
 
     [Header("메뉴 이미지")]
     [SerializeField] private Sprite mMenuImage;
-    public Sprite ItemImage
+    public Sprite MenuImage
     {
         get
         {
             return mMenuImage;
+        }
+    }
+
+    [Header("메뉴 가격")]
+    [SerializeField] private float mMenuPrice;
+    public float MenuPrice
+    {
+        get
+        {
+            return mMenuPrice;
         }
     }
 }

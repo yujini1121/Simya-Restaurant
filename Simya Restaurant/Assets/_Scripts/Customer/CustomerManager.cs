@@ -18,6 +18,9 @@ public class Seat
 
 public class CustomerManager : MonoBehaviour
 {
+    public static CustomerManager instance;
+
+
     [Header("Seats State")]
     [SerializeField] private List<Seat> seats = new List<Seat>();
     private Queue<GameObject> customerQueue = new Queue<GameObject>();
@@ -36,8 +39,22 @@ public class CustomerManager : MonoBehaviour
 
     [Space(10)]
     [Header("Others")]
-    [SerializeField] private GameObject servingButton;
+    [SerializeField] private Transform servingButton;
 
+    public float totalPrice;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -60,16 +77,13 @@ public class CustomerManager : MonoBehaviour
         GameObject newCustomer = Instantiate(customerPrefab, lineStartPosition.position, Quaternion.identity);
         customerQueue.Enqueue(newCustomer);
 
+        Transform servingButton = newCustomer.transform.GetChild(0).GetChild(3);
         servingButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
         {
-            foreach (var v in customerList)
-            {
-                v.GetComponent<Customer>().ServeMenu();
-            }
+            newCustomer.GetComponent<Customer>().ServeMenu();
         });
 
         customerList.Add(newCustomer);
-
         UpdateCustomerQueuePositions();
         MoveToSeat();
     }

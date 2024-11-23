@@ -3,13 +3,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class FoodType 
-{
-    public float price;
-}
-
-
 public class Customer : MonoBehaviour
 {
     public static Customer instance;
@@ -26,19 +19,17 @@ public class Customer : MonoBehaviour
 
     [Space(10)]
     [Header("Order")]
+    [SerializeField] private TextMeshProUGUI reactionText;
     [SerializeField] private Image orderImage;
     [SerializeField] private TextMeshProUGUI orderText;
-    [SerializeField] private TextMeshProUGUI reactionText;
+    [SerializeField] private float orderPrice;
 
     [Space(10)]
     [Header("Menu")]
     [SerializeField] private float menuPrice = 3000f;
     [SerializeField] private MenuAttribute[] menus;
 
-    [Space(10)]
-    [Header("Price")]
-    public float finalPrice = 0f;
-    public float totalPrice = 0f;
+    private float finalPrice = 0f;
 
     [Space(10)]
     [Header("Set Exit Lines")]
@@ -60,6 +51,7 @@ public class Customer : MonoBehaviour
         Enter();
         StartCoroutine(DecreaseHappiness());
     }
+
 
     private void Enter()
     {
@@ -86,8 +78,11 @@ public class Customer : MonoBehaviour
         orderImage.gameObject.SetActive(true);
 
         int random = Random.Range(0, menus.Length);
-        orderText.text = $"{menus[random].ItemName}(으)로 주세요!";
-        orderImage.sprite = menus[random].ItemImage;
+        MenuAttribute selectedMenu = menus[random];
+
+        orderText.text = $"{selectedMenu.MenuName}(으)로 주세요!";
+        orderImage.sprite = selectedMenu.MenuImage;
+        orderPrice = selectedMenu.MenuPrice;
     }
 
 
@@ -114,7 +109,6 @@ public class Customer : MonoBehaviour
                 tipPercentage = -0.5f * tipModifier;
                 break;
         }
-
         StartCoroutine(Eating());
     }
 
@@ -178,11 +172,13 @@ public class Customer : MonoBehaviour
 
         orderText.gameObject.SetActive(true);
 
-        finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
+        finalPrice = Mathf.FloorToInt(orderPrice * (1 + tipPercentage));
         orderText.text = $"여기요! +{finalPrice}";
-        totalPrice += finalPrice;
+        CustomerManager.instance.totalPrice += finalPrice;
+
+        print(orderPrice);
         print(finalPrice);
-        print(totalPrice);
+        print(CustomerManager.instance.totalPrice);
 
         yield return new WaitForSeconds(3f);
 
