@@ -8584,6 +8584,18 @@ MonoBehaviour:
   timeText: {fileID: 2010120945}
   realTimeToGameTimeMultiplier: 60
   initDawnTime: 0
+  isOpen: 0
+  seats:
+  - seatObj: {fileID: 221663728}
+    isEmpty: 0
+  - seatObj: {fileID: 1694219867}
+    isEmpty: 0
+  - seatObj: {fileID: 1759257462}
+    isEmpty: 0
+  - seatObj: {fileID: 1311554610}
+    isEmpty: 0
+  - seatObj: {fileID: 234876365}
+    isEmpty: 0
 --- !u!1 &706819836
 GameObject:
   m_ObjectHideFlags: 0

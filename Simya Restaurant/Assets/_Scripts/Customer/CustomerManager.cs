@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Seat
 {
+    public static Seat instance;
+
     public GameObject seatObj;
     public Vector3 Position => seatObj.transform.position;
     public bool isEmpty;
@@ -63,11 +65,11 @@ public class CustomerManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeSeats();
-        InvokeRepeating(nameof(SpawnCustomer), 0f, 10f);
+        //InitializeSeats();
+        //InvokeRepeating(nameof(SpawnCustomer), 0f, 10f);
     }
 
-    private void InitializeSeats()
+    public void InitializeSeats()
     {
         foreach (Seat seat in seats)
         {
@@ -75,7 +77,7 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    private void SpawnCustomer()
+    public void SpawnCustomer()
     {
         if (customerQueue.Count >= maxCustomers) return;
 
@@ -113,7 +115,7 @@ public class CustomerManager : MonoBehaviour
         return null;
     }
 
-    private void MoveToSeat()
+    public void MoveToSeat()
     {
         if (customerQueue.Count > 0)
         {
