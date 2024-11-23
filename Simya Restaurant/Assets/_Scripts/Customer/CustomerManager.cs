@@ -41,7 +41,12 @@ public class CustomerManager : MonoBehaviour
     [Header("Others")]
     [SerializeField] private Transform servingButton;
 
+    [Space(10)]
+    [Header("Final Price")]
     public float totalPrice;
+    public float dangerFruitTartTotalPrice;
+    public float flowerTeaTotalPrice;
+    public float slimeJamBreadTotalPrice;
 
 
     private void Awake()

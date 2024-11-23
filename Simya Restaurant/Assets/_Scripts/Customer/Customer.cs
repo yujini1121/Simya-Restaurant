@@ -26,8 +26,8 @@ public class Customer : MonoBehaviour
 
     [Space(10)]
     [Header("Menu")]
-    [SerializeField] private float menuPrice = 3000f;
     [SerializeField] private MenuAttribute[] menus;
+    [SerializeField] private MenuAttribute selectedMenu;
 
     private float finalPrice = 0f;
 
@@ -78,7 +78,7 @@ public class Customer : MonoBehaviour
         orderImage.gameObject.SetActive(true);
 
         int random = Random.Range(0, menus.Length);
-        MenuAttribute selectedMenu = menus[random];
+        selectedMenu = menus[random];
 
         orderText.text = $"{selectedMenu.MenuName}(으)로 주세요!";
         orderImage.sprite = selectedMenu.MenuImage;
@@ -174,11 +174,22 @@ public class Customer : MonoBehaviour
 
         finalPrice = Mathf.FloorToInt(orderPrice * (1 + tipPercentage));
         orderText.text = $"여기요! +{finalPrice}";
-        CustomerManager.instance.totalPrice += finalPrice;
 
-        print(orderPrice);
-        print(finalPrice);
-        print(CustomerManager.instance.totalPrice);
+        switch (selectedMenu.MenuID)
+        {
+            case 1:
+                CustomerManager.instance.dangerFruitTartTotalPrice += finalPrice;
+                break;
+            case 2:
+                CustomerManager.instance.flowerTeaTotalPrice += finalPrice;
+                break;
+            case 3:
+                CustomerManager.instance.slimeJamBreadTotalPrice += finalPrice;
+                break;
+        }
+
+        CustomerManager.instance.totalPrice += finalPrice;
+        
 
         yield return new WaitForSeconds(3f);
 
