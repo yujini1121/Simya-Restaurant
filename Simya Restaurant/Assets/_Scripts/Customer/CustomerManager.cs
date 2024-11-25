@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Seat
 {
+    public static Seat instance;
+
     public GameObject seatObj;
     public Vector3 Position => seatObj.transform.position;
     public bool isEmpty;
@@ -18,6 +20,9 @@ public class Seat
 
 public class CustomerManager : MonoBehaviour
 {
+    public static CustomerManager instance;
+
+
     [Header("Seats State")]
     [SerializeField] private List<Seat> seats = new List<Seat>();
     private Queue<GameObject> customerQueue = new Queue<GameObject>();
@@ -36,16 +41,35 @@ public class CustomerManager : MonoBehaviour
 
     [Space(10)]
     [Header("Others")]
-    [SerializeField] private GameObject servingButton;
+    [SerializeField] private Transform servingButton;
 
+    [Space(10)]
+    [Header("Final Price")]
+    public float totalPrice;
+    public float dangerFruitTartTotalPrice;
+    public float flowerTeaTotalPrice;
+    public float slimeJamBreadTotalPrice;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-        InitializeSeats();
-        InvokeRepeating(nameof(SpawnCustomer), 0f, 10f);
+        //InitializeSeats();
+        //InvokeRepeating(nameof(SpawnCustomer), 0f, 10f);
     }
 
-    private void InitializeSeats()
+    public void InitializeSeats()
     {
         foreach (Seat seat in seats)
         {
@@ -53,23 +77,20 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    private void SpawnCustomer()
+    public void SpawnCustomer()
     {
         if (customerQueue.Count >= maxCustomers) return;
 
         GameObject newCustomer = Instantiate(customerPrefab, lineStartPosition.position, Quaternion.identity);
         customerQueue.Enqueue(newCustomer);
 
+        Transform servingButton = newCustomer.transform.GetChild(0).GetChild(3);
         servingButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
         {
-            foreach (var v in customerList)
-            {
-                v.GetComponent<Customer>().ServeMenu();
-            }
+            newCustomer.GetComponent<Customer>().ServeMenu();
         });
 
         customerList.Add(newCustomer);
-
         UpdateCustomerQueuePositions();
         MoveToSeat();
     }
@@ -94,7 +115,7 @@ public class CustomerManager : MonoBehaviour
         return null;
     }
 
-    private void MoveToSeat()
+    public void MoveToSeat()
     {
         if (customerQueue.Count > 0)
         {

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 public enum TimeOfDay
 {
@@ -37,6 +39,11 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private DateTime currentTime;
     [SerializeField] private DateTime endDawnTime;
     [SerializeField] private float initDawnTime;
+
+    [Header("끼약")]
+    [SerializeField] private bool isOpen = false;
+    [SerializeField] private List<Seat> seats = new List<Seat>();
+
 
 
 
@@ -115,5 +122,34 @@ public class TimeManager : MonoBehaviour
     {
         Debug.Log("Night To Dawn");
         current = TimeOfDay.Dawn;
+
+        isOpen = true;
+        StartCoroutine(RestaurantOpen());
+    }
+
+    IEnumerator RestaurantOpen()
+    {
+        while (isOpen)
+        {
+            foreach (Seat seat in seats)
+            {
+                if (seat.isEmpty == false)
+                {
+                    CustomerManager.instance.InitializeSeats();
+
+                    CustomerManager.instance.SpawnCustomer();
+                    //CustomerManager.instance.MoveToSeat();
+                }
+                yield return new WaitForSeconds(10f);
+
+            }
+
+
+
+
+
+
+            yield return null;
+        }
     }
 }
