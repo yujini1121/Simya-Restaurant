@@ -19,21 +19,20 @@ public class Customer : MonoBehaviour
 
     [Space(10)]
     [Header("Order")]
+    [SerializeField] private TextMeshProUGUI reactionText;
     [SerializeField] private Image orderImage;
     [SerializeField] private TextMeshProUGUI orderText;
-    [SerializeField] private TextMeshProUGUI reactionText;
+    [SerializeField] private float orderPrice;
 
     [Space(10)]
     [Header("Menu")]
-    [SerializeField] private float menuPrice = 3000f;
-    [SerializeField] private ItemAttribute[] menus;
+    [SerializeField] private MenuAttribute[] menus;
+    [SerializeField] private MenuAttribute selectedMenu;
+
+    private float finalPrice = 0f;
 
     [Space(10)]
     [Header("Set Exit Lines")]
-    public float finalPrice = 0f;
-    public float totalPrice = 0f;
-
-    [Space(10)]
     [SerializeField] private string[] goodExitLines = { "최고의 식사였어요!", "칭찬스티커 100개 드릴게요!" };
     [SerializeField] private string[] standardExitLines = { "수고하세요", "잘 먹었습니다" };
     [SerializeField] private string[] badExitLines = { "별점 테러할게요", "장사 이렇게 하지마세요", "퉤퉷, 여길 다신 오나 봐라" };
@@ -45,10 +44,6 @@ public class Customer : MonoBehaviour
         {
             instance = this;
         }
-        else
-        {
-            Debug.LogWarning("Customer instance가 이미 초기화되어 있습니다.");
-        }
     }
 
     private void Start()
@@ -56,6 +51,7 @@ public class Customer : MonoBehaviour
         Enter();
         StartCoroutine(DecreaseHappiness());
     }
+
 
     private void Enter()
     {
@@ -82,8 +78,11 @@ public class Customer : MonoBehaviour
         orderImage.gameObject.SetActive(true);
 
         int random = Random.Range(0, menus.Length);
-        orderText.text = $"{menus[random].ItemName}(으)로 주세요!";
-        orderImage.sprite = menus[random].ItemImage;
+        selectedMenu = menus[random];
+
+        orderText.text = $"{selectedMenu.MenuName}(으)로 주세요!";
+        orderImage.sprite = selectedMenu.MenuImage;
+        orderPrice = selectedMenu.MenuPrice;
     }
 
 
@@ -110,7 +109,6 @@ public class Customer : MonoBehaviour
                 tipPercentage = -0.5f * tipModifier;
                 break;
         }
-
         StartCoroutine(Eating());
     }
 
@@ -174,11 +172,24 @@ public class Customer : MonoBehaviour
 
         orderText.gameObject.SetActive(true);
 
-        finalPrice = Mathf.FloorToInt(menuPrice * tipPercentage) + menuPrice;
+        finalPrice = Mathf.FloorToInt(orderPrice * (1 + tipPercentage));
         orderText.text = $"여기요! +{finalPrice}";
-        totalPrice += finalPrice;
-        print(finalPrice);
-        print(totalPrice);
+
+        switch (selectedMenu.MenuID)
+        {
+            case 1:
+                CustomerManager.instance.dangerFruitTartTotalPrice += finalPrice;
+                break;
+            case 2:
+                CustomerManager.instance.flowerTeaTotalPrice += finalPrice;
+                break;
+            case 3:
+                CustomerManager.instance.slimeJamBreadTotalPrice += finalPrice;
+                break;
+        }
+
+        CustomerManager.instance.totalPrice += finalPrice;
+        
 
         yield return new WaitForSeconds(3f);
 

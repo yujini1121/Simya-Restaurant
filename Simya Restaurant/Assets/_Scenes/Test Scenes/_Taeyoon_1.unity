@@ -2399,7 +2399,6 @@ GameObject:
   - component: {fileID: 2007801742}
   - component: {fileID: 2007801741}
   - component: {fileID: 2007801740}
-  - component: {fileID: 2007801745}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2499,26 +2498,12 @@ Transform:
   m_GameObject: {fileID: 2007801739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 1.31, z: 0}
+  m_LocalPosition: {x: 0.83, y: 4.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2007801745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007801739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2f1df0077c8cf43b2a6da192c81266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadToScene: _Taeyoon_1
-  isDebugging: 1
 --- !u!1 &2013205639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,7 +2538,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadImg: {fileID: 669678141}
   loadingText: {fileID: 1082253761}
-  isDebug: 1
 --- !u!114 &2013205641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3598,11 +3582,6 @@ PrefabInstance:
     - target: {fileID: 3586053922132770590, guid: f8cae048031896149af18e5c4bb93c9c,
         type: 3}
       propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3586053922132770590, guid: f8cae048031896149af18e5c4bb93c9c,
-        type: 3}
-      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7062196660613338403, guid: f8cae048031896149af18e5c4bb93c9c,

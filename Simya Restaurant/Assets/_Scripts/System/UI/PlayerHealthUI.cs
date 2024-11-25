@@ -6,11 +6,34 @@ using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
+    public static PlayerHealthUI instance
+    {
+        get
+        {
+            if (m_instance == null)
+            {
+                Debug.LogWarning("PlayerHealthUI의 인스턴스가 null입니다!");
+                return null;
+            }
+            else
+            {
+                return m_instance;
+            }
+        }
+        private set => m_instance = value;
+    }
+
     [SerializeField] private GameObject hpBarGameObject;
     [SerializeField] private GameObject textGameObject;
     private Slider slider;
     private TextMeshProUGUI textMesh;
     private PlayerController playerController;
+    private static PlayerHealthUI m_instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,14 +41,22 @@ public class PlayerHealthUI : MonoBehaviour
         playerController = PlayerController.instance;
         slider = hpBarGameObject.GetComponent<Slider>();
         textMesh = textGameObject.GetComponent<TextMeshProUGUI>();
+
+        UpdatePotionCount(FindObjectOfType<DataController>().Access().potionsRemain);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (playerController != null)
-        {
-            slider.value = playerController.health / playerController.maxHealth;
-        }
+        slider.value = playerController.Health / playerController.maxHealth;
+    }
+
+    public void UpdateHealth()
+    {
+        
+    }
+
+    public void UpdatePotionCount(int count)
+    {
+        textMesh.text = $"×{count}";
     }
 }

@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Test Scenes/_Yujin.unity
     guid: 413cf81b325bfd44eb4d7247f25f4777
+  - enabled: 1
+    path: Assets/_Scenes/Test Scenes/_Taeyoon.unity
+    guid: 21508b046ec3e6f4e88421adb56d51fb
+  - enabled: 1
+    path: Assets/_Scenes/Test Scenes/_Taeyoon_1.unity
+    guid: 62a7df799a20c194a85659fd973c2f13
   m_configObjects: {}

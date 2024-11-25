@@ -3,8 +3,9 @@
     "name": "Yujin",
     "level": 99999,
     "gold": 897925011,
-    "potionsRemain": 0,
+    "potionsRemain": 16,
     "health": 100.0,
+    "cooltimePotion": 0.0,
     "items": [
         "1_Strawberry",
         "2_Peach",

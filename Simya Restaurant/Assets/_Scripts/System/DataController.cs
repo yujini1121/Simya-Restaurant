@@ -24,6 +24,7 @@ public class PlayerData
     public int gold;
     public int potionsRemain;
     public float health;
+    public float cooltimePotion; // 포션 사용을 허용하는 시간을 저장할 수 있으나, 저장 및 로드에서 복잡해짐.
 
     [Space(30)]
     [Header("Inventory")]
@@ -40,6 +41,8 @@ public class PlayerData
 
 public class DataController : MonoBehaviour
 {
+    static public DataController instance;
+
     [SerializeField] private PlayerData playerData;
     [SerializeField] private bool isDebugging;
     private List<PlayerItemSingle> playerItemList = new List<PlayerItemSingle>();
@@ -62,8 +65,6 @@ public class DataController : MonoBehaviour
 
     public void LoadData()
     {
-
-
         string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
 
         if (isDebugging)
@@ -87,7 +88,7 @@ public class DataController : MonoBehaviour
         return playerData;
     }
 
-    public bool GetItem(int id, int amount = 1)
+    public bool IsExist(int id, int amount = 1)
     {
         int index = M_GetIndex(id);
         if (index == -1)

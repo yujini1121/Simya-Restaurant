@@ -114,7 +114,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animatorController;
 
     // 플레이어 체력 정보
-    [SerializeField] public float health;
+    //[SerializeField] public float health;
+    public float Health
+    {
+        get => dataController.Access().health;
+        set
+        {
+            dataController.Access().health = value;
+            PlayerHealthUI.instance.UpdateHealth();
+        }
+    }
     [SerializeField] public float maxHealth;
     public bool IsDead { get; private set; }
 
@@ -133,12 +142,11 @@ public class PlayerController : MonoBehaviour
     int index = 0;
 
     [SerializeField] private Collider collider;
-
+    [SerializeField] private bool isDebugForceMove;
     // 외부 게임오브젝트 컴포넌트
-    DataController dataController;
-    int potionId = 14;
-    float potionHealAmount = 50.0f;
-
+    private DataController dataController;
+    private readonly float potionHealAmount = 30.0f;
+    [SerializeField] private readonly float potionCooltime = 3.0f;
 
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
@@ -148,9 +156,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="force"></param>
     public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
     {
-        health -= damage;
+        Health -= damage;
 
-        if (health <= 0.0f && (IsDead == false))
+        if (Health <= 0.0f && (IsDead == false))
         {
             DoDeathHandle();
         }
@@ -179,12 +187,12 @@ public class PlayerController : MonoBehaviour
 
     public void CallWhenSceneEnd()
     {
-
+        dataController.SaveData();
     }
 
     public void CallWhenSceneStart()
     {
-
+        dataController.LoadData();
     }
 
     private void DoDeathHandle()
@@ -251,7 +259,10 @@ public class PlayerController : MonoBehaviour
         m_AddPotion();
         m_UsePotion();
         m_ReduceHP();
+        m_Save();
 
+        m_DebuggingForceMove();
+        m_HandleStatus();
         //DoAttackLight();
         //DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
         //DoInteractive();
@@ -696,24 +707,31 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Data Controller가 존재하지 않습니다! 하이어라키에 Data Controller이라는 이름의 게임오브젝트를 만들고, 해당 게임오브젝트에 DataController 컴포넌트를 어테치하세요!");
             return;
         }
-        //if (dataController.Access().potionsRemain < 1)
-        //{
-        //    return;
-        //}
-
-        if (dataController.GetItem(potionId, 1) == false)
+        if (dataController.Access().potionsRemain < 1)
         {
             return;
         }
+        if (dataController.Access().cooltimePotion > 0.0f)
+        {
+            Debug.Log($"m_AddPotion() : 현재 포션에 쿨타임이 돌고 있습니다. {dataController.Access().cooltimePotion}");
+            return;
+        }
 
-        dataController.TryRemoveItem(potionId, 1);
-        health = Mathf.Min(maxHealth, health + potionHealAmount);
+        dataController.Access().potionsRemain--;
+        dataController.Access().cooltimePotion = potionCooltime;
+        PlayerHealthUI.instance.UpdatePotionCount(dataController.Access().potionsRemain);
+        Health = Mathf.Min(maxHealth, Health + potionHealAmount);
 
+        
         Debug.Log("m_UsePotion()");
     }
 
     private void m_AddPotion()
     {
+        if (Input.GetKey(KeyCode.Backslash))
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Alpha0) == false)
         {
             return;
@@ -723,9 +741,10 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Data Controller가 존재하지 않습니다! 하이어라키에 Data Controller이라는 이름의 게임오브젝트를 만들고, 해당 게임오브젝트에 DataController 컴포넌트를 어테치하세요!");
             return;
         }
-        dataController.AddItem(potionId, 1);
 
-        Debug.Log($"m_AddPotion() : {dataController.GetItem(potionId)}");
+        dataController.Access().potionsRemain++;
+        PlayerHealthUI.instance.UpdatePotionCount(dataController.Access().potionsRemain);
+        Debug.Log($"m_AddPotion() : {dataController.Access().potionsRemain}");
     }
 
     private void m_ReduceHP()
@@ -735,8 +754,44 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        health = Mathf.Max(0.0f, health - 10.0f);
+        Health = Mathf.Max(0.0f, Health - 10.0f);
 
         Debug.Log("m_ReduceHP()");
+    }
+
+    private void m_Save()
+    {
+        if (!Input.GetKey(KeyCode.Backslash) || !Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            return;
+        }
+        dataController.SaveData();
+    }
+
+    private void m_DebuggingForceMove()
+    {
+        if (isDebugForceMove == false)
+        {
+            return;
+        }
+
+        float speed = 7.0f;
+        if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+        {
+            if (Input.GetKey(KeyCode.Comma))
+            {
+                transform.Translate(Vector3.left * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.Period))
+            {
+                transform.Translate(Vector3.right * speed * Time.deltaTime);
+            }
+        }
+    }
+
+    private void m_HandleStatus()
+    {
+        dataController.Access().cooltimePotion = 
+            Mathf.Max(0.0f, dataController.Access().cooltimePotion - Time.deltaTime);
     }
 }
