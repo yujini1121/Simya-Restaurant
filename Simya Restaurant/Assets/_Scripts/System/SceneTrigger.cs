@@ -6,6 +6,7 @@ public class SceneTrigger : MonoBehaviour
 {
     [SerializeField] private string loadToScene;
     private bool sceneChanging = false;
+    [SerializeField] private bool isDebugging = true;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +14,11 @@ public class SceneTrigger : MonoBehaviour
         {
             sceneChanging = true;
             SceneTransition.Instance.ChangeScene(loadToScene);
-            Debug.Log(loadToScene);
+            if (isDebugging)
+            {
+                Debug.Log(loadToScene);
+            }
+
         }
     }
 }

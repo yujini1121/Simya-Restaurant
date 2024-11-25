@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBarGameObject: {fileID: 9057016646649510361}
+  textGameObject: {fileID: 5425658802228486170}
 --- !u!1 &5425658802228486170
 GameObject:
   m_ObjectHideFlags: 0

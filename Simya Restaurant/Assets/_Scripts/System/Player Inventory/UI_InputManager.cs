@@ -46,7 +46,7 @@ public class UI_InputManager : MonoBehaviour
 
         if (m_foundIndex == -1)
         {
-            Debug.LogError("오류:UI_InputManager.AddInitializeFunction() : 찾으려는 이름은 존재하지 않는 UI 대상명입니다. 다시 확인 바랍니다.");
+            Debug.LogWarning($"오류:UI_InputManager.AddInitializeFunction(uiName = {uiName}, function) : 찾으려는 이름은 존재하지 않는 UI 대상명입니다. 다시 확인 바랍니다.\n게임오브젝트명 : {gameObject.name}");
             return;
         }
 
@@ -60,7 +60,7 @@ public class UI_InputManager : MonoBehaviour
 
         if (m_foundIndex == -1)
         {
-            Debug.LogError("오류:UI_InputManager.AddInitializeFunction() : 찾으려는 이름은 존재하지 않는 UI 대상명입니다. 다시 확인 바랍니다.");
+            Debug.LogWarning($"오류:UI_InputManager.AddCloseFunction(uiName = {uiName}, function) : 찾으려는 이름은 존재하지 않는 UI 대상명입니다. 다시 확인 바랍니다.\n게임오브젝트명 : {gameObject.name}");
             return;
         }
 
