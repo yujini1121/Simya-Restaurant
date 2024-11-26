@@ -148,6 +148,11 @@ public class PlayerController : MonoBehaviour
     private readonly float potionHealAmount = 30.0f;
     [SerializeField] private readonly float potionCooltime = 3.0f;
 
+    [SerializeField] private ParticleSystem qParticle;
+    [SerializeField] private ParticleSystem wParticle;
+    [SerializeField] private ParticleSystem eParticle;
+    [SerializeField] private ParticleSystem rParticle;
+
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
     /// </summary>
@@ -291,22 +296,26 @@ public class PlayerController : MonoBehaviour
             //collider.center = new Vector3(collider.center.x, jumpCenterY, playerCollider.center.z);
         }
 
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    animatorController.SetTrigger("Combo1");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    animatorController.SetTrigger("Combo2");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    animatorController.SetTrigger("Combo3");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    animatorController.SetTrigger("HeavyAttack");
-        //}
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animatorController.SetTrigger("Combo1");
+            qParticle.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            animatorController.SetTrigger("Combo2");
+            wParticle.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            animatorController.SetTrigger("Combo3");
+            eParticle.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            animatorController.SetTrigger("HeavyAttack");
+            rParticle.Play();
+        }
     }
 
     void Movement()
