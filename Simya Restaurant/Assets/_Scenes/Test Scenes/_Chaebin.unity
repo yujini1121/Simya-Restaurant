@@ -2255,6 +2255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadImg: {fileID: 867373282}
   loadingText: {fileID: 509225014}
+  isDebug: 0
 --- !u!114 &164475393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5438,6 +5439,149 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemImage: {fileID: 2067454098}
   mItemCountText: {fileID: 1934598274}
+--- !u!1 &473855107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473855111}
+  - component: {fileID: 473855110}
+  - component: {fileID: 473855109}
+  - component: {fileID: 473855108}
+  - component: {fileID: 473855112}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &473855108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473855107}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &473855109
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473855107}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &473855110
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473855107}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &473855111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473855107}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.09, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &473855112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473855107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce29abaa9cba19444974c84b5f10006c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWaiting: 1
+  happiness: 100
+  tipPercentage: 0
+  tipModifier: 1
+  foodRank: 0
+  reactionText: {fileID: 0}
+  orderImage: {fileID: 0}
+  orderText: {fileID: 0}
+  orderPrice: 0
+  menus:
+  - {fileID: 11400000, guid: dc01764a72112574588b9ac6067b35f2, type: 2}
+  - {fileID: 11400000, guid: 918bb87bc35881c42a473bf0b817eb62, type: 2}
+  - {fileID: 11400000, guid: 0321aa715230b734e939ee71051c8eda, type: 2}
+  selectedMenu: {fileID: 0}
+  goodExitLines:
+  - "\uCD5C\uACE0\uC758 \uC2DD\uC0AC\uC600\uC5B4\uC694!"
+  - "\uCE6D\uCC2C\uC2A4\uD2F0\uCEE4 100\uAC1C \uB4DC\uB9B4\uAC8C\uC694!"
+  - "\uC0AC\uC7A5\uB2D8 \uB108\uBB34 \uB9DB\uC788\uC5B4\uC694 \uC5C9\uC5C9.."
+  standardExitLines:
+  - "\uC218\uACE0\uD558\uC138\uC694~"
+  - "\uC798 \uBA39\uC5C8\uC2B5\uB2C8\uB2E4~"
+  badExitLines:
+  - "\uBCC4\uC810 \uD14C\uB7EC\uD560\uAC8C\uC694;;"
+  - "\uC7A5\uC0AC \uC774\uB807\uAC8C \uD558\uC9C0\uB9C8\uC138\uC694;"
+  - "\uD264\uD277, \uC5EC\uAE38 \uB2E4\uC2E0 \uC624\uB098 \uBD10\uB77C"
 --- !u!1 &507005513
 GameObject:
   m_ObjectHideFlags: 0
@@ -6605,10 +6749,10 @@ MonoBehaviour:
     actionTime: 2
   heavyAttackChargeTime: 2
   animatorController: {fileID: 0}
-  health: 100
   maxHealth: 0
   prePressAllowTime: 0.5
   collider: {fileID: 0}
+  isDebugForceMove: 0
 --- !u!95 &566855313
 Animator:
   serializedVersion: 5
@@ -15885,6 +16029,7 @@ MonoBehaviour:
     gold: 0
     potionsRemain: 0
     health: 0
+    cooltimePotion: 0
     items: []
     itemsData: []
   isDebugging: 0
@@ -16047,6 +16192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadToScene: 
+  isDebugging: 1
 --- !u!1 &1381079962
 GameObject:
   m_ObjectHideFlags: 0
@@ -21086,6 +21232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadToScene: _Yujin
+  isDebugging: 1
 --- !u!1 &1854867417
 GameObject:
   m_ObjectHideFlags: 0
@@ -24540,4 +24687,5 @@ SceneRoots:
   - {fileID: 1375899759}
   - {fileID: 1852690294}
   - {fileID: 164475396}
+  - {fileID: 473855111}
   - {fileID: 383652524}
