@@ -1835,10 +1835,14 @@ MonoBehaviour:
     actionTime: 2
   heavyAttackChargeTime: 2
   animatorController: {fileID: 0}
-  health: 100
   maxHealth: 0
   prePressAllowTime: 0.2
   collider: {fileID: 0}
+  isDebugForceMove: 0
+  qParticle: {fileID: 0}
+  wParticle: {fileID: 0}
+  eParticle: {fileID: 0}
+  rParticle: {fileID: 0}
 --- !u!54 &143511165
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3174,10 +3178,14 @@ MonoBehaviour:
     actionTime: 0
   heavyAttackChargeTime: 0
   animatorController: {fileID: 0}
-  health: 0
   maxHealth: 0
   prePressAllowTime: 0.5
   collider: {fileID: 0}
+  isDebugForceMove: 0
+  qParticle: {fileID: 0}
+  wParticle: {fileID: 0}
+  eParticle: {fileID: 0}
+  rParticle: {fileID: 0}
 --- !u!54 &250937474
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8458,7 +8466,7 @@ GameObject:
   - component: {fileID: 705507996}
   - component: {fileID: 705507997}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Directional Light (Time Manager)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8587,15 +8595,15 @@ MonoBehaviour:
   isOpen: 0
   seats:
   - seatObj: {fileID: 221663728}
-    isEmpty: 0
+    isEmpty: 1
   - seatObj: {fileID: 1694219867}
-    isEmpty: 0
+    isEmpty: 1
   - seatObj: {fileID: 1759257462}
-    isEmpty: 0
+    isEmpty: 1
   - seatObj: {fileID: 1311554610}
-    isEmpty: 0
+    isEmpty: 1
   - seatObj: {fileID: 234876365}
-    isEmpty: 0
+    isEmpty: 1
 --- !u!1 &706819836
 GameObject:
   m_ObjectHideFlags: 0
@@ -10228,6 +10236,7 @@ MonoBehaviour:
     gold: 0
     potionsRemain: 0
     health: 0
+    cooltimePotion: 0
     items: []
     itemsData: []
   isDebugging: 0

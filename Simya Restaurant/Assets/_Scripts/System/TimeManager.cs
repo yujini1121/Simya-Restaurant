@@ -42,21 +42,14 @@ public class TimeManager : MonoBehaviour
 
     [Header("끼약")]
     [SerializeField] private bool isOpen = false;
-    [SerializeField] private List<Seat> seats = new List<Seat>();
+    [SerializeField] private List<Seat> seats;
 
 
 
 
     private void Awake()
     {
-        currentTime = DateTime.Now.Date + TimeSpan.FromHours(initDawnTime);
-        endDawnTime = DateTime.Now.Date + TimeSpan.FromHours(5f);
-
-        light = gameObject.GetComponent<Light>();
-
-        filter = light.color;
-        temperature = light.colorTemperature;
-        intensity = light.intensity;
+        seats = CustomerManager.instance.seats;
     }
 
     private void Update()
@@ -138,7 +131,7 @@ public class TimeManager : MonoBehaviour
                     CustomerManager.instance.InitializeSeats();
 
                     CustomerManager.instance.SpawnCustomer();
-                    //CustomerManager.instance.MoveToSeat();
+                    CustomerManager.instance.MoveToSeat();
                 }
                 yield return new WaitForSeconds(10f);
 
