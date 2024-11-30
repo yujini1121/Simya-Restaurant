@@ -24,8 +24,8 @@ public class CustomerManager : MonoBehaviour
 
 
     [Header("Seats State")]
-    public List<Seat> seats = new List<Seat>();
-    [SerializeField] private Queue<GameObject> customerQueue = new Queue<GameObject>();
+    [SerializeField] private List<Seat> seats = new List<Seat>();
+    private Queue<GameObject> customerQueue = new Queue<GameObject>();
 
     [Space(10)]
     [Header("Customer Settings")]

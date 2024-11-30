@@ -13,7 +13,7 @@ public enum TimeOfDay
 
 public class TimeManager : MonoBehaviour
 {
-     //IEnumerator ChangeNextTime()
+    //IEnumerator ChangeNextTime()
     //{
     //    switch (current)
     //    {
@@ -42,14 +42,21 @@ public class TimeManager : MonoBehaviour
 
     [Header("끼약")]
     [SerializeField] private bool isOpen = false;
-    [SerializeField] private List<Seat> seats;
+    [SerializeField] private List<Seat> seats = new List<Seat>();
 
 
 
 
     private void Awake()
     {
-        seats = CustomerManager.instance.seats;
+        currentTime = DateTime.Now.Date + TimeSpan.FromHours(initDawnTime);
+        endDawnTime = DateTime.Now.Date + TimeSpan.FromHours(5f);
+
+        light = gameObject.GetComponent<Light>();
+
+        filter = light.color;
+        temperature = light.colorTemperature;
+        intensity = light.intensity;
     }
 
     private void Update()
@@ -70,7 +77,7 @@ public class TimeManager : MonoBehaviour
         {
             timeText.enabled = false;
             current = TimeOfDay.Day;
-        }    
+        }
     }
 
     /// <summary>
@@ -82,7 +89,7 @@ public class TimeManager : MonoBehaviour
         current = TimeOfDay.Day;
 
         // (원하는 색상 RGB 값) / 255 계산기로 계산함 ㅎㅎ..
-        filter = new Color(1f, 1f, 0.8f);      
+        filter = new Color(1f, 1f, 0.8f);
         temperature = 6500f;
         intensity = 1f;
 
@@ -126,7 +133,7 @@ public class TimeManager : MonoBehaviour
         {
             foreach (Seat seat in seats)
             {
-                if (seat.isEmpty == false)
+                if (seat.isEmpty == true)
                 {
                     CustomerManager.instance.InitializeSeats();
 

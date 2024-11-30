@@ -248,13 +248,13 @@ public class Customer : MonoBehaviour
 
     private void UsedItem(ItemAttribute item)
     {
-        switch((items)item.ItemID)
+        switch ((items)item.ItemID)
         {
             case items.Candy:
                 RecoverHappines();
                 break;
             case items.CelebrityAutographs:
-                if(tipModifierCoroutine != null)
+                if (tipModifierCoroutine != null)
                 {
                     StopCoroutine(tipModifierCoroutine);
                 }
