@@ -31,6 +31,10 @@ public class PlayerData
     public string[] items;
     public PlayerItemSingle[] itemsData;
 
+    [Space(30)]
+    [Header("Recipes")]
+    public string[] recepies;
+
     public PlayerData()
     {
         items = new string[0];
@@ -49,6 +53,7 @@ public class DataController : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         DontDestroyOnLoad(gameObject);
         LoadData();
         playerItemList = playerData.itemsData.ToList();
@@ -161,5 +166,26 @@ public class DataController : MonoBehaviour
             playerItemList[index].count -= amount;
         }
         return true;
+    }
+    public bool HasRecepie(string recepieConst)
+    {
+        for (int index = 0; index < playerData.recepies.Length; ++index)
+        {
+            if (recepieConst.Equals(playerData.recepies[index]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void AddRecepie(string recepieConst)
+    {
+        if (HasRecepie(recepieConst))
+        {
+            return;
+        }
+        List<string> m_list = playerData.recepies.ToList();
+        m_list.Add(recepieConst);
+        playerData.recepies = m_list.ToArray();
     }
 }

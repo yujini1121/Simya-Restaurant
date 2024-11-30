@@ -28,5 +28,9 @@
             "id": 12,
             "count": 14
         }
+    ],
+    "recepies": [
+        "1_Strawberry",
+        "2_Peach"
     ]
 }
