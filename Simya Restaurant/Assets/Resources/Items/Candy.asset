@@ -16,6 +16,6 @@ MonoBehaviour:
   mItemName: "\uC54C\uC0AC\uD0D5"
   mCanOverlap: 1
   mIsInteractivity: 1
-  mIsConsumable: 0
+  mIsConsumable: 1
   mItemImage: {fileID: 0}
   mItemPrefab: {fileID: 0}

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Customer : MonoBehaviour
 {
@@ -37,15 +38,12 @@ public class Customer : MonoBehaviour
     [SerializeField] private string[] standardExitLines = { "수고하세요", "잘 먹었습니다" };
     [SerializeField] private string[] badExitLines = { "별점 테러할게요", "장사 이렇게 하지마세요", "퉤퉷, 여길 다신 오나 봐라" };
 
-    private Coroutine tipModifierCoroutine;
-
-    [SerializeField] private ItemAttribute item1;
-    [SerializeField] private ItemAttribute item2;
 
     private enum items
     {
         Candy = 2001,
-        CelebrityAutographs
+        CelebrityAutographs = 2002,
+        MagicPoweder = 2003,
     }
 
     private void Awake()
@@ -101,8 +99,6 @@ public class Customer : MonoBehaviour
     /// </summary>
     public void ServeMenu()
     {
-        UsedItem(item2);
-
         if (foodRank == EFoodRank.None)
         {
             Debug.LogError("EFoodRank가 설정되지 않았습니다. 기본값 Bad로 설정됩니다.");
@@ -181,6 +177,7 @@ public class Customer : MonoBehaviour
     private IEnumerator Exit()
     {
         SetTipPercentage();
+        UseSpecialItem();
 
         orderText.gameObject.SetActive(true);
 
@@ -229,37 +226,28 @@ public class Customer : MonoBehaviour
         orderText.text = exitLines[Random.Range(0, exitLines.Length)];
     }
 
-    private void RecoverHappines()
+    public void UseSpecialItem()
     {
-        happiness = Mathf.Min(100, happiness + 20);
-        Debug.Log("happiness : " + happiness);
-    }
-
-    private IEnumerator InCreaseTipModifier(float duration)
-    {
-        tipModifier += 0.05f;
-        Debug.Log("tipModifier : " + tipModifier);
-
-        yield return new WaitForSeconds(duration);
-
-        tipModifier -= 0.05f;
-        Debug.Log("tipModifier : " + tipModifier);
-    }
-
-    private void UsedItem(ItemAttribute item)
-    {
-        switch ((items)item.ItemID)
+        if (PlayerData.instance.items.Contains("Candy"))
         {
-            case items.Candy:
-                RecoverHappines();
-                break;
-            case items.CelebrityAutographs:
-                if (tipModifierCoroutine != null)
-                {
-                    StopCoroutine(tipModifierCoroutine);
-                }
-                tipModifierCoroutine = StartCoroutine(InCreaseTipModifier(60f));
-                break;
+            Debug.Log("알사탕 - 행복도 +20");
+
+            happiness = Mathf.Min(100, happiness + 20);
+        }
+
+        if (PlayerData.instance.items.Contains("MagicPowder"))
+        {
+            Debug.Log("마법의 가루 - 요리 랭크 +1 (Good일때 제외)");
+
+            if (foodRank == EFoodRank.Standard) { foodRank = EFoodRank.Good; }
+            else if (foodRank == EFoodRank.Bad) { foodRank = EFoodRank.Standard; }
+        }
+
+        if (PlayerData.instance.items.Contains("CelebrityAutographs"))
+        {
+            Debug.Log("유명인의 싸인 - 팁 +5%");
+
+            tipModifier += 0.05f;
         }
     }
 }

@@ -1789,6 +1789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PotionCount: 0
+  falseIsMoveX__trueISMoveZ: 0
   moveSpeed: 5
   acceleration: 2
   stepOffset: 0.3
@@ -2882,6 +2883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 221663732}
+  - component: {fileID: 221663733}
   m_Layer: 0
   m_Name: Seat 1
   m_TagString: Untagged
@@ -2904,6 +2906,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1935784533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221663733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221663728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f779c42b85d286742be2f764dab6ccda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 1
 --- !u!1 &222868839
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,6 +3030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 234876369}
+  - component: {fileID: 234876370}
   m_Layer: 0
   m_Name: Seat 5
   m_TagString: Untagged
@@ -3037,6 +3053,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 83519843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234876370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234876365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f779c42b85d286742be2f764dab6ccda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 1
 --- !u!1001 &249205514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3145,6 +3174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PotionCount: 0
+  falseIsMoveX__trueISMoveZ: 0
   moveSpeed: 11
   acceleration: 3
   stepOffset: 0
@@ -8470,7 +8500,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!108 &705507994
 Light:
@@ -11149,15 +11179,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seats:
-  - seatObj: {fileID: 221663728}
+  - seatObj: {fileID: 0}
     isEmpty: 0
-  - seatObj: {fileID: 1694219867}
+  - seatObj: {fileID: 0}
     isEmpty: 0
-  - seatObj: {fileID: 1759257462}
+  - seatObj: {fileID: 0}
     isEmpty: 0
-  - seatObj: {fileID: 1311554610}
+  - seatObj: {fileID: 0}
     isEmpty: 0
-  - seatObj: {fileID: 234876365}
+  - seatObj: {fileID: 0}
     isEmpty: 0
   customerPrefab: {fileID: 373662602485475587, guid: 24a10e5ece1fc624b95f720eaf85e81c,
     type: 3}
@@ -11166,7 +11196,7 @@ MonoBehaviour:
   moveSpeed: 2
   maxCustomers: 3
   customerList: []
-  servingButton: {fileID: 0}
+  servingButton: {fileID: 1463511580}
   totalPrice: 0
   dangerFruitTartTotalPrice: 0
   flowerTeaTotalPrice: 0
@@ -15183,6 +15213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1311554614}
+  - component: {fileID: 1311554615}
   m_Layer: 0
   m_Name: Seat 4
   m_TagString: Untagged
@@ -15205,6 +15236,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1591760558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311554615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311554610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f779c42b85d286742be2f764dab6ccda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 1
 --- !u!1001 &1329962554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17234,6 +17278,12 @@ Transform:
   - {fileID: 745891323}
   m_Father: {fileID: 43856719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1463511580 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6969458718701250328, guid: 24a10e5ece1fc624b95f720eaf85e81c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1581180895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1466023733
 GameObject:
   m_ObjectHideFlags: 0
@@ -20186,6 +20236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1694219871}
+  - component: {fileID: 1694219872}
   m_Layer: 0
   m_Name: Seat 2
   m_TagString: Untagged
@@ -20208,6 +20259,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 576683158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1694219872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694219867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f779c42b85d286742be2f764dab6ccda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 1
 --- !u!1001 &1694449741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21093,6 +21157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1759257466}
+  - component: {fileID: 1759257467}
   m_Layer: 0
   m_Name: Seat 3
   m_TagString: Untagged
@@ -21115,6 +21180,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1299694946}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1759257467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759257462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f779c42b85d286742be2f764dab6ccda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 1
 --- !u!1 &1770050301
 GameObject:
   m_ObjectHideFlags: 0

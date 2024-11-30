@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     public int PotionCount;
     [Header("Movement")]
+    //바보들을 위한 움직임 방향 결정 변수
+    [SerializeField] private bool falseIsMoveX__trueISMoveZ;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
@@ -359,7 +361,14 @@ public class PlayerController : MonoBehaviour
 
         if (!isFowardBlocked)
         {
-            horizontalVelocity = new Vector3(0f, 0f, playerInput * moveSpeed);
+            if (falseIsMoveX__trueISMoveZ)
+            {
+                horizontalVelocity = new Vector3(0f, 0f, playerInput * moveSpeed);
+            }
+            else
+            {
+                horizontalVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
+            }
         }
 
         //경사면 움직임 코드
@@ -388,12 +397,16 @@ public class PlayerController : MonoBehaviour
 
         bool groundCast = Physics.SphereCast(groundCastPos, GroundSlope.castRadius, Vector3.down, out var groundHit,
                                                 GroundSlope.checkDistance, GroundSlope.groundLayer);
+
         if (groundCast)
         {
             groundNormal = groundHit.normal;
             GroundSlope.curGroundDistance = Mathf.Max(groundHit.distance - GroundSlope.capsuleRadiusDiff - GroundSlope.groundCheckThreshold, -10f);
             GroundSlope.slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
             GroundSlope.slopeIsSteep = GroundSlope.slopeAngle >= GroundSlope.slopeAngleLimit;
+            Debug.Log(groundHit.distance - GroundSlope.capsuleRadiusDiff);
+            Debug.DrawLine(groundCastPos + new Vector3(-1f, 0f, 0f), groundCastPos + new Vector3(1f, 0f, 0f));
+            Debug.DrawLine(groundCastPos + new Vector3(-1f, -groundHit.distance - GroundSlope.capsuleRadiusDiff, 0f), groundCastPos + new Vector3(1f, -groundHit.distance - GroundSlope.capsuleRadiusDiff, 0f));
             GroundSlope.isGround = GroundSlope.curGroundDistance <= 0.0001f && !GroundSlope.slopeIsSteep;
 
             //Debug.Log(groundHit.distance + " / " + SV.curGroundDistance);

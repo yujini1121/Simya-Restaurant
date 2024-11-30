@@ -33,14 +33,14 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float intensity;
 
     [Header("Night To Dawn")]
-    [Tooltip("í˜„ì‹¤ ì‹œê°„ê³¼ ê²Œì„ ì‹œê°„ ê°„ì˜ ë³€í™˜ ë¹„ìœ¨")]
+    [Tooltip("Çö½Ç ½Ã°£°ú °ÔÀÓ ½Ã°£ °£ÀÇ º¯È¯ ºñÀ²")]
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private float realTimeToGameTimeMultiplier;
     [SerializeField] private DateTime currentTime;
     [SerializeField] private DateTime endDawnTime;
     [SerializeField] private float initDawnTime;
 
-    [Header("ë¼ì•½")]
+    [Header("³¢¾à")]
     [SerializeField] private bool isOpen = false;
     [SerializeField] private List<Seat> seats = new List<Seat>();
 
@@ -88,7 +88,7 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Dawn To Day");
         current = TimeOfDay.Day;
 
-        // (ì›í•˜ëŠ” ìƒ‰ìƒ RGB ê°’) / 255 ê³„ì‚°ê¸°ë¡œ ê³„ì‚°í•¨ ã…ã…..
+        // (¿øÇÏ´Â »ö»ó RGB °ª) / 255 °è»ê±â·Î °è»êÇÔ ¤¾¤¾..
         filter = new Color(1f, 1f, 0.8f);
         temperature = 6500f;
         intensity = 1f;
@@ -140,7 +140,7 @@ public class TimeManager : MonoBehaviour
                     CustomerManager.instance.SpawnCustomer();
                     CustomerManager.instance.MoveToSeat();
                 }
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(60f);
 
             }
 

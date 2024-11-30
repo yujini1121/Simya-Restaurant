@@ -36,6 +36,15 @@ public class PlayerData
         items = new string[0];
         instance = this;
     }
+
+    /// <summary>
+    /// Candy, CelebrityAutographs, MagicPowder가 있는지 체크
+    /// </summary>
+    /// <returns></returns>
+    public bool HasSpecialItem()
+    {
+        return items.Contains("Candy") || items.Contains("CelebrityAutographs") || items.Contains("MagicPowder");
+    }
 }
 
 
@@ -76,6 +85,7 @@ public class DataController : MonoBehaviour
         {
             string data = File.ReadAllText(path);
             playerData = JsonUtility.FromJson<PlayerData>(data);
+            playerItemList = playerData.itemsData.ToList();
         }
         else
         {
