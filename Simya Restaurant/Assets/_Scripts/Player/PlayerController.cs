@@ -233,7 +233,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        qParticle.Stop();
+        wParticle.Stop();
+        eParticle.Stop();
+        rParticle.Stop();
 
         if (playerRb == null)
         {
