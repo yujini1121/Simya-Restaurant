@@ -37,15 +37,16 @@ public class PlayerController : MonoBehaviour
 {
     static public PlayerController instance;
 
-    public int PotionCount;
+    //public int PotionCount;
     [Header("Movement")]
-    //바보들을 위한 움직임 방향 결정 변수
+    //바보들을 위한 움직임 방향 결정 변수 // 잘못했어요!
     [SerializeField] private bool falseIsMoveX__trueISMoveZ;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
     [SerializeField] private float fowardCheckDistance;
     [SerializeField] private bool isFowardBlocked;
+    private bool isMoveBlocking = false;
     private float playerInput;
     private Vector3 fowardCheckTop;
     private Vector3 fowardCheckBottom;
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour
     int index = 0;
 
     [SerializeField] private Collider collider;
-    [SerializeField] private bool isDebugForceMove;
+
     // 외부 게임오브젝트 컴포넌트
     private DataController dataController;
     private readonly float potionHealAmount = 30.0f;
@@ -154,6 +155,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem wParticle;
     [SerializeField] private ParticleSystem eParticle;
     [SerializeField] private ParticleSystem rParticle;
+
+    [Space(5f)]
+    [Header("DEBUG VALUE")]
+    [SerializeField] private bool isDebugForceMove;
+    [SerializeField] private bool isDebugGroundCheck = false;
 
     /// <summary>
     ///     플레이어의 공격받은 것을 구현하는 함수입니다.
@@ -200,6 +206,16 @@ public class PlayerController : MonoBehaviour
     public void CallWhenSceneStart()
     {
         dataController.LoadData();
+    }
+
+    public void PausePlayer()
+    {
+        isMoveBlocking = true;
+    }
+
+    public void ResumePlayer()
+    {
+        isMoveBlocking = false;
     }
 
     private void DoDeathHandle()
@@ -270,12 +286,14 @@ public class PlayerController : MonoBehaviour
         m_UsePotion();
         m_ReduceHP();
         m_Save();
+        M_TEMP_ItemSetting();
+        M_TEMP_SetRecipe();
 
         m_DebuggingForceMove();
         m_HandleStatus();
         //DoAttackLight();
         //DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
-        //DoInteractive();
+        DoInteractive();
         //
         //TEMP_PlayAnimate();
     }
@@ -291,6 +309,11 @@ public class PlayerController : MonoBehaviour
 
     void InputObserver()
     {
+        if (isMoveBlocking)
+        {
+            return;
+        }
+
         playerInput = Input.GetAxis("Horizontal");
         if (GroundSlope.isGround && Input.GetKeyDown(KeyCode.Space))
         {
@@ -407,7 +430,11 @@ public class PlayerController : MonoBehaviour
             GroundSlope.curGroundDistance = Mathf.Max(groundHit.distance - GroundSlope.capsuleRadiusDiff - GroundSlope.groundCheckThreshold, -10f);
             GroundSlope.slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
             GroundSlope.slopeIsSteep = GroundSlope.slopeAngle >= GroundSlope.slopeAngleLimit;
-            Debug.Log(groundHit.distance - GroundSlope.capsuleRadiusDiff);
+            if (isDebugGroundCheck)
+            {
+                Debug.Log($"DEBUG_PlayerController.GroundCheck() : {groundHit.distance - GroundSlope.capsuleRadiusDiff}");
+            }
+
             Debug.DrawLine(groundCastPos + new Vector3(-1f, 0f, 0f), groundCastPos + new Vector3(1f, 0f, 0f));
             Debug.DrawLine(groundCastPos + new Vector3(-1f, -groundHit.distance - GroundSlope.capsuleRadiusDiff, 0f), groundCastPos + new Vector3(1f, -groundHit.distance - GroundSlope.capsuleRadiusDiff, 0f));
             GroundSlope.isGround = GroundSlope.curGroundDistance <= 0.0001f && !GroundSlope.slopeIsSteep;
@@ -416,6 +443,12 @@ public class PlayerController : MonoBehaviour
         }
 
         GroundSlope.groundCross = Vector3.Cross(groundNormal, Vector3.up);
+    }
+
+    void m_Chat()
+    {
+        playerInput = Input.GetAxis("Horizontal");
+
     }
 
     private void CheckFoward()
@@ -598,7 +631,11 @@ public class PlayerController : MonoBehaviour
 
     void DoInteractive()
     {
-        if (Input.GetButtonDown("Interactive") == false)
+        if (Input.GetKeyDown(KeyCode.X) == false)
+        {
+            return;
+        }
+        if (isMoveBlocking)
         {
             return;
         }
@@ -620,6 +657,11 @@ public class PlayerController : MonoBehaviour
             );
 
         sortedArray[0].DoInteractiveWithThis();
+    }
+
+    void m_Select()
+    {
+        
     }
 
     /// <summary>
@@ -741,6 +783,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"m_AddPotion() : 현재 포션에 쿨타임이 돌고 있습니다. {dataController.Access().cooltimePotion}");
             return;
         }
+        if (isMoveBlocking)
+        {
+            Debug.LogWarning("PlayerController.m_UsePotion() : 플레이어가 블로킹 되었습니다.");
+            return;
+        }
 
         dataController.Access().potionsRemain--;
         dataController.Access().cooltimePotion = potionCooltime;
@@ -786,8 +833,13 @@ public class PlayerController : MonoBehaviour
 
     private void m_Save()
     {
-        if (!Input.GetKey(KeyCode.Backslash) || !Input.GetKeyDown(KeyCode.Alpha0))
+        if (!Input.GetKey(KeyCode.LeftShift) || !Input.GetKeyDown(KeyCode.I))
         {
+            return;
+        }
+        if (isMoveBlocking)
+        {
+            Debug.LogWarning("PlayerController.m_Save() : 플레이어가 블로킹 되었습니다.");
             return;
         }
         dataController.SaveData();
@@ -818,5 +870,33 @@ public class PlayerController : MonoBehaviour
     {
         dataController.Access().cooltimePotion = 
             Mathf.Max(0.0f, dataController.Access().cooltimePotion - Time.deltaTime);
+    }
+
+    private void M_TEMP_ItemSetting()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.O))
+        {
+            dataController.AddItem(200, 1);
+            Debug.Log($"M_TEMP_ItemSetting() : 아이템이 추가되었습니다.");
+        }
+    }
+
+    private void M_TEMP_SetRecipe()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.C))
+        {
+            dataController.AddRecepie("snail and chocolate pasta");
+            Debug.Log("M_TEMP_SetRecipe() : 레시피 추가됨");
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.V))
+        {
+            dataController.TryRemoveRecipe("snail and chocolate pasta");
+            Debug.Log("M_TEMP_SetRecipe() : 레시피 제거됨");
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log(dataController.HasRecepie("snail and chocolate pasta").isExist ? "has recipe" : "no recipe");
+        }
     }
 }
