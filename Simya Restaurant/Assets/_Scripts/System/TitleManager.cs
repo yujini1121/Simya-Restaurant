@@ -25,6 +25,8 @@ public class TitleManager : MonoBehaviour
 
     void Start()
     {
+        newGameButton.onClick.AddListener(OnNewGameButtonClicked);
+        loadGameButton.onClick.AddListener(OnLoadGameButtonClicked);
         settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         creditsButton.onClick.AddListener(OnCreditsButtonClicked);
     }
@@ -40,19 +42,21 @@ public class TitleManager : MonoBehaviour
             else
             {
                 creditText.anchoredPosition = new Vector2(creditText.anchoredPosition.x, stopPosY);
-                isScrolling = false;  // 스크롤 종료
+                isScrolling = false;
             }
         }
     }
 
     private void OnNewGameButtonClicked()
     {
-
+        // 새 데이터 저장 함수 호출
     }
 
     private void OnLoadGameButtonClicked()
     {
+        // DataController.instance.LoadData();
 
+        SceneTransition.Instance.ChangeScene("Home");
     }
 
     private void OnSettingsButtonClicked()
