@@ -27,10 +27,16 @@
         {
             "id": 12,
             "count": 14
+        },
+        {
+            "id": 200,
+            "count": 11
         }
     ],
     "recepies": [
         "1_Strawberry",
-        "2_Peach"
-    ]
+        "2_Peach",
+        "snail and chocolate pasta"
+    ],
+    "quests": false
 }

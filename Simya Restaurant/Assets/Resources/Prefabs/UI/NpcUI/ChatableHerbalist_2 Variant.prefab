@@ -1,0 +1,223 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1241433125530232970
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542080872450168895, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: nextChats.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: nextChats.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 6502586373898661065, guid: 916c048ad685b214ebc3f0c3f9a636a6,
+        type: 3}
+    - target: {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: nextChats.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: nextChats.Array.data[0].parentNameInRuntime
+      value: NpcHerbalist
+      objectReference: {fileID: 0}
+    - target: {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: nextChats.Array.data[1].parentNameInRuntime
+      value: NpcHerbalist
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_text
+      value: "\uB124"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_xAdvance
+      value: 8.970509
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_isPreferredWidthDirty
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_AutoSizeIterationCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_isPreferredHeightDirty
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_cached_TextElement.m_Glyph.m_Metrics.m_HorizontalAdvance
+      value: 55.20313
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_cached_TextElement.m_Glyph.m_Metrics.m_HorizontalBearingY
+      value: 44.64063
+      objectReference: {fileID: 0}
+    - target: {fileID: 3150942073670773797, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_Name
+      value: ChatableHerbalist_2 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362215495443150555, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4363968549685222673, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_text
+      value: "\uC2EB\uC5B4\uC694!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4363968549685222673, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4363968549685222673, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 686545507839448849, guid: 7ff630d673a6853488cc6abae9293b2c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3150942073670773797, guid: 7ff630d673a6853488cc6abae9293b2c,
+        type: 3}
+      insertIndex: 1
+      addedObject: {fileID: -6340679592916348939}
+  m_SourcePrefab: {fileID: 100100000, guid: 7ff630d673a6853488cc6abae9293b2c, type: 3}
+--- !u!114 &325573452356300367 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1566935520752125637, guid: 7ff630d673a6853488cc6abae9293b2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241433125530232970}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3293708714029561243 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4363968549685222673, guid: 7ff630d673a6853488cc6abae9293b2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241433125530232970}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4215388795657995439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3150942073670773797, guid: 7ff630d673a6853488cc6abae9293b2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241433125530232970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6340679592916348939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215388795657995439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65c8aa899c52142b62c49186e9c58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextChats:
+  - list:
+    - prefab: {fileID: 6502586373898661065, guid: 916c048ad685b214ebc3f0c3f9a636a6,
+        type: 3}
+      parentNameInRuntime: NpcHerbalist
+    - prefab: {fileID: 8225805040002272074, guid: 8c905fd771442574dabeb550967cd96c,
+        type: 3}
+      parentNameInRuntime: NpcHerbalist
+  - list:
+    - prefab: {fileID: 4841133595793539960, guid: a86acb065a88ae041967e6ed1321fe87,
+        type: 3}
+      parentNameInRuntime: NpcHerbalist
+  options:
+  - {fileID: 325573452356300367}
+  - {fileID: 3293708714029561243}
