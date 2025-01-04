@@ -5,7 +5,8 @@ using UnityEngine;
 public class LockedChest : MonoBehaviour
 {
     Damageable myDamage;
-    bool isOpened = false;
+    [SerializeField] bool isOpened = false;
+    [SerializeField] string recipeName = "Pizza";
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,9 @@ public class LockedChest : MonoBehaviour
                 Debug.Log("레시피를 얻었습니다.");
 
                 CanvasController.instance.OpenTextWindow("Opened the box!\nEnter to close", true);
-                CanvasController.instance.OpenTextWindow("We got recipe!\nEnter to close", true);
+                CanvasController.instance.OpenTextWindow($"We got recipe! : {recipeName}\nEnter to close", true);
+
+                DataController.instance.AddRecepie(recipeName);
             };
     }
 }

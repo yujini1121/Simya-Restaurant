@@ -296,6 +296,12 @@ public class PlayerController : MonoBehaviour
         DoInteractive();
         //
         //TEMP_PlayAnimate();
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log($"레시피가 있는가? : {dataController.HasRecepie("Chicken Pizza").isExist}");
+        }
+
+        
     }
 
     private void FixedUpdate()
@@ -343,7 +349,9 @@ public class PlayerController : MonoBehaviour
         {
             animatorController.SetTrigger("HeavyAttack");
             rParticle.Play();
+            
         }
+        DoAttackHeavy();
     }
 
     void Movement()
@@ -597,7 +605,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("AttackHeavy"))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             heavyAttackCoroutine
                 = StartCoroutine(
@@ -609,7 +617,8 @@ public class PlayerController : MonoBehaviour
                         )
                     );
         }
-        if (Input.GetButtonUp("AttackHeavy") == false)
+        // if (Input.GetButtonUp("AttackHeavy") == false)
+        if (Input.GetKeyUp(KeyCode.R) == false)
         {
             return;
         }

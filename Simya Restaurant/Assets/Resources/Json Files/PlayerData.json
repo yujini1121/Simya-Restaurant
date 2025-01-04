@@ -36,7 +36,9 @@
     "recepies": [
         "1_Strawberry",
         "2_Peach",
-        "snail and chocolate pasta"
+        "snail and chocolate pasta",
+        "Ham Pizza",
+        "Chicken Pizza"
     ],
     "quests": false
 }

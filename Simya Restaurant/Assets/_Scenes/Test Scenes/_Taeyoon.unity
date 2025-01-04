@@ -552,6 +552,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2228150069094637007, guid: 2f33baa258f284c46a856cf8f7ea60be,
+        type: 3}
+      propertyPath: isOpened
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2228150069094637007, guid: 2f33baa258f284c46a856cf8f7ea60be,
+        type: 3}
+      propertyPath: recipeName
+      value: Chicken Pizza
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1070,7 +1080,7 @@ Transform:
   m_GameObject: {fileID: 1034679410}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.16666667, z: 0}
+  m_LocalPosition: {x: 0, y: -0.16666667, z: 1.4}
   m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.3333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2994,6 +3004,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969825441096037385, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: heavyAttackChargeTime
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4969825441096037385, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
