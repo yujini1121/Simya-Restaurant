@@ -38,7 +38,7 @@ public class SceneTransition : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(transform.root.gameObject);
     }
 
     public void ChangeScene(string sceneName)
@@ -60,7 +60,10 @@ public class SceneTransition : MonoBehaviour
             Debug.Log($"FadeOutAndLoadingScene(string sceneName) : 호출됨");
         }
 
-        PlayerController.instance.CallWhenSceneEnd();
+        if(PlayerController.instance != null) // 타이틀 화면에서는 플레이어 데이터 저장할 필요가 없는데 해서 오류나서 수정
+        {
+            PlayerController.instance.CallWhenSceneEnd();
+        }
         fadImg.blocksRaycasts = true;
 
         loadingText.text = "Loading...";
@@ -154,7 +157,10 @@ public class SceneTransition : MonoBehaviour
             Debug.Log($"FadeIn() : 페이드 인 완료");
         }
 
-        PlayerController.instance.CallWhenSceneStart();
+        if(PlayerController.instance != null)
+        {
+            PlayerController.instance.CallWhenSceneStart();
+        }
         fadImg.alpha = 0;
         fadImg.blocksRaycasts = false;
         loadingText.gameObject.SetActive(false);
