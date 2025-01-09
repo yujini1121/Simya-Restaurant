@@ -28,12 +28,14 @@ public class PlayerData
 
     [Space(30)]
     [Header("Inventory")]
+#warning items는 더이상 쓰지 않음 itemsData을 사용허세요
     public string[] items;
     public PlayerItemSingle[] itemsData;
 
     [Space(30)]
     [Header("Recipes")]
     public string[] recepies;
+    public bool quests;
 
     public PlayerData()
     {
@@ -66,6 +68,23 @@ public class DataController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         LoadData();
         playerItemList = playerData.itemsData.ToList();
+    }
+
+    public void MakeNew()
+    {
+        playerData = new PlayerData()
+        {
+            isDead = false,
+            name = "NoName",
+            level = 1,
+            gold = 500,
+            potionsRemain = 3,
+            health = 100.0f,
+            cooltimePotion = 0.0f,
+            itemsData = new PlayerItemSingle[0] { },
+            recepies = new string[0] { },
+            quests = false
+        };
     }
 
     public void SaveData()
@@ -177,25 +196,37 @@ public class DataController : MonoBehaviour
         }
         return true;
     }
-    public bool HasRecepie(string recepieConst)
+    public (bool isExist, int index) HasRecepie(string recepieConst)
     {
         for (int index = 0; index < playerData.recepies.Length; ++index)
         {
             if (recepieConst.Equals(playerData.recepies[index]))
             {
-                return true;
+                return (true, index);
             }
         }
-        return false;
+        return (false, -1);
     }
     public void AddRecepie(string recepieConst)
     {
-        if (HasRecepie(recepieConst))
+        if (HasRecepie(recepieConst).isExist)
         {
             return;
         }
         List<string> m_list = playerData.recepies.ToList();
         m_list.Add(recepieConst);
         playerData.recepies = m_list.ToArray();
+    }
+    public bool TryRemoveRecipe(string recepieConst)
+    {
+        int index = HasRecepie(recepieConst).index;
+        if (index == -1)
+        {
+            return false;
+        }
+        List<string> m_list = playerData.recepies.ToList();
+        m_list.RemoveAt(index);
+        playerData.recepies = m_list.ToArray();
+        return true;
     }
 }
