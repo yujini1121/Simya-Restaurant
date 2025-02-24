@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class MandalaController : MonoBehaviour
+public class MandalaController : EnemyBase
 {
     [System.Serializable]
     public enum MandalaType
@@ -34,6 +34,11 @@ public class MandalaController : MonoBehaviour
     private float explosionDelay = 2.0f;
 
     private bool isWaitAttack = false;
+
+    protected override void DoDeathHandle()
+    {
+        
+    }
 
     void Start()
     {
