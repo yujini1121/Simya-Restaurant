@@ -10,7 +10,7 @@ public enum EFoodRank
     Bad,
 }
 
-public class FoodComponent : MonoBehaviour
+public class FoodComponent
 {
     public string name { get; private set; }
     public int originalPrice { get; private set; }
@@ -38,7 +38,7 @@ public class FoodComponent : MonoBehaviour
     }
     private EFoodRank m_rank;
 
-    public FoodComponent(string _name, int _originalPrice)
+    public FoodComponent (string _name, int _originalPrice)
     {
         name = _name;
         originalPrice = _originalPrice;
