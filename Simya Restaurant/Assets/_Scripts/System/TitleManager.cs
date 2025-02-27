@@ -8,10 +8,7 @@ using TMPro;
 
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] private Button newGameButton;
-    [SerializeField] private Button loadGameButton;
-    [SerializeField] private Button settingsButton;
-    [SerializeField] private Button creditsButton;
+    [SerializeField] private Button[] buttons;
 
     [Header("Option")]
     [SerializeField] private GameObject OptionUI;
@@ -21,96 +18,63 @@ public class TitleManager : MonoBehaviour
     [SerializeField] private RectTransform creditText;
     [SerializeField] private float scrollSpeed = 70f;
 
+    private int currentIndex = 0;
     private bool isScrolling = false;
     private float stopPosY = 0;
 
-    private Button lastSelectedButton;
-
-    private bool isNavigating = false;
-    private float navigationDelay = 0.2f;
-
     void Start()
     {
-        EventSystem.current.SetSelectedGameObject(newGameButton.gameObject);
-        SelectedButtonEffect(newGameButton);
-        lastSelectedButton = newGameButton;
+        ButtonEffect(currentIndex, true);
     }
 
-    private void Update()
+    void Update()
     {
-        GameObject current = EventSystem.current.currentSelectedGameObject;
-
-        if (isNavigating) return;
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.UpArrow))
         {
-            StartCoroutine(NavigateWithDelay("Previous", current));
+            MoveSelection(-1);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if(Input.GetKeyDown(KeyCode.DownArrow))
         {
-            StartCoroutine(NavigateWithDelay("Next", current));
+            MoveSelection(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return))
         {
-            ExecuteCurrentButton(current);
+            buttons[currentIndex].onClick.Invoke();
         }
 
-        UpdateSelectedButtonEffect(current);
-    }
-
-    private IEnumerator NavigateWithDelay(string direction, GameObject currentButton)
-    {
-        isNavigating = true;
-
-        NavigateButton(direction, currentButton);
-
-        yield return new WaitForSeconds(navigationDelay);
-
-        isNavigating = false;
-    }
-
-    private void NavigateButton(string choice, GameObject currentButton)
-    {
-        if (currentButton == null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            return;
-        }
-
-        Selectable selectable = null;
-        if (choice == "Previous")
-        {
-            selectable = currentButton.GetComponent<Selectable>().FindSelectableOnUp();
-        }
-        else if(choice == "Next")
-        {
-            selectable = currentButton.GetComponent<Selectable>().FindSelectableOnDown();
-        }
-
-        
-        if (selectable != null)
-        {
-            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+            CloseActiveUI();
         }
     }
 
-    private void ExecuteCurrentButton(GameObject currentButton)
+    private void MoveSelection(int direction)
     {
-        if (currentButton == null) return;
+        ButtonEffect(currentIndex, false);
 
-        Button button = currentButton.GetComponent<Button>();
-        if(button != null)
+        currentIndex = (currentIndex + direction + buttons.Length) % buttons.Length;
+
+        ButtonEffect(currentIndex, true);
+    }
+
+    private void ButtonEffect(int index, bool isSelected)
+    {
+        EventSystem.current.SetSelectedGameObject(buttons[index].gameObject);
+
+        TextMeshProUGUI text = buttons[index].GetComponentInChildren<TextMeshProUGUI>();
+        if (text != null)
         {
-            button.onClick.Invoke();
+            text.fontStyle = isSelected ? FontStyles.Bold : FontStyles.Normal;
         }
     }
 
     public void OnNewGameButtonClicked()
     {
-        // 새 데이터 저장 함수 호출
-        // 새 데이터 초기화
-        // 초기화 데이터 저장
-        // 씬 전환
+        DataController.instance.MakeNew();
+        DataController.instance.SaveData();
+
+        SceneTransition.Instance.ChangeScene("Forest"); // Home으로 다시 수정
     }
 
     public void OnLoadGameButtonClicked()
@@ -131,7 +95,7 @@ public class TitleManager : MonoBehaviour
         creditText.anchoredPosition = new Vector2(creditText.anchoredPosition.x, -700f);
         creditUI.SetActive(true);
 
-        if(!isScrolling)
+        if (!isScrolling)
         {
             StartCoroutine(ScrollCredits());
         }
@@ -141,7 +105,7 @@ public class TitleManager : MonoBehaviour
     {
         isScrolling = true;
 
-        while(creditText.anchoredPosition.y < stopPosY)
+        while (creditText.anchoredPosition.y < stopPosY)
         {
             creditText.anchoredPosition += new Vector2(0f, scrollSpeed);
             yield return null;
@@ -151,39 +115,19 @@ public class TitleManager : MonoBehaviour
         isScrolling = false;
     }
 
-    private void ResetButtonEffect(Button button)
+    private void CloseActiveUI()
     {
-        TextMeshProUGUI text = button.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
+        if (OptionUI.activeSelf)
         {
-            text.fontStyle = FontStyles.Normal;
+            OptionUI.SetActive(false);
+            Debug.Log("Option UI 닫힘");
         }
-    }
 
-    private void SelectedButtonEffect(Button button)
-    {
-        TextMeshProUGUI text = button.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
+        if (creditUI.activeSelf)
         {
-            text.fontStyle = FontStyles.Bold;
-        }
-    }
-
-    private void UpdateSelectedButtonEffect(GameObject currentButton)
-    {
-        if (currentButton == null) return;
-
-        Button selectedButton = currentButton.GetComponent<Button>();
-        if (selectedButton != null && selectedButton != lastSelectedButton)
-        {
-            // 이전 버튼 효과 초기화
-            ResetButtonEffect(lastSelectedButton);
-
-            // 새 버튼 효과 적용
-            SelectedButtonEffect(selectedButton);
-
-            // 선택된 버튼 갱신
-            lastSelectedButton = selectedButton;
+            creditUI.SetActive(false);
+            isScrolling = false;
+            Debug.Log("Credit UI 닫힘");
         }
     }
 }

@@ -32,6 +32,16 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private Slider sfxVolSlider;
 
     /// <summary>
+    /// 현재 BGM 종류
+    /// </summary>
+    /// <returns></returns>
+    public enum BGM
+    {
+        BGM_Village,
+        BGM_Forest
+    }
+
+    /// <summary>
     /// 현재 효과음 종류
     /// </summary>
     /// <returns></returns>
@@ -49,13 +59,12 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            Init();
         }
         else
         {
             Destroy(gameObject);
         }
-
-        Init();
     }
 
     void Start()
@@ -92,19 +101,21 @@ public class AudioManager : MonoBehaviour
 
         if (sceneName == "Home" || sceneName == "Village" || sceneName == "Title")
         {
-            selectedBgm = bgmClips[0];
+            selectedBgm = bgmClips[(int)BGM.BGM_Village];
         }
         else if (sceneName == "Forest")
         {
-            selectedBgm = bgmClips[1];
+            selectedBgm = bgmClips[(int)BGM.BGM_Forest];
         }
         else
         {
             Debug.LogWarning($"'{sceneName}'에 대한 BGM 설정이 없습니다. 기본값을 사용합니다.");
+            selectedBgm = bgmClips[(int)BGM.BGM_Village];
         }
 
         if (selectedBgm != null && bgmPlayer.clip != selectedBgm)
         {
+            bgmPlayer.Stop();
             bgmPlayer.clip = selectedBgm;
             bgmPlayer.Play();
         }
@@ -166,37 +177,44 @@ public class AudioManager : MonoBehaviour
     /// BGM 재생
     /// </summary>
     /// <returns></returns>
-    public void PlayBgm(bool isBgmPlay)
+    public void PlayBgm(int bgmIndex)
     {
-        if (isBgmPlay)
+        if(bgmIndex < 0 || bgmIndex >= bgmClips.Length)
         {
-            bgmPlayer.Play();
+            return;
         }
-        else
+
+        if (bgmPlayer.clip != bgmClips[bgmIndex])
         {
-            bgmPlayer.Stop();
+            bgmPlayer.clip = bgmClips[bgmIndex];
+            bgmPlayer.Play();
         }
     }
 
     /// <summary>
-    /// SFX 재생
+    /// SFX 재생 
     /// </summary>
     /// <returns></returns>
     public void PlaySfx(SFX sfx)
     {
+        int sfxIndex = (int)sfx;
+
+        if (sfxIndex < 0 || sfxIndex >= sfxClips.Length)
+        {
+            return;
+        }
+
         for (int index = 0; index < sfxPlayers.Length; index++)
         {
             int loopIndex = (index + sfxChannelIndex) % sfxPlayers.Length;
 
-            if (sfxPlayers[loopIndex].isPlaying)
+            if (!sfxPlayers[loopIndex].isPlaying)
             {
-                continue;
+                sfxChannelIndex = loopIndex;
+                sfxPlayers[loopIndex].clip = sfxClips[sfxIndex];
+                sfxPlayers[loopIndex].Play();
+                break;
             }
-
-            sfxChannelIndex = loopIndex;
-            sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
-            sfxPlayers[loopIndex].Play();
-            break;
         }
     }
 
@@ -205,30 +223,15 @@ public class AudioManager : MonoBehaviour
     ///  슬라이더 값을 데시벨로 변경 및 저장
     /// </summary>
     /// <param name="volume"></param>
-    public void SetMasterVolume(float volume)
+    public void SetVolume(string volumeName, float volume)
     {
         volume = Mathf.Clamp(volume, 0.001f, 1f);
-        audioMixer.SetFloat("MasterVol", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("MasterVol", volume);
+        audioMixer.SetFloat(volumeName, Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat(volumeName, volume);
+        PlayerPrefs.Save();
     }
 
-    public void SetBgmVolume(float volume)
-    {
-        volume = Mathf.Clamp(volume, 0.001f, 1f);
-        audioMixer.SetFloat("BGMVol", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("BGMVol", volume);
-    }
-
-    public void SetSfxVolume(float volume)
-    {
-        volume = Mathf.Clamp(volume, 0.001f, 1f);
-        audioMixer.SetFloat("SFXVol", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("SFXVol", volume);
-    }
-
-    public float GetVolume(string volumeName)
-    {
-        audioMixer.GetFloat(volumeName, out float value);
-        return Mathf.Pow(10, value / 20);
-    }
+    public void SetMasterVolume(float volume) => SetVolume("MasterVol", volume);
+    public void SetBgmVolume(float volume) => SetVolume("BGMVol", volume);
+    public void SetSfxVolume(float volume) => SetVolume("SFXVol", volume);
 }
