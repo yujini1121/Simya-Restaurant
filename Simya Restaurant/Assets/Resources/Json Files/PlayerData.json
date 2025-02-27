@@ -1,20 +1,12 @@
 {
     "isDead": false,
-    "name": "Yujin",
-    "level": 99999,
-    "gold": 897925011,
-    "potionsRemain": 16,
+    "name": "NoName",
+    "level": 1,
+    "gold": 500,
+    "potionsRemain": 3,
     "health": 100.0,
     "cooltimePotion": 0.0,
-    "items": [
-        "1_Strawberry",
-        "2_Peach",
-        "3_Grape",
-        "4_Orange",
-        "5_Blueberry",
-        "6_Pasnip",
-        "7_Starfruit"
-    ],
+    "items": [],
     "itemsData": [
         {
             "id": 10,
@@ -33,12 +25,6 @@
             "count": 11
         }
     ],
-    "recepies": [
-        "1_Strawberry",
-        "2_Peach",
-        "snail and chocolate pasta",
-        "Ham Pizza",
-        "Chicken Pizza"
-    ],
+    "recepies": [],
     "quests": false
 }

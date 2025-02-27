@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Test Scenes/_Taeyoon_1.unity
     guid: 62a7df799a20c194a85659fd973c2f13
+  - enabled: 1
+    path: Assets/_Scenes/Title.unity
+    guid: 5328692a38453e54582983923de454b3
+  - enabled: 1
+    path: Assets/_Scenes/Forest.unity
+    guid: 619bf966b6130814ca47774a7b564369
   m_configObjects: {}
