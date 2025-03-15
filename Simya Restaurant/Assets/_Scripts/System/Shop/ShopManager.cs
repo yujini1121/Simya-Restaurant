@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class ShopManager : MonoBehaviour
 {
@@ -298,8 +296,11 @@ public class ShopManager : MonoBehaviour
             buyCountText = newItemUI.transform.Find("BuyCount_Text").GetComponent<TextMeshProUGUI>();
             buyAmountText = newItemUI.transform.Find("BuyAmount_Text").GetComponent<TextMeshProUGUI>();
 
-            buyCountText.text = buyCount.ToString() + " 개";
-            buyAmountText.text = buyAmount.ToString() + " $";
+            // buyCountText.text = buyCount.ToString() + " 개";
+            // buyAmountText.text = buyAmount.ToString() + " $";
+
+            buyCountText.text = "0 개";
+            buyAmountText.text = "0 $";
 
             shopItemSlot.Add(newItemUI);
         }
@@ -317,13 +318,20 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void UiUpdate()
     {
+        //if (isTrackValueItemBuyAmount && itemBuyAmount == null)
+        //{
+        //    System.Console.WriteLine("itemBuyAmount이 null입니다!");
+        //}
+
+        //buyCountText.text = itemBuyCount[currentSelectedItem.ItemID].ToString() + " 개";
+        //buyAmountText.text = itemBuyAmount[currentSelectedItem.ItemID].ToString() + " $";
+
         if (isTrackValueItemBuyAmount && itemBuyAmount == null)
         {
             System.Console.WriteLine("itemBuyAmount이 null입니다!");
         }
-
-        buyCountText.text = itemBuyCount[currentSelectedItem.ItemID].ToString() + " 개";
-        buyAmountText.text = itemBuyAmount[currentSelectedItem.ItemID].ToString() + " $";
+        buyCountText.text = $"{itemBuyCount[currentSelectedItem.ItemID]} 개";
+        buyAmountText.text = $"{itemBuyAmount[currentSelectedItem.ItemID]} $";
     }
 
     // =========================================================
@@ -440,14 +448,7 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private ItemInfomation FindItemDataOrNull(int itemID)
     {
-        foreach (var item in itemInfo.ItemDescription)
-        {
-            if (item.itemID == itemID)
-            {
-                return item;
-            }
-        }
-        return null;
+        return itemInfo.ItemDescription.FirstOrDefault(item => item.itemID == itemID);
     }
 
     // =========================================================
@@ -455,24 +456,28 @@ public class ShopManager : MonoBehaviour
     // =========================================================
     private void ScrollPosition()
     {
-        float selectedItemYPos = selectedIndex / (float)(storeUIParent.childCount - 1);
+        if (storeUIParent.childCount <= 1) return;
+        float normalizedPos = Mathf.Clamp01(1 - (selectedIndex / (float)(storeUIParent.childCount - 1)));
+        scrollRect.verticalNormalizedPosition = normalizedPos;
 
-        if (selectedIndex == storeUIParent.childCount - 1)
-        {
-            scrollRect.verticalNormalizedPosition = 0f;
-        }
-        else if(selectedIndex == 0)
-        {
-            scrollRect.verticalNormalizedPosition = 1f;
-        }
-        else if (selectedItemYPos > 0.9f)
-        {
-            scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
-        }
-        else if (selectedItemYPos < 0.1f)
-        {
-            scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
-        }
+        //float selectedItemYPos = selectedIndex / (float)(storeUIParent.childCount - 1);
+
+        //if (selectedIndex == storeUIParent.childCount - 1)
+        //{
+        //    scrollRect.verticalNormalizedPosition = 0f;
+        //}
+        //else if(selectedIndex == 0)
+        //{
+        //    scrollRect.verticalNormalizedPosition = 1f;
+        //}
+        //else if (selectedItemYPos > 0.9f)
+        //{
+        //    scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
+        //}
+        //else if (selectedItemYPos < 0.1f)
+        //{
+        //    scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - selectedItemYPos, 0f, 1f);
+        //}
     }
 
     private bool M_TryDecreaseMoney(int amount)

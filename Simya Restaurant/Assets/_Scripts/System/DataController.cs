@@ -93,7 +93,7 @@ public class DataController : MonoBehaviour
         string json = JsonUtility.ToJson(playerData, true);
         string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
         File.WriteAllText(path, json);
-        Debug.Log("되냐");
+        Debug.Log("Save");
     }
 
     public void LoadData()
@@ -115,6 +115,7 @@ public class DataController : MonoBehaviour
         {
             Debug.LogError("Not Found 'PlayerData.json' File.");
         }
+        Debug.Log("Load");
     }
 
     public PlayerData Access()
