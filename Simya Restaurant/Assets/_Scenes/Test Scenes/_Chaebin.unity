@@ -3890,7 +3890,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284c1ed0897f95448a6a2d5a3312c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  items: []
+  dropRate: []
+  range: 0
+  stat:
+    health: 0
+    guardGauge: 0
+    rank: 0
+  type: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -4624,7 +4631,7 @@ MonoBehaviour:
   bgmMixer: {fileID: 988425434781857060, guid: 06bc30611337d714b95c7896eddfc42c, type: 2}
   sfxMixer: {fileID: -1692126223051611775, guid: 06bc30611337d714b95c7896eddfc42c,
     type: 2}
-  bgmClip: {fileID: 8300000, guid: bbd99b33cb28218479fd2b5939157a97, type: 3}
+  bgmClips: []
   bgmVolume: 0.6
   sfxClips:
   - {fileID: 8300000, guid: 92c8b0283f51f3f4a9574eb2a183807f, type: 3}
@@ -6702,7 +6709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98404c68c7c503047b8b1545e29690d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PotionCount: 0
+  falseIsMoveX__trueISMoveZ: 0
   moveSpeed: 3
   acceleration: 2
   stepOffset: 0
@@ -6752,7 +6759,12 @@ MonoBehaviour:
   maxHealth: 0
   prePressAllowTime: 0.5
   collider: {fileID: 0}
+  qParticle: {fileID: 0}
+  wParticle: {fileID: 0}
+  eParticle: {fileID: 0}
+  rParticle: {fileID: 0}
   isDebugForceMove: 0
+  isDebugGroundCheck: 0
 --- !u!95 &566855313
 Animator:
   serializedVersion: 5
@@ -16032,6 +16044,8 @@ MonoBehaviour:
     cooltimePotion: 0
     items: []
     itemsData: []
+    recepies: []
+    quests: 0
   isDebugging: 0
 --- !u!1 &1372637816
 GameObject:

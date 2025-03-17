@@ -34,6 +34,7 @@ public class MandalaController : EnemyBase
     private float explosionDelay = 2.0f;
 
     private bool isWaitAttack = false;
+    private bool isSFXPlayed = false;
 
     protected override void DoDeathHandle()
     {
@@ -41,6 +42,18 @@ public class MandalaController : EnemyBase
     }
 
     void Start()
+    {
+        MandlaInit();
+    }
+
+    void Update()
+    {
+        CheckPlayer();
+        SetMandlaDir();
+        MoveMandla();
+    }
+
+    private void MandlaInit()
     {
         if (!mandalaRb)
         {
@@ -64,27 +77,13 @@ public class MandalaController : EnemyBase
         }
     }
 
-    void Update()
+    private void CheckPlayer()
     {
         if (!isPerceive && Physics.CheckSphere(transform.position, sensingRange, playerLayer))
         {
-            isPerceive = true;            
+            isPerceive = true;
             StartCoroutine(upGround());
         }
-
-        if (isOnGround && isPerceive)
-        {
-            switch (type)
-            {
-                case MandalaType.Herb:
-                    mandalaDir = (transform.position - playerRb.position).normalized;
-                    break;
-                case MandalaType.Explosion:
-                    mandalaDir = (playerRb.position - transform.position).normalized;
-                    break;
-            }
-        }
-        transform.position += mandalaDir * mandalaMoveSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -103,6 +102,35 @@ public class MandalaController : EnemyBase
         col.isTrigger = false;
     }
 
+    private void SetMandlaDir()
+    {
+        if (isOnGround && isPerceive)
+        {
+            switch (type)
+            {
+                case MandalaType.Herb:
+                    mandalaDir = (transform.position - playerRb.position).normalized;
+
+                    // 나중에 더 수정 필요... 얘기 해봐야 할 듯
+                    if(!isSFXPlayed)
+                    {
+                        AudioManager.instance.PlaySfx(AudioManager.SFX.Mandla_long);
+                        isSFXPlayed = true;
+                    }
+
+                    break;
+                case MandalaType.Explosion:
+                    mandalaDir = (playerRb.position - transform.position).normalized;
+                    break;
+            }
+        }
+    }
+
+    private void MoveMandla()
+    {
+        transform.position += mandalaDir * mandalaMoveSpeed * Time.deltaTime;
+    }
+
     IEnumerator DamagePlayer(GameObject player)
     {
         mandalaMoveSpeed = 0;
@@ -110,7 +138,7 @@ public class MandalaController : EnemyBase
 
         yield return new WaitForSeconds(explosionDelay);
 
-        AudioManager.instance.PlaySfx(AudioManager.SFX.TestSFX_1);
+        // AudioManager.instance.PlaySfx(AudioManager.SFX.TestSFX_1);
 
         if (Physics.CheckSphere(transform.position, mandalaExplosionRange, playerLayer))
         {

@@ -47,10 +47,21 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     public enum SFX
     {
-        TestSFX_1,
-        TestSFX_2,
-        TestSFX_3,
-        TestSFX_4
+        FlowerMonsterExplodes,
+        FlowerMonsterSpitting,
+        Mandla_long,
+        Mandla_Short,
+        BasicAttack_1,
+        BasicAttack_2,
+        Bush,
+        BuyItem,
+        End,
+        GameStart,
+        MonsterDeath,
+        PotionCrafting_1,
+        PotionCrafting_2,
+        SkipConversation,
+        UsePotion
     }
 
     void Awake()

@@ -176,7 +176,7 @@ public class DroppedItemController : MonoBehaviour
             return;
         }
 
-        AudioManager.instance.PlaySfx(AudioManager.SFX.TestSFX_2);
+        AudioManager.instance.PlaySfx(AudioManager.SFX.SkipConversation);
 
         Debug.Log("플레이어랑 충돌!");
         ReadJsonFile();
