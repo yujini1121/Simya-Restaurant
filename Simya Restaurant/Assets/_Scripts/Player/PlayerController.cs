@@ -2,6 +2,8 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
+using UnityEngine.SceneManagement;
 
 // 플레이어의 현재 상태를 저장하는 열거자입니다.
 public enum EPlayerStatus
@@ -233,6 +235,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log("DoDeathHandle()가 존재하지 않습니다!");
         }
         dataController.Access().isDead = true;
+
+        StartCoroutine(UtilityFunctions.RunAfterDelay(
+            2.0f,
+            () =>
+            {
+                SceneManager.LoadScene("Home");
+            }));
     }
 
     private void Awake()
@@ -300,8 +309,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log($"레시피가 있는가? : {dataController.HasRecepie("Chicken Pizza").isExist}");
         }
+        M_TEMP_Kill();
 
-        
+
     }
 
     private void FixedUpdate()
@@ -906,6 +916,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log(dataController.HasRecepie("snail and chocolate pasta").isExist ? "has recipe" : "no recipe");
+        }
+    }
+
+    private void M_TEMP_Kill()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            DoDeathHandle();
         }
     }
 }

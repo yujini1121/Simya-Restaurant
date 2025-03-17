@@ -25,6 +25,11 @@
             "count": 11
         }
     ],
-    "recepies": [],
+  "recepies": [
+    "slime",
+    "PetalPluck",
+    "TeaMaking"
+
+  ],
     "quests": false
 }
