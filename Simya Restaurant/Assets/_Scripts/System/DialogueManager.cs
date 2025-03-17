@@ -141,6 +141,7 @@ public class DialogueManager : MonoBehaviour
     {
         if(currentLine < script.dialogue.Count && isDialogueActive)
         {
+            AudioManager.instance.PlaySfx(AudioManager.SFX.SkipConversation);
             characterName.text = script.dialogue[currentLine].speakerName;
             dialogueText.text = script.dialogue[currentLine].text;
 

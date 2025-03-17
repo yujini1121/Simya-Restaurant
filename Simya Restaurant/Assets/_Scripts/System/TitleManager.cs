@@ -79,6 +79,7 @@ public class TitleManager : MonoBehaviour
 
     public void OnLoadGameButtonClicked()
     {
+        AudioManager.instance.PlaySfx(AudioManager.SFX.GameStart);
         DataController.instance.LoadData();
         Debug.Log("기존 데이터 로드");
 

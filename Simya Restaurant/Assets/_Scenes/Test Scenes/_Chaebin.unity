@@ -3266,7 +3266,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231562442}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4a5a536dcc9503448a438e6e06bee0a, type: 3}
   m_Name: 
@@ -3275,10 +3275,10 @@ MonoBehaviour:
     dialogue: []
   BeginLine: 0
   EndLine: 0
-  characterName: {fileID: 0}
-  dialogueText: {fileID: 0}
-  dialogueUI: {fileID: 0}
-  skipButton: {fileID: 0}
+  characterName: {fileID: 2068177556}
+  dialogueText: {fileID: 1079998905}
+  dialogueUI: {fileID: 231562442}
+  skipButton: {fileID: 878062411}
 --- !u!1 &263306621
 GameObject:
   m_ObjectHideFlags: 0
@@ -4631,18 +4631,31 @@ MonoBehaviour:
   bgmMixer: {fileID: 988425434781857060, guid: 06bc30611337d714b95c7896eddfc42c, type: 2}
   sfxMixer: {fileID: -1692126223051611775, guid: 06bc30611337d714b95c7896eddfc42c,
     type: 2}
-  bgmClips: []
+  bgmClips:
+  - {fileID: 8300000, guid: bbd99b33cb28218479fd2b5939157a97, type: 3}
+  - {fileID: 8300000, guid: 6e2cdd82c92d3374f93c4e322f0301c7, type: 3}
   bgmVolume: 0.6
   sfxClips:
-  - {fileID: 8300000, guid: 92c8b0283f51f3f4a9574eb2a183807f, type: 3}
-  - {fileID: 8300000, guid: c849634bef5baad43a683c26bd2f690f, type: 3}
-  - {fileID: 8300000, guid: 70fbb7a027dcf4649a0954104b16a50f, type: 3}
-  - {fileID: 8300000, guid: 63ed58acf4f7c65468f23b548a114fd0, type: 3}
+  - {fileID: 8300000, guid: 61ee225e24b5bc4438b578a0b7624a0b, type: 3}
+  - {fileID: 8300000, guid: 9d9d3b2faa5239c41b0e85ea74151ee1, type: 3}
+  - {fileID: 8300000, guid: cb338f4b935d1ad44833222b4cae8bf2, type: 3}
+  - {fileID: 8300000, guid: c4956364b2358cc4183e6d56c5459453, type: 3}
+  - {fileID: 8300000, guid: e915f5fbc6e9c9d44817af9c73d8e087, type: 3}
+  - {fileID: 8300000, guid: 41ce0f4baa089884da0251693c66bee7, type: 3}
+  - {fileID: 8300000, guid: a6392415781149444aa85ae18718a0cc, type: 3}
+  - {fileID: 8300000, guid: affedaaedba5e4a448907358024c6b27, type: 3}
+  - {fileID: 8300000, guid: a287c0ee531d4ab48916c4de97c4a536, type: 3}
+  - {fileID: 8300000, guid: e831d2098a37e954a9d35cf464ee2d34, type: 3}
+  - {fileID: 8300000, guid: 9a4518eeb57a5c046b8af992b9da2549, type: 3}
+  - {fileID: 8300000, guid: 4415b1961898f2d49b0f213726d3bde9, type: 3}
+  - {fileID: 8300000, guid: 947a763511c0f934a9ea2a6fed52a705, type: 3}
+  - {fileID: 8300000, guid: 88f1d85c0f84e544b920029d93675f9e, type: 3}
+  - {fileID: 8300000, guid: 572345e5bbf1a3f43a2d05e8257cacf0, type: 3}
   sfxVolume: 0.8
   sfxChannels: 5
-  masterVolSlider: {fileID: 1522170908}
-  bgmVolSlider: {fileID: 1799199705}
-  sfxVolSlider: {fileID: 1300866642}
+  masterVolSlider: {fileID: 0}
+  bgmVolSlider: {fileID: 0}
+  sfxVolSlider: {fileID: 0}
 --- !u!4 &383652524
 Transform:
   m_ObjectHideFlags: 0
@@ -12641,7 +12654,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: DialogueText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -12706,7 +12719,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1079998906
@@ -23792,7 +23805,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: CharacterName
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5da33ff603c53043888c1e0183c1502, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca51e3e75b949d24b94198db2699dc5c, type: 2}
   m_sharedMaterial: {fileID: 850087974561538662, guid: f5da33ff603c53043888c1e0183c1502,
     type: 2}
   m_fontSharedMaterials: []
@@ -23857,7 +23870,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2068177557
