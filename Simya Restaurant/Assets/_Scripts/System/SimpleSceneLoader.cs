@@ -3,6 +3,12 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+/// <summary>
+/// SceneAsset은 에디터 전용 클래스이며, 빌드 시 포함되지 않습니다.
+/// LoadScene()을 사용하려면, nextSceneName에 입력된 씬이
+/// Build Settings에 등록되어 있어야 정상 작동합니다.
+/// </summary>
+
 public class SimpleSceneLoader : MonoBehaviour
 {
 #if UNITY_EDITOR
@@ -11,7 +17,7 @@ public class SimpleSceneLoader : MonoBehaviour
     [SerializeField] private string nextSceneName;
 
 #if UNITY_EDITOR
-    // 에디터에서 씬 에셋 이름을 자동으로 sceneName에 넣어주는 처리
+    // 씬 에셋 이름을 자동으로 sceneName에 넣어주는 처리
     private void OnValidate()
     {
         if (nextSceneAsset != null)
