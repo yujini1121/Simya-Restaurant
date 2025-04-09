@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextSceneAsset: {fileID: 102900000, guid: 77d9d672ce3bd5240847820083cc89ae, type: 3}
   nextSceneName: New Home
+  fadeCanvasGroup: {fileID: 0}
+  loadingText: {fileID: 0}
+  fadeDuration: 1
