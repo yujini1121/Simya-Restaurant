@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public enum EPlayerAttackType
@@ -66,6 +68,7 @@ public class PlayerAttackRange : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Vector3[] verts = new Vector3[4];
@@ -91,4 +94,5 @@ public class PlayerAttackRange : MonoBehaviour
             );
         Handles.DrawSolidRectangleWithOutline(verts, new Color(0.5f, 0.5f, 0.5f, 0.1f), Color.black);
     }
+#endif
 }

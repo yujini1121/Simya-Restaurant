@@ -224,6 +224,7 @@ public class FlowerMonController : EnemyBase
 
 
     #region Draw Scene View Only 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         switch (curState)
@@ -250,5 +251,6 @@ public class FlowerMonController : EnemyBase
                 break;
         }
     }
+#endif
     #endregion
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class MandalaController : EnemyBase
@@ -173,6 +175,7 @@ public class MandalaController : EnemyBase
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.green;
@@ -184,4 +187,5 @@ public class MandalaController : EnemyBase
             Handles.DrawSolidDisc(transform.position, Vector3.forward, mandalaExplosionRange);
         }
     }
+#endif
 }
