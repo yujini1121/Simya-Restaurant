@@ -9,37 +9,37 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
-    path: Assets/_Scenes/NO/Home.unity
+    path: Assets/_MY ASSETS/01_Scenes/NO/Home.unity
     guid: 24fa62fb485ada647a5dc6d2af7dd690
   - enabled: 0
-    path: Assets/_Scenes/NO/Village.unity
+    path: Assets/_MY ASSETS/01_Scenes/NO/Village.unity
     guid: 9aa6711f336d7394d93e85705437154b
   - enabled: 0
-    path: Assets/_Scenes/Test Scenes/_Yujin.unity
+    path: Assets/_MY ASSETS/01_Scenes/Test Scenes/_Yujin.unity
     guid: 413cf81b325bfd44eb4d7247f25f4777
   - enabled: 0
-    path: Assets/_Scenes/Test Scenes/_Taeyoon.unity
+    path: Assets/_MY ASSETS/01_Scenes/Test Scenes/_Taeyoon.unity
     guid: 21508b046ec3e6f4e88421adb56d51fb
   - enabled: 0
-    path: Assets/_Scenes/Test Scenes/_Taeyoon_1.unity
+    path: Assets/_MY ASSETS/01_Scenes/Test Scenes/_Taeyoon_1.unity
     guid: 62a7df799a20c194a85659fd973c2f13
   - enabled: 0
-    path: Assets/_Scenes/NO/Title.unity
+    path: Assets/_MY ASSETS/01_Scenes/NO/Title.unity
     guid: 5328692a38453e54582983923de454b3
   - enabled: 0
-    path: Assets/_Scenes/NO/Forest.unity
+    path: Assets/_MY ASSETS/01_Scenes/NO/Forest.unity
     guid: 619bf966b6130814ca47774a7b564369
   - enabled: 1
-    path: Assets/_Scenes/New Title.unity
+    path: Assets/_MY ASSETS/01_Scenes/New Title.unity
     guid: 6ef269ca00d070c4eb43a78c213b72f3
   - enabled: 1
-    path: Assets/_Scenes/New Home.unity
+    path: Assets/_MY ASSETS/01_Scenes/New Home.unity
     guid: 77d9d672ce3bd5240847820083cc89ae
   - enabled: 1
-    path: Assets/_Scenes/New Village.unity
+    path: Assets/_MY ASSETS/01_Scenes/New Village.unity
     guid: 096a19008d5a0684e90b2c0ed0196f14
   - enabled: 1
-    path: Assets/_Scenes/New Forest.unity
+    path: Assets/_MY ASSETS/01_Scenes/New Forest.unity
     guid: 92fc4d62d5e6c9945b0dc04df9e4736b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
