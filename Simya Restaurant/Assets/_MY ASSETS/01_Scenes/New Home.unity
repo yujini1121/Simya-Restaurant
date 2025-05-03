@@ -341,7 +341,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next Scene
+  m_text: 'Open Door
+
+    (Exit Home)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: edb61df089c22bf40a530ac1fad3cd06, type: 2}
   m_sharedMaterial: {fileID: 967225331628955623, guid: edb61df089c22bf40a530ac1fad3cd06,
@@ -518,6 +520,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1052034612389074413, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1769800978675309364, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617518902551570741, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4711312891781247437, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_Name
@@ -526,7 +543,7 @@ PrefabInstance:
     - target: {fileID: 4969825441096037385, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4969825441096037385, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
@@ -541,37 +558,37 @@ PrefabInstance:
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 143
+      value: 143.173
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.5
+      value: 11.2
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 107
+      value: 109.943
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.16302164
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.9866225
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
@@ -581,11 +598,21 @@ PrefabInstance:
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 198.765
       objectReference: {fileID: 0}
     - target: {fileID: 5015882545950797834, guid: c8aeb74e94cd8084e883bb4b43c2923f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5178594201928832571, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7108318269978126459, guid: c8aeb74e94cd8084e883bb4b43c2923f,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8408147743729183403, guid: c8aeb74e94cd8084e883bb4b43c2923f,
@@ -5595,7 +5622,7 @@ GameObject:
   - component: {fileID: 2141818249}
   - component: {fileID: 2141818248}
   m_Layer: 5
-  m_Name: Next Scene Button
+  m_Name: Open Door Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -299,7 +299,7 @@ public class PlayerController : MonoBehaviour
         M_TEMP_SetRecipe();
 
         m_DebuggingForceMove();
-        m_HandleStatus();
+        //m_HandleStatus();
         //DoAttackLight();
         //DoAttackHeavy(); //여기 바로 윗줄 포함 주석해제
         DoInteractive();
