@@ -118,7 +118,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RefractionStrength: 0.0324
-    - _ShockwaveRadius: 3.0631266
+    - _ShockwaveRadius: 5
     - _ShockwaveWidth: 0.2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

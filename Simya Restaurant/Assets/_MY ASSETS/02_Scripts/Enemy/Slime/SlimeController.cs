@@ -54,7 +54,6 @@ public class SlimeController : EnemyBase
             HandlePlayerLost();
             m_isPlayerFound = false;
         }
-
     }
 
     void Update()
