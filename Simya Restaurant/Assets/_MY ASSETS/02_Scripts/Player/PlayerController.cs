@@ -49,7 +49,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fowardCheckDistance;
     [SerializeField] private bool isFowardBlocked;
     private bool isMoveBlocking = false;
-    private float playerInput;
+    private float inputX;
+    private float inputZ;
+    private Vector3 inputDir;
     private Vector3 fowardCheckTop;
     private Vector3 fowardCheckBottom;
     private Rigidbody playerRb;
@@ -330,7 +332,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        playerInput = Input.GetAxis("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
+        inputZ = Input.GetAxis("Vertical");
+        inputDir = new Vector3(inputX, 0f, inputZ).normalized;
+
         if (GroundSlope.isGround && Input.GetKeyDown(KeyCode.Space))
         {
             JumpGravity.jumpInput = true;
@@ -366,36 +371,16 @@ public class PlayerController : MonoBehaviour
 
     void Movement()
     {
-        if (IsDead)
+        if (IsDead) return;
+
+        // 방향 설정 (LookRotation 방식)
+        if (inputDir.sqrMagnitude > 0.01f)
         {
-            return;
+            Quaternion targetRot = Quaternion.LookRotation(inputDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
 
-        if (playerInput > 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            playerLookingDirection = 1;
-        }
-        else if (playerInput < 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            playerLookingDirection = -1;
-        }
-
-        //Vector3 currentVelocity = playerRb.velocity;
-        //Vector3 targetVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
-        Vector3 horizontalVelocity = Vector3.zero;
-
-        // 가파를 때 미끄러지기
-        if (GroundSlope.slopeIsSteep && GroundSlope.curGroundDistance < 0.1f)
-        {
-            horizontalVelocity = Quaternion.AngleAxis(90f - GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
-            playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
-
-            return;
-        }
-
-        // 점프
+        // 점프 처리
         if (JumpGravity.jumpInput && GroundSlope.isGround)
         {
             JumpGravity.verticalVelocity = JumpGravity.jumpForce;
@@ -403,30 +388,21 @@ public class PlayerController : MonoBehaviour
             JumpGravity.jumpInput = false;
         }
 
-        if (!isFowardBlocked)
-        {
-            if (falseIsMoveX__trueISMoveZ)
-            {
-                horizontalVelocity = new Vector3(0f, 0f, playerInput * moveSpeed);
-            }
-            else
-            {
-                horizontalVelocity = new Vector3(playerInput * moveSpeed, 0f, 0f);
-            }
-        }
+        // 이동 처리
+        Vector3 horizontalVelocity = inputDir * moveSpeed;
 
-        //경사면 움직임 코드
+        // 경사면 보정
         if (GroundSlope.isGround || GroundSlope.curGroundDistance < GroundSlope.checkDistance)
         {
-            if (!isFowardBlocked)
-            {
-                horizontalVelocity = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
-                //horizontalVelocity = Quaternion.AngleAxis(-SV.slopeAngle, SV.groundCross)    
-                //                    * Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-            }
+            horizontalVelocity = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
         }
 
+        // 최종 적용
         playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
+
+        // 애니메이션
+        animatorController.SetFloat("SpeedX", inputX);
+        animatorController.SetFloat("SpeedZ", inputZ);
     }
 
     void GroundCheck()
@@ -465,7 +441,7 @@ public class PlayerController : MonoBehaviour
 
     void m_Chat()
     {
-        playerInput = Input.GetAxis("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
 
     }
 
