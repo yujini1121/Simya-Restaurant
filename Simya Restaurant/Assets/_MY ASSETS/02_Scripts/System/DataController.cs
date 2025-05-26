@@ -98,7 +98,7 @@ public class DataController : MonoBehaviour
 
     public void LoadData()
     {
-        string path = Application.dataPath + "/Resources/Json Files/PlayerData.json";
+        string path = Application.dataPath + "/_MY ASSETS/03_Resources/Json Files/PlayerData.json";
 
         if (isDebugging)
         {

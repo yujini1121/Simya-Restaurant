@@ -110,11 +110,11 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip selectedBgm = null;
 
-        if (sceneName == "Home" || sceneName == "Village" || sceneName == "Title")
+        if (sceneName == "New Home" || sceneName == "New Village" || sceneName == "New Title")
         {
             selectedBgm = bgmClips[(int)BGM.BGM_Village];
         }
-        else if (sceneName == "Forest")
+        else if (sceneName == "New Forest")
         {
             selectedBgm = bgmClips[(int)BGM.BGM_Forest];
         }
