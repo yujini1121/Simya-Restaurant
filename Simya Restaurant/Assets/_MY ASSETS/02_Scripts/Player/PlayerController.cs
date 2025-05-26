@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 fowardCheckBottom;
     private Rigidbody playerRb;
 
+    [SerializeField] private float minZ = -2f;
+    [SerializeField] private float maxZ = 2f;
+
     [System.Serializable]
     public class JumpAndGravity
     {
@@ -373,37 +376,40 @@ public class PlayerController : MonoBehaviour
     {
         if (IsDead) return;
 
-        // 방향 설정 (LookRotation 방식)
+        // 이동 입력 방향
+        float inputX = Input.GetAxis("Horizontal");
+        float inputZ = Input.GetAxis("Vertical");
+        Vector3 inputDir = new Vector3(inputX, 0f, inputZ).normalized;
+
+        // 회전 (선택)
         if (inputDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(inputDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
 
-        // 점프 처리
-        if (JumpGravity.jumpInput && GroundSlope.isGround)
-        {
-            JumpGravity.verticalVelocity = JumpGravity.jumpForce;
-            GroundSlope.isGround = false;
-            JumpGravity.jumpInput = false;
-        }
-
-        // 이동 처리
-        Vector3 horizontalVelocity = inputDir * moveSpeed;
+        // 이동 적용
+        Vector3 horizVel = inputDir * moveSpeed;
 
         // 경사면 보정
         if (GroundSlope.isGround || GroundSlope.curGroundDistance < GroundSlope.checkDistance)
         {
-            horizontalVelocity = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizontalVelocity;
+            horizVel = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizVel;
         }
 
-        // 최종 적용
-        playerRb.velocity = horizontalVelocity + Vector3.up * JumpGravity.verticalVelocity;
+        // 최종 속도 = 평면 속도 + 수직 속도
+        playerRb.velocity = horizVel + Vector3.up * JumpGravity.verticalVelocity;
+
+        // 이동 제한 (Z축 Clamp)
+        Vector3 clampedPos = transform.position;
+        clampedPos.z = Mathf.Clamp(clampedPos.z, minZ, maxZ);
+        transform.position = clampedPos;
 
         // 애니메이션
         animatorController.SetFloat("SpeedX", inputX);
         animatorController.SetFloat("SpeedZ", inputZ);
     }
+
 
     void GroundCheck()
     {
