@@ -86,7 +86,7 @@ namespace Highlands
         {
             _characterController = GetComponent<CharacterController>();
             GetTerrainData();
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
 

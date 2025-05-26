@@ -434,6 +434,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Simple Scene Loader
       objectReference: {fileID: 0}
+    - target: {fileID: 127102946464237357, guid: 8772668e792a19c448d65aabe4436db3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4035782693508961208, guid: 8772668e792a19c448d65aabe4436db3,
         type: 3}
       propertyPath: nextSceneName
@@ -500,18 +505,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8772668e792a19c448d65aabe4436db3, type: 3}
---- !u!114 &136381363 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4035782693508961208, guid: 8772668e792a19c448d65aabe4436db3,
-    type: 3}
-  m_PrefabInstance: {fileID: 136381362}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70be273418150d54f89de337dee401c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &209313470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5692,16 +5685,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 136381363}
-        m_TargetAssemblyTypeName: SimpleSceneLoader, Assembly-CSharp
+      - m_Target: {fileID: 6271684363770527234, guid: caf9f48c9267dec448f604ed5b8ca356,
+          type: 3}
+        m_TargetAssemblyTypeName: FadeManager, Assembly-CSharp
         m_MethodName: LoadScene
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: New Village
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2141818249
