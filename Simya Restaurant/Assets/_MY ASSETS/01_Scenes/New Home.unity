@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 41955042}
   m_Layer: 0
-  m_Name: ---------- BACKGROUNDS ----------------
+  m_Name: ---------- [ BACKGROUNDS ] ----------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,90 +421,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94302893}
   m_CullTransparentMesh: 1
---- !u!1001 &136381362
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 127102946464237357, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_Name
-      value: Simple Scene Loader
-      objectReference: {fileID: 0}
-    - target: {fileID: 127102946464237357, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035782693508961208, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: nextSceneName
-      value: New Village
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035782693508961208, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: nextSceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: 096a19008d5a0684e90b2c0ed0196f14,
-        type: 3}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169347786232854805, guid: 8772668e792a19c448d65aabe4436db3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8772668e792a19c448d65aabe4436db3, type: 3}
 --- !u!1001 &209313470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1843,7 +1759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 893039510}
   m_Layer: 0
-  m_Name: ---------- SCENE ROOT ----------------
+  m_Name: ---------- [ SCENE ROOT ] ----------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1905,7 +1821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971891548}
   m_Layer: 0
-  m_Name: ---------- SYSTEMS ----------------
+  m_Name: ---------- [ SYSTEMS ] ----------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4465,7 +4381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1761489168}
   m_Layer: 0
-  m_Name: ---------- UI -------------------------
+  m_Name: ---------- [ UI ] -------------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6277,5 +6193,4 @@ SceneRoots:
   - {fileID: 1761489168}
   - {fileID: 1750879280}
   - {fileID: 971891548}
-  - {fileID: 136381362}
   - {fileID: 209313470}
