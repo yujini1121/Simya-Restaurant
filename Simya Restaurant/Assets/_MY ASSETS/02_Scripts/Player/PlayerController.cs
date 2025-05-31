@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
     //public int PotionCount;
     [Header("Movement")]
     //바보들을 위한 움직임 방향 결정 변수 // 잘못했어요!
-    [SerializeField] private bool falseIsMoveX__trueISMoveZ;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
@@ -335,8 +334,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        inputX = Input.GetAxis("Horizontal");
-        inputZ = Input.GetAxis("Vertical");
+        inputX = Input.GetAxisRaw("Horizontal");
+        inputZ = Input.GetAxisRaw("Vertical");
         inputDir = new Vector3(inputX, 0f, inputZ).normalized;
 
         if (GroundSlope.isGround && Input.GetKeyDown(KeyCode.Space))
@@ -348,27 +347,27 @@ public class PlayerController : MonoBehaviour
             //collider.center = new Vector3(collider.center.x, jumpCenterY, playerCollider.center.z);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            animatorController.SetTrigger("Combo1");
-            qParticle.Play();
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            animatorController.SetTrigger("Combo2");
-            wParticle.Play();
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            animatorController.SetTrigger("Combo3");
-            eParticle.Play();
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            animatorController.SetTrigger("HeavyAttack");
-            rParticle.Play();
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    animatorController.SetTrigger("Combo1");
+        //    qParticle.Play();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    animatorController.SetTrigger("Combo2");
+        //    wParticle.Play();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    animatorController.SetTrigger("Combo3");
+        //    eParticle.Play();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    animatorController.SetTrigger("HeavyAttack");
+        //    rParticle.Play();
             
-        }
+        //}
         DoAttackHeavy();
     }
 
@@ -376,19 +375,14 @@ public class PlayerController : MonoBehaviour
     {
         if (IsDead) return;
 
-        // 이동 입력 방향
-        float inputX = Input.GetAxis("Horizontal");
-        float inputZ = Input.GetAxis("Vertical");
-        Vector3 inputDir = new Vector3(inputX, 0f, inputZ).normalized;
-
-        // 회전 (선택)
+        // 회전 처리
         if (inputDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(inputDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
 
-        // 이동 적용
+        // 이동 속도 설정
         Vector3 horizVel = inputDir * moveSpeed;
 
         // 경사면 보정
@@ -397,17 +391,17 @@ public class PlayerController : MonoBehaviour
             horizVel = Quaternion.AngleAxis(-GroundSlope.slopeAngle, GroundSlope.groundCross) * horizVel;
         }
 
-        // 최종 속도 = 평면 속도 + 수직 속도
+        // 최종 적용 (수직 속도 유지)
         playerRb.velocity = horizVel + Vector3.up * JumpGravity.verticalVelocity;
 
-        // 이동 제한 (Z축 Clamp)
+        // Z축 Clamp 처리
         Vector3 clampedPos = transform.position;
         clampedPos.z = Mathf.Clamp(clampedPos.z, minZ, maxZ);
         transform.position = clampedPos;
 
         // 애니메이션
-        animatorController.SetFloat("SpeedX", inputX);
-        animatorController.SetFloat("SpeedZ", inputZ);
+        //animatorController.SetFloat("SpeedX", inputX);
+        //animatorController.SetFloat("SpeedZ", inputZ);
     }
 
 
