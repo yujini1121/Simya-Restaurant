@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Distortion: 0.05
-    - _WaveRadius: 0.9984157
+    - _WaveRadius: 0.996275
     - _WaveWidth: 0.1
     m_Colors:
     - _WaveCenter: {r: 0.36408812, g: 0.36836416, b: 0, a: 0}
