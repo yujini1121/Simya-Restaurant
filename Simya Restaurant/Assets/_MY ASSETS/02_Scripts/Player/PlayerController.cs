@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
     //public int PotionCount;
     [Header("Movement")]
     //바보들을 위한 움직임 방향 결정 변수 // 잘못했어요!
-    [SerializeField] private bool falseIsMoveX__trueISMoveZ;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
