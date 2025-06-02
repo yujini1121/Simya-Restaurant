@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float acceleration = 2f;   // 가속도 계수 (감속 구현하려고 만든 변수) / 값이 클수록 빠르게 변함
     [SerializeField] private float stepOffset;  // 계단, 턱 등을 무시할 수 있는 높이
     [SerializeField] private float fowardCheckDistance;
-    [SerializeField] private bool isFowardBlocked;
+	[SerializeField] private bool isFowardBlocked;
     private bool isMoveBlocking = false;
     private float inputX;
     private float inputZ;
@@ -56,10 +56,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 fowardCheckBottom;
     private Rigidbody playerRb;
 
-    [SerializeField] private float minZ = -2f;
-    [SerializeField] private float maxZ = 2f;
+    [SerializeField] private float minZ;
+    [SerializeField] private float maxZ;
 
-    [System.Serializable]
+	[System.Serializable]
     public class JumpAndGravity
     {
         public float jumpForce = 10f;
@@ -167,14 +167,15 @@ public class PlayerController : MonoBehaviour
     [Header("DEBUG VALUE")]
     [SerializeField] private bool isDebugForceMove;
     [SerializeField] private bool isDebugGroundCheck = false;
+	[SerializeField] private bool isTestMovement;
 
-    /// <summary>
-    ///     플레이어의 공격받은 것을 구현하는 함수입니다.
-    /// </summary>
-    /// <param name="damage"> 데미지의 양 </param>
-    /// <param name="knockBackDirection"></param>
-    /// <param name="force"></param>
-    public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
+	/// <summary>
+	///     플레이어의 공격받은 것을 구현하는 함수입니다.
+	/// </summary>
+	/// <param name="damage"> 데미지의 양 </param>
+	/// <param name="knockBackDirection"></param>
+	/// <param name="force"></param>
+	public void BeAttacked(float damage, Vector3 knockBackDirection, float force)
     {
         Health -= damage;
 
@@ -291,7 +292,7 @@ public class PlayerController : MonoBehaviour
         dataController = GameObject.Find("Data Controller").GetComponent<DataController>();
         //Time.timeScale = 0.2f;
 
-        transform.position = myVec;
+        //transform.position = myVec;
     }
 
     void Update()
@@ -396,6 +397,11 @@ public class PlayerController : MonoBehaviour
 
         // 최종 적용 (수직 속도 유지)
         playerRb.velocity = horizVel + Vector3.up * JumpGravity.verticalVelocity;
+        if (isTestMovement)
+        {
+            Debug.Log($"DEBUG_PlayerController.Movement() : transform.position = {transform.position} / playerRb.velocity = {playerRb.velocity}");
+        }
+
 
         // Z축 Clamp 처리
         Vector3 clampedPos = transform.position;
