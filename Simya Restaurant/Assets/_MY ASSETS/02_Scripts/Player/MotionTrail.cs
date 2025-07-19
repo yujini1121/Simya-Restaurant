@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 플레이어 대쉬 이펙트를 코드로 구현해보고 싶었습니다. 결론적으로 지금은 쓰지 않는 스크립트입니다. ㅜㅜ 
 public class MotionTrail : MonoBehaviour
 {
     [System.Serializable]
